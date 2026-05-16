@@ -5,7 +5,7 @@ const cors = require('cors');
 const { GoogleGenAI } = require('@google/genai'); 
 // 환경 변수 process.env로 로드
 require('dotenv').config();
-
+const JW="babo";
 const app = express();
 
 // [미들웨어 설정]
