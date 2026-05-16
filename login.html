@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 | 스마트 에듀 플랫폼</title>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Edu<span>Smart</span></div>
+        <div class="nav-links">
+            <a href="#">서비스 소개</a>
+            <button class="login-btn" onclick="location.href='signup.html'">회원가입</button>
+        </div>
+    </nav>
+
+    <main class="container auth-container">
+        <article class="auth-card">
+            <div class="auth-header">
+                <span class="card-icon">👋</span>
+                <h2>반가워요!</h2>
+                <p>성장을 위한 스마트한 첫 걸음, 지금 시작하세요.</p>
+            </div>
+
+            <form class="auth-form">
+                <div class="input-group">
+                    <label for="email">이메일</label>
+                    <input type="email" id="email" placeholder="example@edu.com" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">비밀번호</label>
+                    <input type="password" id="password" placeholder="비밀번호를 입력하세요" required>
+                </div>
+
+                <button type="submit" class="submit-btn">로그인하기</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>아직 계정이 없으신가요? <a href="#"  onclick="location.href='signup.html'">회원가입하기</a></p>
+                <div class="divider"><span>또는</span></div>
+                <div class="social-login">
+                    <button class="social-btn kakao">카카오로 시작하기</button>
+                </div>
+            </div>
+        </article>
+    </main>
+
+</body>
+</html>
