@@ -1,0 +1,42 @@
+/* Form Elements */
+.form-group { margin-bottom: 25px; }
+
+.slider-container { display: flex; align-items: center; gap: 15px; }
+.grade-output { font-weight: bold; color: #007bff; width: 50px; }
+
+.radio-group { display: flex; flex-direction: column; gap: 8px; }
+
+/* Result Cards */
+.result-container { margin-top: 40px; }
+
+.card-wrapper {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.benefit-card {
+    flex: 1;
+    min-width: 280px;
+    max-width: 320px;
+    background: #f8f9fa;
+    border-top: 5px solid #007bff;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.link-btn {
+    display: block;
+    text-align: center;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    margin-top: 15px;
+}
