@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Andante 장학금 검색</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #48D1CC; --warning: #ff4d4d; --bg: #F8FAFC; --dark: #1E293B; }
+        body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); padding: 20px; margin: 0; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .update-tag { font-size: 12px; color: #64748b; background: #fff; padding: 5px 10px; border-radius: 20px; border: 1px solid #e2e8f0; }
+        .search-card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .filter-label { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 8px; display: block; }
+        .filter-group { display: flex; gap: 8px; margin-bottom: 5px; flex-wrap: wrap; }
+        .filter-btn { padding: 8px 12px; border-radius: 8px; border: 1px solid #e2e8f0; background: white; cursor: pointer; font-weight: 700; color: #64748b; font-size: 12px; transition: 0.2s; }
+        .filter-btn.active { background: var(--dark); color: white; border-color: var(--dark); }
+        .btn-refresh { width: 100%; padding: 15px; border-radius: 12px; border: none; background: var(--dark); color: white; font-weight: 700; cursor: pointer; font-size: 16px; margin-top: 15px; }
+        .s-card { background: white; padding: 18px; border-radius: 15px; margin-bottom: 12px; border: 1px solid #f1f5f9; border-left: 5px solid #e2e8f0; cursor: pointer; transition: 0.1s; position: relative; }
+        .s-card.모집중 { border-left-color: var(--primary); }
+        .s-card.마감임박 { border-left-color: var(--warning); background: #fffafb; }
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 5px; font-size: 11px; font-weight: 800; background: #f1f5f9; margin-bottom: 8px; }
+        .마감임박 .badge { background: #ffebeb; color: var(--warning); }
+        .dday { float: right; color: var(--warning); font-weight: 900; font-size: 14px; }
+        .dday.highlight { text-decoration: underline; color: #d00; font-size: 15px; }
+        h3 { margin: 0 0 5px 0; font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 80%; }
+        .org { color: #64748b; font-size: 13px; }
+        .tags { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+        .tag-item { font-size: 11px; color: #94a3b8; background: #f8fafc; padding: 2px 6px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>🎓 장학금 탐색기</h2>
+            <div id="last-updated" class="update-tag">데이터 수집 중...</div>
+        </div>
+        <div class="search-card">
+            <span class="filter-label">📍 지역 선택</span>
+            <div class="filter-group" id="region-filters">
+                <button class="filter-btn active" data-filter="전체">전체</button>
+                <script>
+                    const rList = ["서울", "경기", "인천", "부산", "대구", "광주", "대전", "울산", "세종", "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주"];
+                    document.write(rList.map(r => `<button class="filter-btn" data-filter="${r}">${r}</button>`).join(''));
+                </script>
+            </div>
+            <button class="btn-refresh" onclick="load()">데이터 새로고침</button>
+        </div>
+        <div id="card-list"></div>
+    </div>
+
+    <script>
+        let allData = [];
+        let currentRegion = '전체';
+
+        const regionKeywords = {
+            "서울": ["서울", "강남", "강동", "강북", "강서", "관악", "광진", "구로", "금천", "노원", "도봉", "동대문", "동작", "마포", "서대문", "서초", "성동", "성북", "송파", "양천", "영등포", "용산", "은평", "종로", "중구", "중랑"],
+            "경기": ["경기", "수원", "성남", "의정부", "안양", "부천", "광명", "평택", "동두천", "안산", "고양", "과천", "구리", "남양주", "오산", "시흥", "군포", "의왕", "하남", "용인", "파주", "이천", "안성", "김포", "화성", "광주", "양주", "포천", "여주", "연천", "가평", "양평"],
+            "인천": ["인천", "미추홀", "연수구", "남동구", "부평", "계양", "강화", "옹진"],
+            "부산": ["부산", "영도", "부산진", "동래", "해운대", "사하", "금정", "강서", "연제", "수영", "사상", "기장"],
+            "대구": ["대구", "수성", "달서", "달성", "군위"],
+            "광주": ["광주", "광산"],
+            "대전": ["대전", "유성", "대덕"],
+            "울산": ["울산", "울주"],
+            "세종": ["세종"],
+            "강원": ["강원도", "강원", "춘천", "원주", "강릉", "동해", "태백", "속초", "삼척", "홍천", "횡성", "영월", "평창", "정선", "철원", "화천", "양구", "인제", "고성", "양양"],
+            "충북": ["충청북도", "충북", "청주", "충주", "제천", "보은", "옥천", "영동", "증평", "진천", "괴산", "음성", "단양"],
+            "충남": ["충청남도", "충남", "천안", "공주", "보령", "아산", "서산", "논산", "계룡", "당진", "금산", "부여", "서천", "청양", "홍성", "예산", "태안"],
+            "전북": ["전라북도", "전북", "전주", "군산", "익산", "정읍", "남원", "김제", "완주", "진안", "무주", "장수", "임실", "순창", "고창", "부안"],
+            "전남": ["전라남도", "전남", "목포", "여수", "순천", "나주", "광양", "담양", "곡성", "구례", "고흥", "보성", "화순", "장흥", "강진", "해남", "영암", "무안", "함평", "영광", "장성", "완도", "진도", "신안"],
+            "경북": ["경상북도", "경북", "포항", "경주", "김천", "안동", "구미", "영주", "영천", "상주", "문경", "경산", "의성", "청송", "영양", "영덕", "청도", "고령", "성주", "칠곡", "예천", "봉화", "울진", "울릉"],
+            "경남": ["경상남도", "경남", "창원", "진주", "통영", "사천", "김해", "밀양", "거제", "양산", "의령", "함안", "창녕", "고성", "남해", "하동", "산청", "함양", "거창", "합천"],
+            "제주": ["제주", "서귀포"]
+        };
+
+        async function load() {
+            try {
+                const res = await fetch('http://localhost:3000/api/scholarships');
+                const result = await res.json();
+                allData = result.data;
+                document.getElementById('last-updated').innerText = `최근 업데이트: ${result.lastUpdated}`;
+                render();
+            } catch (e) { console.error(e); }
+        }
+
+        function render() {
+            const list = document.getElementById('card-list');
+            const filtered = allData.filter(item => {
+                if (currentRegion === '전체') return true;
+                const keywords = regionKeywords[currentRegion];
+                const content = (item.title + item.org).replace(/\s/g, ''); // 태그 제외 필터링
+                return keywords.some(k => content.includes(k));
+            });
+
+            list.innerHTML = filtered.length ? filtered.map(item => `
+                <div class="s-card ${item.stateClass}" onclick="window.open('${item.link}')">
+                    <span class="dday ${item.dday === 'D-DAY' ? 'highlight' : ''}">${item.dday}</span>
+                    <span class="badge">${item.stateText}</span>
+                    <h3>${item.title}</h3>
+                    <div class="org">🏢 ${item.org}</div>
+                    <div class="tags">${item.tags.map(t => `<span class="tag-item">${t}</span>`).join('')}</div>
+                </div>
+            `).join('') : '<div style="text-align:center; padding:50px;">결과가 없습니다.</div>';
+        }
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentRegion = e.target.dataset.filter;
+                render();
+            });
+        });
+        window.onload = load;
+    </script>
+</body>
+</html>
