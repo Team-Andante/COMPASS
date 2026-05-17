@@ -1,7 +1,8 @@
 // 1. Firebase Auth 라이브러리를 CDN 주소로 가져옵니다.
 import { 
   getAuth, 
-  createUserWithEmailAndPassword 
+  createUserWithEmailAndPassword,
+  updateProfile 
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 // 2. firebase 폴더 안에 있는 firebase.js 파일을 가져옵니다. (상대 경로와 .js 확인)
@@ -19,6 +20,7 @@ const onSubmit = async (event) => {
 
   // HTML input 요소에서 직접 값을 가져옵니다.
   const email = document.getElementById('email').value;
+  const name = document.getElementById('name').value;
   const password = document.getElementById('password').value;
   const passwordConfirm = document.getElementById('password-confirm').value;
 
@@ -33,11 +35,16 @@ const onSubmit = async (event) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
+    // 2단계: 사용자 프로필에 이름 저장 (추가된 부분)
+    await updateProfile(user, {
+      displayName: name
+    });
+
     console.log("회원가입 성공:", user);
-    alert("회원가입이 완료되었습니다! 반갑습니다.");
+    alert(`${user.displayName}님, 회원가입이 완료되었습니다!`);
     
     // 성공 시 로그인 페이지 등으로 이동
-    // location.href = 'login.html';
+    location.href = './login.html';
 
   } catch (error) {
     const errorCode = error.code;
