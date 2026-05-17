@@ -11,7 +11,7 @@ const app = express();
 // [미들웨어 설정]
 // 다른 도메인의 API 요청 허용
 app.use(cors());
-// 프론트엔드에서 보낸 JSON 형식의 요청 본문(body)을 JavaScript 객체로 파싱한다.
+// JSON 형식의 요청 body를 JS 객체로 파싱
 app.use(express.json());
 
 // [Gemini 인스턴스 초기화]
@@ -24,7 +24,7 @@ app.post('/ask-ai', async (req, res) => {
   console.log("=== 프론트엔드로부터 요청 수신 ===");
   
   try {
-    // 프론트엔드가 보낸 JSON 데이터에서 'message' 필드 추출
+    // 프론트엔드가 보낸 JSON 데이터에서 message 필드 추출
     const { message } = req.body;
 
     // 유효성 검사
@@ -59,6 +59,5 @@ app.post('/ask-ai', async (req, res) => {
   }
 });
 
-// [서버 시작]
-// 포트 번호 3000번에서 서버를 대기 상태로 만들고 구동을 시작한다.
+// 서버 시작
 app.listen(3000, () => console.log('Gemini Backend server running on http://localhost:3000'));
