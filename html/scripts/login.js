@@ -20,7 +20,7 @@ const onLogin = async (event) => {
     alert("환영합니다!");
     
     // 로그인 성공 후 메인 페이지로 이동
-    location.href = 'index.html'; 
+    location.href = './index_reged.html'; 
 
   } catch (error) {
     console.error("로그인 실패:", error.code, error.message);
