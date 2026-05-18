@@ -1,4 +1,4 @@
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"; 
 import app from "./firebase/firebase.js"; // 경로가 다를 경우 수정 필요
 
 const auth = getAuth(app);
