@@ -1,41 +1,70 @@
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"; 
-import app from "./firebase/firebase.js"; // 경로가 다를 경우 수정 필요
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import app from "./firebase/firebase.js";
+import { showToast, checkReservedToast } from "./toast.js";
 
 const auth = getAuth(app);
 
-// 1. 페이지 로드 시 사용자 상태 확인 및 이름 표시
+// 1. 사용자 로그인 상태 감시
 onAuthStateChanged(auth, (user) => {
   const nameElement = document.querySelector('.welcome-name em');
-  
   if (user) {
-    // Firebase Auth에 저장된 displayName이 있으면 표시, 없으면 '사용자'로 표시
-    if (user.displayName) {
-      nameElement.textContent = user.displayName;
-    } else {
-      nameElement.textContent = "사용자";
-    }
-    console.log("로그인 유지 중:", user.displayName);
+    if (nameElement) nameElement.textContent = user.displayName || "사용자";
   } else {
-    // 로그인되지 않은 경우 로그인 페이지로 리다이렉트 (선택 사항)
-    alert("로그인이 필요한 서비스입니다.");
-    location.href = './login.html';
+    if (sessionStorage.getItem("isLogouting") !== "true") {
+      window.location.replace('./login.html');
+    }
   }
 });
 
-// 2. 로그아웃 기능 구현
-const logoutBtn = document.querySelector('.logout-btn');
+document.addEventListener('DOMContentLoaded', () => {
+  // 💡 전 페이지(로그인 등)에서 넘어온 예약 토스트가 있다면 실행!
+  checkReservedToast();
+});
 
-if (logoutBtn) {
-  logoutBtn.addEventListener('click', async () => {
-    if (confirm("로그아웃 하시겠습니까?")) {
-      try {
-        await signOut(auth);
-        alert("로그아웃 되었습니다.");
-        location.href = './login.html';
-      } catch (error) {
-        console.error("로그아웃 실패:", error);
-        alert("로그아웃 중 오류가 발생했습니다.");
-      }
-    }
-  });
+// 2. 로그아웃 기능 구현 (커스텀 상단 알림 제어)
+document.addEventListener('DOMContentLoaded', () => {
+  const logoutBtn = document.querySelector('.logout-btn');
+  const confirmModal = document.getElementById('custom-confirm-modal');
+  const confirmYesBtn = document.getElementById('confirm-yes-btn');
+  const confirmNoBtn = document.getElementById('confirm-no-btn');
+
+  if (logoutBtn && confirmModal) {
+    // 로그아웃 버튼 클릭 시 -> 상단 알림창 보여주기
+    logoutBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log("🚀 로그아웃 알림창 표시");
+      confirmModal.classList.add('show'); 
+    });
+
+    // 취소 버튼 클릭 시 -> 알림창 숨기기
+    confirmNoBtn.addEventListener('click', () => {
+      confirmModal.classList.remove('show');
+    });
+
+    // 확인 버튼 클릭 시 -> 실제 비동기 로그아웃 처리
+    confirmYesBtn.addEventListener('click', async () => {
+      confirmModal.classList.remove('show'); // 알림창 먼저 닫기
+      await executeLogout();
+    });
+  }
+});
+
+// 로그아웃 비동기 처리 함수
+async function executeLogout() {
+  try {
+    sessionStorage.setItem("isLogouting", "true");
+    console.log("⏳ Firebase signOut 실행 중...");
+    
+    await signOut(auth);
+    
+    console.log("✅ 로그아웃 성공");
+    // alert 대신 바로 리다이렉트하거나 필요시 알림 토스트를 띄울 수 있습니다.
+    sessionStorage.removeItem("isLogouting");
+    window.location.replace('./login.html');
+  } catch (error) {
+    console.error("❌ 로그아웃 실패:", error);
+    alert("로그아웃 중 오류가 발생했습니다.");
+    sessionStorage.removeItem("isLogouting");
+  }
 }
