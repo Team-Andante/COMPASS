@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>에듀테크 복지 플랫폼 | EduWelfare</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="./style/layout.css">
-    
+    <link rel="stylesheet" href="./style/auth.css">
+    <link rel="stylesheet" href="./style/style.css">
     <script type="module" src="./scripts/reged.js" defer></script>
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="logo" onclick="location.href='./index.html'">Edu<span>Welfare</span></div>
+        <div class="logo" onclick="location.href='./index.html'">COM<span>PASS</span></div>
         <div class="nav-links">
             <a href="#">홈</a>
             <a href="#">마이페이지</a>
-            <button class="logout-btn">로그아웃</button>
+            <button type="button" class="logout-btn">로그아웃</button>
         </div>
     </nav>
 
@@ -28,7 +28,7 @@
         <div class="user-status">
             <div class="welcome-card">
                 <p class="welcome-label">My Dashboard</p>
-                <h1 class="welcome-name">안녕하세요, <em>홍길동</em>님! 👋</h1>
+                <h1 class="welcome-name">안녕하세요, <em>사용자</em>님! 👋</h1>
                 <p class="welcome-sub">오늘도 당신을 위한 맞춤형 복지 혜택이 도착했어요.</p>
             </div>
 
@@ -103,6 +103,19 @@
         </div>
 
     </main>
+    
+    <div id="toast-container" class="toast-container"></div>
+
+    <div id="custom-confirm-modal" class="confirm-modal">
+        <div class="confirm-content">
+            <p>로그아웃 하시겠습니까?</p>
+            <div class="confirm-buttons">
+                <button id="confirm-yes-btn" class="btn-yes">확인</button>
+                <button id="confirm-no-btn" class="btn-no">취소</button>
+            </div>
+        </div>
+    </div>
+    
 
 </body>
 </html>
