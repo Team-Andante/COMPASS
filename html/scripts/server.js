@@ -42,7 +42,7 @@ async function scrapeScholarships() {
                 if (countText.includes("D-0") || stateText.includes("오늘")) displayDday = "D-DAY";
 
                 // href 속성값을 안전하게 추출 (예: /scholarship/view.html?id=123)
-                const relativeLink = titleEl.getAttribute('href') || "";
+                // const relativeLink = titleEl.getAttribute('href') || "";
 
                 return {
                     title: titleText,
@@ -51,14 +51,21 @@ async function scrapeScholarships() {
                     stateText: stateText,
                     stateClass: category, 
                     dday: displayDday,
+                    link: titleEl.href
                     // 도메인을 앞에 붙여서 절대 경로로 완성해줍니다.
-                    link: relativeLink.startsWith('http') ? relativeLink : `https://www.dreamspon.com${relativeLink}`
+                    // ink: relativeLink.startsWith('http') ? relativeLink : `https://www.dreamspon.com${relativeLink}`
                 };
             }).filter(item => item !== null);
         });
         cachedData = data;
         lastUpdated = new Date().toLocaleString('ko-KR');
         console.log(`[${lastUpdated}] 데이터 크롤링 성공!`);
+    // } catch (e) { 
+    //     console.error("크롤링 중 에러 발생:", e); 
+    // } finally { 
+    //     if (browser) await browser.close(); 
+    // }
+            console.log(`[${lastUpdated}] 데이터 크롤링 성공!`);
     } catch (e) { 
         console.error("크롤링 중 에러 발생:", e); 
     } finally { 
