@@ -3,8 +3,9 @@
  * @param {string} message 표시할 문구
  * @param {string} type 'success' 또는 'error'
  */
+
 export const showToast = (message, type = 'success') => {
-  // 현재 페이지에 toast-container가 있는지 확인하고, 없으면 자동으로 생성합니다.
+  // 현재 페이지에 toast-container가 있는지 확인 후, 없으면 자동으로 생성
   let container = document.getElementById('toast-container');
   
   if (!container) {
@@ -32,7 +33,7 @@ export const showToast = (message, type = 'success') => {
 };
 
 /**
- * 다음 페이지로 토스트 메시지를 넘겨서 예약하는 함수
+ * 다음 페이지로 토스트 메시지를 넘겨서 예약
  */
 export const reserveToast = (message, type = 'success') => {
   sessionStorage.setItem('toastMessage', message);
@@ -40,7 +41,7 @@ export const reserveToast = (message, type = 'success') => {
 };
 
 /**
- * 페이지가 로드되었을 때 예약된 토스트가 있다면 실행하는 함수
+ * 페이지가 로드되었을 때 예약된 토스트가 있다면 실행
  */
 export const checkReservedToast = () => {
   const pendingMessage = sessionStorage.getItem('toastMessage');
