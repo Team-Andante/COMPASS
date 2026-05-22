@@ -2,6 +2,7 @@
  * 모든 브라우저에서 공통으로 사용할 수 있는 토스트 알림 함수
  * @param {string} message 표시할 문구
  * @param {string} type 'success' 또는 'error'
+ * @param {string} nextPage 다음 페이지
  */
 export const showToast = (message, type = 'success') => {
   // 현재 페이지에 toast-container가 있는지 확인하고, 없으면 자동으로 생성합니다.
@@ -52,3 +53,16 @@ export const checkReservedToast = () => {
     sessionStorage.removeItem('toastType');
   }
 };
+
+// export const nextPage = (page) => {
+//     sessionStorage.setItem('nextPage', page);
+// };
+
+// export const checkNextPage = () => {
+//     const pendingMessage = sessionStorage.getItem('nextPage');
+
+//     if (pendingMessage) {
+//         window.location.replace('./scholarship.html');
+//         sessionStorage.removeItem('nextPage');
+//     }
+// };
