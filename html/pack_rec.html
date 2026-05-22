@@ -3,176 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>맞춤형 학생 혜택 패키지 제안</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
-            margin: 0;
-            padding: 40px 20px;
-            display: flex;
-            justify-content: center;
-        }
-        .container {
-            max-width: 1000px; /* 3개 카드가 가로로 드려야 하므로 전체 폭을 넓힙니다. */
-            width: 100%;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-        h1 {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-        .form-group {
-            margin-bottom: 25px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #444;
-        }
-        .slider-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        input[type="range"] {
-            flex: 1;
-        }
-        .grade-output {
-            font-weight: bold;
-            color: #007bff;
-            width: 50px;
-        }
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .radio-label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: normal;
-            cursor: pointer;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 14px;
-        }
-        .submit-container {
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        #submitBtn {
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        #submitBtn:hover {
-            background-color: #0056b3;
-        }
-        #submitBtn:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-        .loading {
-            text-align: center;
-            display: none;
-            color: #666;
-            font-style: italic;
-            margin-top: 15px;
-        }
-
-        /* ─── 여기서부터 가로 3개 카드 박스 스타일 ─── */
-        .result-container {
-            margin-top: 40px;
-            display: none; /* 초기에는 숨김 */
-        }
-        .result-title {
-            text-align: center;
-            font-size: 20px;
-            margin-bottom: 20px;
-            color: #333;
-        }
-        .card-wrapper {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap; /* 화면이 좁아지면 아래로 떨어지게 설정 */
-        }
-        .benefit-card {
-            flex: 1;
-            min-width: 280px;
-            max-width: 320px;
-            background: #f8f9fa;
-            border-top: 5px solid #007bff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            display: flex;
-            flex-direction: column; /* 내용과 버튼을 위아래로 배치 */
-            justify-content: space-between; /* 버튼이 항상 카드 맨 아래에 오도록 설정 */
-        }
-        .card-content h3 {
-            margin-top: 0;
-            color: #007bff;
-            font-size: 18px;
-            margin-bottom: 15px;
-        }
-        .card-content p {
-            font-size: 14px;
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 12px;
-        }
-        .card-content strong {
-            color: #333;
-        }
-        .link-btn {
-            display: block;
-            text-align: center;
-            background-color: #28a745;
-            color: white;
-            text-decoration: none;
-            padding: 10px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 14px;
-            margin-top: 15px;
-            transition: background 0.2s;
-        }
-        .link-btn:hover {
-            background-color: #218838;
-        }
-        /* 에러 메시지 스타일 */
-        .error-box {
-            color: red;
-            text-align: center;
-            margin-top: 20px;
-            display: none;
-        }
-    </style>
+    <title>맞춤형 학생 혜택 패키지 - COMPASS</title>
+    <link rel="stylesheet" href="./style/pack_rec.css">
 </head>
 <body>
 
@@ -228,6 +60,7 @@
 </div>
 
 <script>
+    // 기존 스크립트 로직 유지
     const gradeSlider = document.getElementById('grade');
     const gradeValue = document.getElementById('gradeValue');
     
@@ -248,7 +81,6 @@
         const economy = document.querySelector('input[name="economy"]:checked').value;
         const interest = document.getElementById('interest').value;
 
-        // 중요: Gemini가 JSON 배열 형태로만 대답하도록 프롬프트를 정밀하게 작성합니다.
         const promptMessage = `
             다음 학생의 정보를 바탕으로 가장 적합한 정부, 지자체, 또는 대학의 학생 혜택 프로그램 3가지를 엄선해줘.
             
@@ -288,7 +120,7 @@
         loadingDiv.style.display = 'block';
         resultContainer.style.display = 'none';
         errorBox.style.display = 'none';
-        cardWrapper.innerHTML = ''; // 기존 카드 초기화
+        cardWrapper.innerHTML = '';
 
         try {
             const response = await fetch('http://localhost:3000/ask-ai', {
@@ -300,12 +132,9 @@
             const data = await response.json();
 
             if (response.ok) {
-                // AI의 답변 텍스트를 JSON 객체(배열)로 파싱합니다.
-                // 만약 AI가 마크다운 코드 블록(\`\`\`json)을 포함해 보냈을 경우를 대비해 정규식으로 다듬어 줍니다.
                 let cleanJsonText = data.answer.replace(/```json|```/g, '').trim();
                 const benefits = JSON.parse(cleanJsonText);
 
-                // 3개의 데이터를 가로 카드 형태로 동적 생성
                 benefits.forEach(item => {
                     const card = document.createElement('div');
                     card.className = 'benefit-card';
