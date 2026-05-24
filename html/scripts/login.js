@@ -14,12 +14,13 @@ const onLogin = async (event) => {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // 다음 페이지로 토스트 예약 후 즉시 이동
+    // 💡 다음 페이지로 토스트 예약 후 즉시 이동
+    showToast(`${user.displayName || '사용자'}님, 환영합니다!`, 'success');
     reserveToast(`${user.displayName || '사용자'}님, 환영합니다!`, 'success');
     window.location.replace('./index_reged.html'); 
   }
   catch (error) {
-    let errorMsg = "로그인 중 오류가 발생했습니다.";
+    let errorMsg = `로그인 중 오류가 발생했습니다. 에러: ${error}`;
     if (error.code === 'auth/invalid-credential') {
       errorMsg = "이메일 또는 비밀번호가 올바르지 않습니다.";
     }

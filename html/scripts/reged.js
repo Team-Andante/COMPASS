@@ -1,6 +1,6 @@
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import app from "./firebase/firebase.js";
-import { showToast, checkReservedToast } from "./toast.js";
+import { showToast, checkReservedToast, checkNextPage } from "./toast.js";
 
 const auth = getAuth(app);
 
@@ -11,7 +11,7 @@ onAuthStateChanged(auth, (user) => {
     if (nameElement) nameElement.textContent = user.displayName || "사용자";
   } else {
     if (sessionStorage.getItem("isLogouting") !== "true") {
-      window.location.replace('./login.html');
+      window.location.replace('./index.html');
     }
   }
 });
@@ -60,7 +60,7 @@ async function executeLogout() {
     
     console.log("✅ 로그아웃 성공");
     sessionStorage.removeItem("isLogouting");
-    window.location.replace('./login.html');
+    window.location.replace('./index.html');
   } catch (error) {
     console.error("❌ 로그아웃 실패:", error);
     alert("로그아웃 중 오류가 발생했습니다.");
