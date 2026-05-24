@@ -1,68 +1,41 @@
-import {
-  onAuthStateChanged,
-  signOut,
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+console.log("%c🚀 새 버전의 reged.js가 로드되었습니다! (v1.0.1)", "color: yellow; background: black; font-size: 20px;");
 
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { auth } from "./firebase/firebase.js";
 import { showToast, checkReservedToast } from "./toast.js";
 
-// ── 인증 상태 감지 ──────────────────────────────────────────────
-onAuthStateChanged(auth, (user) => {
-  const nameEl = document.querySelector(".welcome-name em");
-  if (user) {
-    if (nameEl) nameEl.textContent = user.displayName || "사용자";
-  } else {
-    // 로그아웃 진행 중이 아닌데 user가 없으면 로그인 페이지로
-    if (sessionStorage.getItem("isLogouting") !== "true") {
-      window.location.replace("/login.html");
-    }
-  }
-});
-
-// ── 페이지 로드 시 예약 토스트 처리 ────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
-  checkReservedToast();
-  setupLogout();
+    checkReservedToast();
+
+    // Firebase 인증 상태 관찰
+    onAuthStateChanged(auth, async (user) => {
+        const nameEl = document.querySelector(".welcome-name em");
+        
+        if (user) {
+            // [수정] Firebase 서버에서 최신 정보를 다시 가져옵니다.
+            try { await user.reload(); } catch(e) {}
+            
+            const finalName = user.displayName || sessionStorage.getItem("userName") || user.email.split('@')[0] || "사용자";
+            
+            if (nameEl) {
+                nameEl.textContent = finalName; // 여기서 화면의 "사용자"가 실제 이름으로 바뀝니다.
+            }
+            sessionStorage.setItem("userName", finalName);
+        } else {
+            // 로그아웃 중이 아닐 때만 로그인 페이지로 보냄 (무한 리다이렉트 방지)
+            if (!sessionStorage.getItem("isLogouting")) {
+                window.location.replace("/login.html");
+            }
+        }
+    });
+
+    // 로그아웃 버튼 연결
+    document.querySelector(".logout-btn")?.addEventListener("click", async () => {
+        if (confirm("로그아웃 하시겠습니까?")) {
+            sessionStorage.setItem("isLogouting", "true");
+            await signOut(auth);
+            sessionStorage.clear();
+            window.location.replace("/index.html");
+        }
+    });
 });
-
-// ── 로그아웃 ───────────────────────────────────────────────────
-function setupLogout() {
-  const logoutBtn    = document.querySelector(".logout-btn");
-  const confirmModal = document.getElementById("custom-confirm-modal");
-  const confirmYes   = document.getElementById("confirm-yes-btn");
-  const confirmNo    = document.getElementById("confirm-no-btn");
-
-  if (!logoutBtn || !confirmModal) return;
-
-  logoutBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    confirmModal.classList.add("show");
-  });
-
-  confirmNo.addEventListener("click", () => {
-    confirmModal.classList.remove("show");
-  });
-
-  // 모달 바깥 클릭 시 닫기
-  confirmModal.addEventListener("click", (e) => {
-    if (e.target === confirmModal) confirmModal.classList.remove("show");
-  });
-
-  confirmYes.addEventListener("click", async () => {
-    confirmModal.classList.remove("show");
-    await executeLogout();
-  });
-}
-
-async function executeLogout() {
-  try {
-    sessionStorage.setItem("isLogouting", "true");
-    await signOut(auth);
-    sessionStorage.removeItem("isLogouting");
-    window.location.replace("/index.html");
-  } catch (error) {
-    console.error("로그아웃 실패:", error);
-    showToast("로그아웃 중 오류가 발생했습니다.", "error");
-    sessionStorage.removeItem("isLogouting");
-  }
-}

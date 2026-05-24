@@ -3,121 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team Andante - 공지사항 요약 시스템</title>
+    <title>AI 공지사항 요약 시스템</title>
     <link rel="stylesheet" href="style/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
     <style>
         body { font-family: 'Pretendard', sans-serif; padding: 20px; background-color: #f8f9fa; }
         .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h2 { color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
         .upload-section { margin: 20px 0; padding: 30px; border: 2px dashed #007bff; text-align: center; border-radius: 8px; background: #f0f7ff; }
         #btnProcess { background: #007bff; color: white; border: none; padding: 15px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; }
-        #btnProcess:disabled { background: #ccc; cursor: not-allowed; }
-        #result-box { margin-top: 30px; display: none; border-top: 2px solid #eee; padding-top: 20px; }
-        .result-title { font-size: 1.2rem; font-weight: bold; color: #007bff; margin-bottom: 15px; display: block; }
-        #textContent {
-            background: #ffffff; padding: 20px; border-radius: 8px;
-            white-space: normal; line-height: 1.8; color: #333;
-            border: 1px solid #ddd; min-height: 100px;
-        }
-        .loading { color: #007bff; font-weight: bold; display: none; margin: 15px 0; text-align: center; }
-        #textContent h1, #textContent h2 { font-size: 1.1rem; font-weight: bold; margin: 20px 0 8px; padding-bottom: 6px; border-bottom: 1px solid #e0e0e0; color: #007bff; }
-        #textContent h3 { font-size: 1rem; font-weight: bold; margin: 14px 0 6px; color: #333; }
-        #textContent p { margin: 6px 0; }
-        #textContent table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 14px; }
-        #textContent th { background: #e8f0fe; color: #1a3a6b; font-weight: bold; padding: 10px 12px; border: 1px solid #c0cfe8; text-align: left; }
-        #textContent td { padding: 8px 12px; border: 1px solid #ddd; vertical-align: top; }
-        #textContent tr:nth-child(even) td { background: #f8f9fa; }
-        #textContent ul, #textContent ol { padding-left: 20px; margin: 8px 0; line-height: 1.9; }
-        #textContent li { margin: 2px 0; }
-        #textContent blockquote { border-left: 4px solid #007bff; margin: 10px 0; padding: 8px 16px; background: #f0f7ff; color: #444; border-radius: 0 6px 6px 0; }
-        #textContent strong { color: #FF7F50; }
-        #textContent hr { border: none; border-top: 1px solid #e0e0e0; margin: 16px 0; }
-        #textContent a { color: #007bff; text-decoration: underline; }
-        #textContent code { background: #f1f1f1; padding: 1px 6px; border-radius: 4px; font-size: 13px; }
+        #btnProcess:disabled { background: #ccc; }
+        #result-box { margin-top: 30px; display: none; }
+        #textContent { background: #fff; padding: 20px; border: 1px solid #ddd; border-radius: 8px; line-height: 1.8; }
+        .loading { display: none; text-align: center; color: #007bff; font-weight: bold; margin: 15px 0; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h2>📄 AI 공지사항 요약기</h2>
-    <p>PDF 파일을 업로드하면 AI가 핵심 내용을 요약하여 아래에 표시합니다.</p>
-
     <div class="upload-section">
         <input type="file" id="pdfFile" accept=".pdf,.jpg,.jpeg,.png,.webp">
-        <p style="margin-top: 10px; color: #888; font-size: 0.85rem;">지원 형식: PDF, JPG, PNG, WEBP</p>
     </div>
-
     <button id="btnProcess" onclick="startSummary()">분석 및 요약 시작</button>
-
-    <div id="loader" class="loading">⏳ <span id="loadingMsg">준비 중...</span></div>
-
+    <div id="loader" class="loading">⏳ AI가 파일을 분석하고 있습니다... (약 30초 소요)</div>
     <div id="result-box">
-        <span class="result-title">✨ AI 요약 결과</span>
+        <h3>✨ 요약 결과</h3>
         <div id="textContent"></div>
     </div>
 </div>
 
-<script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-functions.js";
+
+    // 1. Firebase 설정 (사용자님의 실제 설정값 유지)
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "compass-85721.web.app",
+        projectId: "compass-85721",
+        storageBucket: "compass-85721.appspot.com",
+        appId: "YOUR_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    // 2. 리전(asia-northeast3)을 백엔드와 동일하게 설정
+    const functions = getFunctions(app, "asia-northeast3");
+    const analyzeNotice = httpsCallable(functions, 'analyzeNotice');
+
     async function startSummary() {
         const fileInput = document.getElementById('pdfFile');
         const btn = document.getElementById('btnProcess');
         const loader = document.getElementById('loader');
-        const msg = document.getElementById('loadingMsg');
         const resultBox = document.getElementById('result-box');
         const textContent = document.getElementById('textContent');
 
-        if (!fileInput.files[0]) {
-            alert("파일을 선택해주세요.");
-            return;
-        }
+        if (!fileInput.files[0]) return alert("파일을 선택해주세요.");
 
         btn.disabled = true;
         loader.style.display = 'block';
         resultBox.style.display = 'none';
-        textContent.innerHTML = "";
 
-        try {
-            const fileToSend = fileInput.files[0];
+        const file = fileInput.files[0];
+        const reader = new FileReader();
 
-            // [1단계] 파일 텍스트 추출 → /api/analyze (Cloud Function)
-            msg.innerText = "텍스트를 추출하는 중...";
-            const formData = new FormData();
-            formData.append('pdf_file', fileToSend);
+        reader.onload = async (e) => {
+            try {
+                const base64File = e.target.result.split(',')[1];
+                
+                // 3. 함수 호출
+                const response = await analyzeNotice({
+                    fileBuffer: base64File,
+                    fileName: file.name,
+                    fileMime: file.type
+                });
 
-            const pdfRes = await fetch('/api/analyze', {
-                method: 'POST',
-                body: formData
-            });
-            const pdfData = await pdfRes.json();
-
-            if (!pdfData.success) throw new Error("텍스트 추출 실패: " + pdfData.error);
-
-            // [2단계] AI 요약 → /api/summarize (Cloud Function)
-            msg.innerText = "AI가 내용을 요약하는 중...";
-            const aiRes = await fetch('/api/summarize', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ text: pdfData.text })
-            });
-            const aiData = await aiRes.json();
-
-            if (aiData.summary) {
-                textContent.innerHTML = marked.parse(aiData.summary);
-                resultBox.style.display = 'block';
-            } else {
-                throw new Error("AI 응답 오류: " + (aiData.error || 'summary 필드 없음'));
+                if (response.data.success) {
+                    textContent.innerHTML = marked.parse(response.data.summary);
+                    resultBox.style.display = 'block';
+                }
+            } catch (error) {
+                console.error("에러 발생:", error);
+                alert("분석 실패: " + error.message);
+            } finally {
+                btn.disabled = false;
+                loader.style.display = 'none';
             }
-
-        } catch (error) {
-            console.error("오류 발생:", error);
-            alert("에러가 발생했습니다: " + error.message);
-        } finally {
-            btn.disabled = false;
-            loader.style.display = 'none';
-        }
+        };
+        reader.readAsDataURL(file);
     }
+    window.startSummary = startSummary;
 </script>
-
 </body>
 </html>

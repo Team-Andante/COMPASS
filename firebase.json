@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "html",
+    "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -11,10 +11,16 @@
         "source": "/api/**",
         "function": "api"
       }
+    ],
+    "headers": [
+      {
+        "source": "**/*.html",
+        "headers": [{ "key": "Cache-Control", "value": "max-age=0, no-cache" }]
+      },
+      {
+        "source": "**/*.@(js|css)",
+        "headers": [{ "key": "Cache-Control", "value": "max-age=0, no-cache, no-store, must-revalidate" }]
+      }
     ]
-  },
-  "functions": {
-    "source": "functions",
-    "runtime": "nodejs20"
   }
 }
