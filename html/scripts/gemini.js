@@ -1,13 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 import { GoogleGenAI } from '@google/genai';
-import config from 'dotenv'
+import 'dotenv/config'
 // @google/genai 패키지에서 GoogleGenAI 클래스 열기
 // const { GoogleGenAI } = require('@google/genai'); 
 // 환경 변수 process.env로 로드
 // require('dotenv').config();
-const JW="babo";
 const app = express();
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 // [미들웨어 설정]
 // 다른 도메인의 API 요청 허용
@@ -17,7 +17,7 @@ app.use(express.json());
 
 // [Gemini 인스턴스 초기화]
 // GoogleGenAI 클라이언트 객체 생성
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
 // [API 라우터 설정]
 // 프론트엔드가 POST 요청을 보내면 실행되는 비동기 핸들러
@@ -37,7 +37,7 @@ app.post('/ask-ai', async (req, res) => {
     // ai.models.generateContent 형식으로 서버 요청 전송
     // 서버 응답 대기
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash", // AI 모델 지정
+      model: "gemini-3.5-flash", // AI 모델 지정
       contents: message,         // 사용자 질문 텍스트
     });
     console.log("=== Gemini API 호출 성공 ===");
@@ -61,4 +61,4 @@ app.post('/ask-ai', async (req, res) => {
 });
 
 // 서버 시작
-app.listen(3000, () => console.log('Gemini Backend server running on http://localhost:3000'));
+app.listen(3003, () => console.log('Gemini Backend server running on http://localhost:3003'));

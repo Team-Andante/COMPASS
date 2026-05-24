@@ -155,7 +155,7 @@
             const formData = new FormData();
             formData.append('pdf_file', fileToSend);
 
-            const pdfRes = await fetch('http://localhost:3000/analyze', {
+            const pdfRes = await fetch('http://localhost:3002/analyze', {
                 method: 'POST',
                 body: formData
             });

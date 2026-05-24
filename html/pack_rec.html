@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>맞춤형 학생 혜택 패키지 - COMPASS</title>
     <link rel="stylesheet" href="./style/pack_rec.css">
-    <script type="module" src="./scripts/gemini.js" defer></script>
+
 </head>
 <body>
 
@@ -124,7 +124,7 @@
         cardWrapper.innerHTML = '';
 
         try {
-            const response = await fetch('http://localhost:3000/ask-ai', {
+            const response = await fetch('http://localhost:3003/ask-ai', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: promptMessage })
