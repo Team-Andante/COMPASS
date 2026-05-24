@@ -1,11 +1,17 @@
-const express = require('express');
-const multer = require('multer');
-const pdf = require('pdf-parse');
-const cors = require('cors');
-const path = require('path');
-const Tesseract = require('tesseract.js');
+import express from 'express';
+import multer from 'multer';
+import pdf from 'pdf-parse';
+import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url'; // 경로 변환을 위해 추가
+import Tesseract from 'tesseract.js';
 
 const app = express();
+
+// ES 모듈에서 __dirname 대체 로직
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const HTML_ROOT = path.join(__dirname, '..');
 
 app.use(cors());

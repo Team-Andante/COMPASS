@@ -14,12 +14,8 @@ const onLogin = async (event) => {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-<<<<<<< HEAD
     // 💡 다음 페이지로 토스트 예약 후 즉시 이동
     showToast(`${user.displayName || '사용자'}님, 환영합니다!`, 'success');
-=======
-    // 다음 페이지로 토스트 예약 후 즉시 이동
->>>>>>> f205fec8580939ca3efd7e50190d920ab82c92ff
     reserveToast(`${user.displayName || '사용자'}님, 환영합니다!`, 'success');
     window.location.replace('./index_reged.html'); 
   }

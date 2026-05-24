@@ -1,9 +1,10 @@
-const express = require('express');
-const cors = require('cors');
-const { GoogleGenerativeAI } = require('@google/generative-ai'); // 최신 패키지명 권장
-require('dotenv').config();
+import express from 'express';
+import cors from 'cors';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import 'dotenv/config'; // dotenv를 import와 동시에 실행
 
 const app = express();
+
 // PDF 텍스트는 길 수 있으므로 전송 용량 제한을 늘려줍니다.
 app.use(express.json({ limit: '10mb' }));
 app.use(cors());
