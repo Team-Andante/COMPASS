@@ -1,10 +1,11 @@
-const express = require('express');
-const cors = require('cors');
-
+import express from 'express';
+import cors from 'cors';
+import { GoogleGenAI } from '@google/genai';
+import config from 'dotenv'
 // @google/genai 패키지에서 GoogleGenAI 클래스 열기
-const { GoogleGenAI } = require('@google/genai'); 
+// const { GoogleGenAI } = require('@google/genai'); 
 // 환경 변수 process.env로 로드
-require('dotenv').config();
+// require('dotenv').config();
 const JW="babo";
 const app = express();
 
