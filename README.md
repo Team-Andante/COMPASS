@@ -8,3 +8,22 @@
 | 안제욱 | [@gmstghost](https://github.com/gmstghost) | 기획, FE, BE, API 연동 |
 | 이승민 | [@dltmdals0623](https://github.com/dltmdals0623) | 기획, FE, BE |
 | 최성모 | None | PR |
+
+## Required Node.js libraries and packages
+```
+npm install \
+  cors \
+  express \
+  puppeteer \
+  tesseract.js \
+  @google/genai \
+  @google/generative-ai \
+  @ohah/hwpjs \
+  axios \
+  cheerio \
+  dotenv \
+  firebase \
+  multer \
+  node-cron \
+  pdf-parse
+```
