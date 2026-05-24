@@ -1,70 +1,34 @@
-import express from 'express';
-import puppeteer from 'puppeteer';
-import cors from 'cors';
+const express = require('express');
+const multer = require('multer');
+const pdf = require('pdf-parse'); 
+const cors = require('cors');
+const path = require('path');
 
 const app = express();
-app.use(cors());
 
-let cachedData = [];
-let lastUpdated = "데이터 수집 전";
+const HTML_ROOT = path.join(__dirname, '..');
 
-async function scrapeScholarships() {
-    let browser;
+app.use(cors()); // 중요: 브라우저 차단 방지
+app.use(express.static(HTML_ROOT));
+const upload = multer({ storage: multer.memoryStorage() });
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(HTML_ROOT, 'notice.html'));
+});
+
+app.post('/analyze', upload.single('pdf_file'), async (req, res) => {
     try {
-        browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox'] });
-        const page = await browser.newPage();
-        await page.goto("https://www.dreamspon.com/scholarship/list.html?ordby=1", { waitUntil: 'networkidle2' });
-        
-        const data = await page.evaluate(() => {
-            const rows = document.querySelectorAll('.bo_table tbody tr');
-            return Array.from(rows).map(row => {
-                const titleEl = row.querySelector('.td_subject .title a');
-                const orgEl = row.querySelector('td:nth-child(2)');
-                if (!titleEl || !orgEl) return null;
+        if (!req.file) return res.status(400).json({ success: false, error: '파일 없음' });
 
-                const titleText = titleEl.innerText.trim();
-                const orgText = orgEl.innerText.trim();
+        // pdf-parse 함수 안전하게 로드
+        let pdfParser = (typeof pdf === 'function') ? pdf : pdf.default;
+        const data = await pdfParser(req.file.buffer);
 
-                // [필터링] 드림스폰 홍보글 및 꿀팁 게시글 제외
-                if (orgText === "드림스폰" || titleText.includes("꿀팁")) return null;
-
-                const stateEl = row.querySelector('.td_day .state');
-                const countEl = row.querySelector('.td_day .count');
-                const stateText = stateEl ? stateEl.innerText.trim() : "";
-                const countText = countEl ? countEl.innerText.trim() : "";
-                const classList = stateEl ? stateEl.className : ""; 
-
-                let category = "모집중";
-                if (classList.includes('bgRed')) category = "마감임박";
-                else if (stateText.includes("예정")) category = "모집예정";
-
-                let displayDday = countText;
-                if (countText.includes("D-0") || stateText.includes("오늘")) displayDday = "D-DAY";
-
-                return {
-                    title: titleText,
-                    org: orgText,
-                    tags: Array.from(row.querySelectorAll('.hashtag span')).map(t => t.innerText.trim()),
-                    stateText: stateText,
-                    stateClass: category, 
-                    dday: displayDday,
-                    link: titleEl.href
-                };
-            }).filter(item => item !== null);
-        });
-        cachedData = data;
-        lastUpdated = new Date().toLocaleString('ko-KR');
-        console.log(`[${lastUpdated}] 데이터 크롤링 성공!`);
-
-    } catch (e) { 
-        console.error("크롤링 중 에러 발생:", e); 
-    } finally { 
-        if (browser) await browser.close(); 
+        res.json({ success: true, text: data.text });
+    } catch (error) {
+        console.error('서버 내부 에러:', error.message);
+        res.status(500).json({ success: false, error: error.message });
     }
-}
+});
 
-// 서버 시작 시 최초 1회 크롤링 실행
-scrapeScholarships();
-
-app.get('/api/scholarships', (req, res) => res.json({ lastUpdated, data: cachedData }));
-app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+app.listen(3000, () => console.log(`✅ PDF 서버: http://localhost:3000`));

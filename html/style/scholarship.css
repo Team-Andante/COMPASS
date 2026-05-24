@@ -1,164 +1,30 @@
-:root {
-    --primary: #48D1CC;
-    --warning: #ff4d4d;
-    --bg: #F8FAFC;
-    --dark: #1E293B;
-}
+:root { --primary: #48D1CC; --bg: #F8FAFC; --dark: #1E293B; --gray: #64748b; }
+body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); padding: 20px; margin: 0; }
+.container { max-width: 600px; margin: 0 auto; }
+.header { text-align: center; margin-bottom: 20px; }
+.update-tag { font-size: 12px; color: var(--gray); background: #fff; padding: 5px 12px; border-radius: 20px; border: 1px solid #e2e8f0; }
 
-body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background: var(--bg);
-    padding: 20px;
-    margin: 0;
-}
+.search-card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
+.filter-label { font-size: 13px; font-weight: 700; margin-bottom: 8px; display: block; color: var(--dark); }
+.filter-group { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
+.filter-btn { padding: 8px 12px; border-radius: 8px; border: 1px solid #e2e8f0; background: white; cursor: pointer; font-size: 12px; font-weight: 700; color: var(--gray); transition: 0.2s; }
+.filter-btn.active { background: var(--dark); color: white; border-color: var(--dark); }
 
-.container {
-    max-width: 600px;
-    margin: 0 auto;
-}
+.filter-select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 13px; outline: none; cursor: pointer; background: white; }
+.btn-refresh { width: 100%; padding: 15px; border-radius: 12px; border: none; background: var(--dark); color: white; font-weight: 700; cursor: pointer; margin-top: 15px; }
 
-.header {
-    text-align: center;
-    margin-bottom: 20px;
-}
+.s-card { background: white; padding: 20px; border-radius: 15px; margin-bottom: 12px; border-left: 5px solid #e2e8f0; cursor: pointer; transition: 0.2s; }
+.s-card:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+.s-card.모집중 { border-left-color: var(--primary); }
+.s-card.모집예정 { border-left-color: #94a3b8; opacity: 0.8; }
+.badge { display: inline-block; padding: 3px 8px; border-radius: 5px; font-size: 11px; font-weight: 800; background: #f1f5f9; margin-bottom: 10px; }
+h3 { margin: 0 0 5px 0; font-size: 16px; font-weight: 700; color: var(--dark); }
+.org { color: var(--gray); font-size: 13px; }
 
-.update-tag {
-    font-size: 12px;
-    color: #64748b;
-    background: #fff;
-    padding: 5px 10px;
-    border-radius: 20px;
-    border: 1px solid #e2e8f0;
-}
-
-.search-card {
-    background: white;
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    margin-bottom: 20px;
-}
-
-.filter-label {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--dark);
-    margin-bottom: 8px;
-    display: block;
-}
-
-.filter-group {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 5px;
-    flex-wrap: wrap;
-}
-
-.filter-btn {
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid #e2e8f0;
-    background: white;
-    cursor: pointer;
-    font-weight: 700;
-    color: #64748b;
-    font-size: 12px;
-    transition: 0.2s;
-}
-
-.filter-btn.active {
-    background: var(--dark);
-    color: white;
-    border-color: var(--dark);
-}
-
-.btn-refresh {
-    width: 100%;
-    padding: 15px;
-    border-radius: 12px;
-    border: none;
-    background: var(--dark);
-    color: white;
-    font-weight: 700;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 15px;
-}
-
-.s-card {
-    background: white;
-    padding: 18px;
-    border-radius: 15px;
-    margin-bottom: 12px;
-    border: 1px solid #f1f5f9;
-    border-left: 5px solid #e2e8f0;
-    cursor: pointer;
-    transition: 0.1s;
-    position: relative;
-}
-
-.s-card.모집중 {
-    border-left-color: var(--primary);
-}
-
-.s-card.마감임박 {
-    border-left-color: var(--warning);
-    background: #fffafb;
-}
-
-.badge {
-    display: inline-block;
-    padding: 3px 8px;
-    border-radius: 5px;
-    font-size: 11px;
-    font-weight: 800;
-    background: #f1f5f9;
-    margin-bottom: 8px;
-}
-
-.마감임박 .badge {
-    background: #ffebeb;
-    color: var(--warning);
-}
-
-.dday {
-    float: right;
-    color: var(--warning);
-    font-weight: 900;
-    font-size: 14px;
-}
-
-.dday.highlight {
-    text-decoration: underline;
-    color: #d00;
-    font-size: 15px;
-}
-
-h3 {
-    margin: 0 0 5px 0;
-    font-size: 16px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 80%;
-}
-
-.org {
-    color: #64748b;
-    font-size: 13px;
-}
-
-.tags {
-    margin-top: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-}
-
-.tag-item {
-    font-size: 11px;
-    color: #94a3b8;
-    background: #f8fafc;
-    padding: 2px 6px;
-    border-radius: 4px;
-}
+/* Modal Styles */
+.modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); overflow-y: auto; }
+.modal-content { background: white; margin: 5% auto; padding: 25px; border-radius: 20px; width: 90%; max-width: 500px; position: relative; }
+.close-modal { position: absolute; right: 20px; top: 15px; font-size: 24px; cursor: pointer; color: var(--gray); }
+.detail-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+.detail-table th { background: #f8fafc; text-align: left; padding: 10px; font-size: 13px; border-bottom: 1px solid #eee; width: 32%; color: #475569; }
+.detail-table td { padding: 10px; font-size: 13px; border-bottom: 1px solid #eee; line-height: 1.5; color: var(--dark); }
