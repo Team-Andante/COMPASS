@@ -1,4 +1,3 @@
-import express from 'express';
 import cors from 'cors';
 import { GoogleGenAI } from '@google/genai';
 import config from 'dotenv'
@@ -62,3 +61,35 @@ app.post('/ask-ai', async (req, res) => {
 
 // 서버 시작
 app.listen(3000, () => console.log('Gemini Backend server running on http://localhost:3000'));
+
+const gradeInput = document.getElementById('grade');
+const gradeValueDisplay = document.getElementById('gradeValue');
+
+console.log("스크립트 파일이 연결되었습니다!");
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOM 구조 로드 완료");
+
+    const gradeInput = document.getElementById('grade');
+    const gradeValueDisplay = document.getElementById('gradeValue');
+
+    // 요소가 제대로 찾아졌는지 확인
+    if (!gradeInput) {
+        console.error("ID가 'grade'인 input을 찾을 수 없습니다!");
+        return;
+    }
+
+    // 초기값 표시 함수
+    const update = () => {
+        const val = parseFloat(gradeInput.value);
+        const fixedVal = val.toFixed(2);
+        gradeValueDisplay.textContent = fixedVal + "등급";
+        console.log("현재 슬라이더 값:", fixedVal); // 여기서 로그가 찍혀야 함
+    };
+
+    // 2. 슬라이더를 움직일 때마다 로그 찍기
+    gradeInput.addEventListener('input', update);
+
+    // 3. 페이지 열자마자 초기값 로그 찍기
+    update();
+});
