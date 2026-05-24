@@ -10,7 +10,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(cors());
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
+const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash" });
 
 // 요약 전용 엔드포인트
 app.post('/ask-ai', async (req, res) => {
@@ -33,6 +33,7 @@ app.post('/ask-ai', async (req, res) => {
       3. **하이퍼링크 강조**: 신청 링크가 있다면 별도의 [신청하기] 섹션을 만들어 눈에 띄게 표기할 것.
       4. **마크다운 활용**: 표(Table)와 볼드체(**)를 적절히 사용하여 정보의 위계를 설정할 것.
       5. **어조**: 정중하면서도 명확한 학교 선생님의 말투를 유지할 것.
+      6. **깔끔함**: 내용 요약 전 "물론입니다." 와 같은 불필요한 말을 작성하지 말 것.
 
       # Example Of Output Format:
 
