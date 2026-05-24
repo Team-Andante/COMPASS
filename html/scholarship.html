@@ -2,93 +2,66 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>장학금 한눈에 보기 - COMPASS</title>
+    <title>Andante | Gemini 3.5 장학금 가이드</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./style/scholarship.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        .ai-chat-card { border: 2px solid #48D1CC; background: #ffffff; padding: 25px; border-radius: 20px; margin-bottom: 25px; box-shadow: 0 10px 25px rgba(72, 209, 204, 0.1); }
+        .ai-group { display: flex; gap: 12px; margin-top: 15px; }
+        #aiInput { flex: 1; padding: 14px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-size: 15px; }
+        .ai-btn { background: #48D1CC; color: white; border: none; padding: 0 25px; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .ai-btn:hover { background: #3cb3af; transform: translateY(-2px); }
+        #aiResponse { display: none; margin-top: 20px; padding: 20px; background: #fdfdfd; border-radius: 15px; line-height: 1.7; border: 1px solid #eee; border-top: 4px solid #48D1CC; }
+        
+        /* 마크다운 스타일링 */
+        #aiResponse table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        #aiResponse th, #aiResponse td { border: 1px solid #cbd5e1; padding: 10px; text-align: left; font-size: 14px; }
+        #aiResponse th { background: #f1f5f9; color: #1e293b; }
+        #aiResponse ul { padding-left: 20px; }
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h2>🎓 장학금 탐색기</h2>
-            <div id="last-updated" class="update-tag">데이터 수집 중...</div>
+            <h2>🎓 장학금 AI 가이드 (Gemini 3.5 Flash)</h2>
+            <div class="update-tag">⚡ 최신 모델 기반 실시간 분석 중</div>
         </div>
-        <div class="search-card">
-            <span class="filter-label">📍 지역 선택</span>
-            <div class="filter-group" id="region-filters">
-                <button class="filter-btn active" data-filter="전체">전체</button>
-                <script>
-                    const rList = ["서울", "경기", "인천", "부산", "대구", "광주", "대전", "울산", "세종", "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주"];
-                    document.write(rList.map(r => `<button class="filter-btn" data-filter="${r}">${r}</button>`).join(''));
-                </script>
+
+        <div class="ai-chat-card">
+            <span class="filter-label">🤖 Gemini 3.5에게 물어보기</span>
+            <div class="ai-group">
+                <input type="text" id="aiInput" placeholder="예: 양천구 거주 고등학생 장학금 조건 요약해줘">
+                <button class="ai-btn" onclick="askAI()">질문하기</button>
             </div>
-            <button class="btn-refresh" onclick="load()">데이터 새로고침</button>
+            <div id="aiResponse"></div>
         </div>
-        <div id="card-list"></div>
     </div>
 
     <script>
-        let allData = [];
-        let currentRegion = '전체';
+        async function askAI() {
+            const input = document.getElementById('aiInput');
+            const resDiv = document.getElementById('aiResponse');
+            if(!input.value.trim()) return;
 
-        const regionKeywords = {
-            "서울": ["서울", "강남", "강동", "강북", "강서", "관악", "광진", "구로", "금천", "노원", "도봉", "동대문", "동작", "마포", "서대문", "서초", "성동", "성북", "송파", "양천", "영등포", "용산", "은평", "종로", "중구", "중랑"],
-            "경기": ["경기", "수원", "성남", "의정부", "안양", "부천", "광명", "평택", "동두천", "안산", "고양", "과천", "구리", "남양주", "오산", "시흥", "군포", "의왕", "하남", "용인", "파주", "이천", "안성", "김포", "화성", "광주", "양주", "포천", "여주", "연천", "가평", "양평"],
-            "인천": ["인천", "미추홀", "연수구", "남동구", "부평", "계양", "강화", "옹진"],
-            "부산": ["부산", "영도", "부산진", "동래", "해운대", "사하", "금정", "강서", "연제", "수영", "사상", "기장"],
-            "대구": ["대구", "수성", "달서", "달성", "군위"],
-            "광주": ["광주", "광산"],
-            "대전": ["대전", "유성", "대덕"],
-            "울산": ["울산", "울주"],
-            "세종": ["세종"],
-            "강원": ["강원도", "강원", "춘천", "원주", "강릉", "동해", "태백", "속초", "삼척", "홍천", "횡성", "영월", "평창", "정선", "철원", "화천", "양구", "인제", "고성", "양양"],
-            "충북": ["충청북도", "충북", "청주", "충주", "제천", "보은", "옥천", "영동", "증평", "진천", "괴산", "음성", "단양"],
-            "충남": ["충청남도", "충남", "천안", "공주", "보령", "아산", "서산", "논산", "계룡", "당진", "금산", "부여", "서천", "청양", "홍성", "예산", "태안"],
-            "전북": ["전라북도", "전북", "전주", "군산", "익산", "정읍", "남원", "김제", "완주", "진안", "무주", "장수", "임실", "순창", "고창", "부안"],
-            "전남": ["전라남도", "전남", "목포", "여수", "순천", "나주", "광양", "담양", "곡성", "구례", "고흥", "보성", "화순", "장흥", "강진", "해남", "영암", "무안", "함평", "영광", "장성", "완도", "진도", "신안"],
-            "경북": ["경상북도", "경북", "포항", "경주", "김천", "안동", "구미", "영주", "영천", "상주", "문경", "경산", "의성", "청송", "영양", "영덕", "청도", "고령", "성주", "칠곡", "예천", "봉화", "울진", "울릉"],
-            "경남": ["경상남도", "경남", "창원", "진주", "통영", "사천", "김해", "밀양", "거제", "양산", "의령", "함안", "창녕", "고성", "남해", "하동", "산청", "함양", "거창", "합천"],
-            "제주": ["제주", "서귀포"]
-        };
+            resDiv.style.display = 'block';
+            resDiv.innerHTML = '⚡ <b>Gemini 3.5 Flash</b>가 데이터를 분석하고 있습니다...';
 
-        async function load() {
             try {
-                const res = await fetch('http://localhost:3000/api/scholarships');
-                const result = await res.json();
-                allData = result.data;
-                document.getElementById('last-updated').innerText = `최근 업데이트: ${result.lastUpdated}`;
-                render();
-            } catch (e) { console.error(e); }
+                const response = await fetch('http://localhost:3000/ask-ai', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ message: input.value })
+                });
+                const data = await response.json();
+                // 마크다운 변환 및 출력
+                resDiv.innerHTML = `<div style="color:#64748b; font-size:12px; margin-bottom:10px;">🤖 AI 상담 결과:</div>` + marked.parse(data.reply);
+            } catch (e) {
+                resDiv.innerHTML = '<span style="color:red;">❌ 서버 연결에 실패했습니다.</span>';
+            }
         }
 
-        function render() {
-            const list = document.getElementById('card-list');
-            const filtered = allData.filter(item => {
-                if (currentRegion === '전체') return true;
-                const keywords = regionKeywords[currentRegion];
-                const content = (item.title + item.org).replace(/\s/g, '');
-                return keywords.some(k => content.includes(k));
-            });
-
-            list.innerHTML = filtered.length ? filtered.map(item => `
-                <div class="s-card ${item.stateClass}" onclick="window.open('${item.link}')">
-                    <span class="dday ${item.dday === 'D-DAY' ? 'highlight' : ''}">${item.dday}</span>
-                    <span class="badge">${item.stateText}</span>
-                    <h3>${item.title}</h3>
-                    <div class="org">🏢 ${item.org}</div>
-                    <div class="tags">${item.tags.map(t => `<span class="tag-item">${t}</span>`).join('')}</div>
-                </div>
-            `).join('') : '<div style="text-align:center; padding:50px;">결과가 없습니다.</div>';
-        }
-
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
-                currentRegion = e.target.dataset.filter;
-                render();
-            });
-        });
-        window.onload = load;
+        <iframe src="https://notebooklm.google.com/notebook/2ec911a4-25bb-44fa-9ae7-73dcfee81bb5" width="100%" height="600px"></iframe>
     </script>
 </body>
 </html>

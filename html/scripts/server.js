@@ -1,70 +1,65 @@
-import express from 'express';
-import puppeteer from 'puppeteer';
-import cors from 'cors';
+const express = require('express');
+const multer = require('multer');
+const pdf = require('pdf-parse');
+const cors = require('cors');
+const path = require('path');
+const Tesseract = require('tesseract.js');
 
 const app = express();
+const HTML_ROOT = path.join(__dirname, '..');
+
 app.use(cors());
+app.use(express.static(HTML_ROOT));
 
-let cachedData = [];
-let lastUpdated = "데이터 수집 전";
+const upload = multer({ storage: multer.memoryStorage() });
 
-async function scrapeScholarships() {
-    let browser;
+app.get('/', (req, res) => {
+    res.sendFile(path.join(HTML_ROOT, 'notice.html'));
+});
+
+// PDF 텍스트 추출
+app.post('/analyze', upload.single('pdf_file'), async (req, res) => {
     try {
-        browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox'] });
-        const page = await browser.newPage();
-        await page.goto("https://www.dreamspon.com/scholarship/list.html?ordby=1", { waitUntil: 'networkidle2' });
-        
-        const data = await page.evaluate(() => {
-            const rows = document.querySelectorAll('.bo_table tbody tr');
-            return Array.from(rows).map(row => {
-                const titleEl = row.querySelector('.td_subject .title a');
-                const orgEl = row.querySelector('td:nth-child(2)');
-                if (!titleEl || !orgEl) return null;
+        if (!req.file) return res.status(400).json({ success: false, error: '파일 없음' });
 
-                const titleText = titleEl.innerText.trim();
-                const orgText = orgEl.innerText.trim();
+        const mime = req.file.mimetype;
+        const imageTypes = ['image/jpeg', 'image/png', 'image/webp'];
 
-                // [필터링] 드림스폰 홍보글 및 꿀팁 게시글 제외
-                if (orgText === "드림스폰" || titleText.includes("꿀팁")) return null;
+        // 이미지 파일 → Tesseract OCR
+        if (imageTypes.includes(mime)) {
+            console.log('🖼️ 이미지 감지 → OCR 시작');
+            const { data: { text } } = await Tesseract.recognize(
+                req.file.buffer,
+                'kor+eng',   // 한국어 + 영어 동시 인식
+                { logger: m => console.log(`  OCR: ${m.status} (${Math.round((m.progress || 0) * 100)}%)`) }
+            );
 
-                const stateEl = row.querySelector('.td_day .state');
-                const countEl = row.querySelector('.td_day .count');
-                const stateText = stateEl ? stateEl.innerText.trim() : "";
-                const countText = countEl ? countEl.innerText.trim() : "";
-                const classList = stateEl ? stateEl.className : ""; 
+            if (!text || text.trim().length === 0) {
+                return res.status(422).json({ success: false, error: 'OCR 결과가 없습니다. 이미지 화질을 확인해주세요.' });
+            }
 
-                let category = "모집중";
-                if (classList.includes('bgRed')) category = "마감임박";
-                else if (stateText.includes("예정")) category = "모집예정";
+            return res.json({ success: true, text: text.trim(), source: 'ocr' });
+        }
 
-                let displayDday = countText;
-                if (countText.includes("D-0") || stateText.includes("오늘")) displayDday = "D-DAY";
+        // PDF 파일 → pdf-parse
+        if (mime === 'application/pdf') {
+            console.log('📄 PDF 감지 → pdf-parse 시작');
+            let pdfParser = (typeof pdf === 'function') ? pdf : pdf.default;
+            const data = await pdfParser(req.file.buffer);
 
-                return {
-                    title: titleText,
-                    org: orgText,
-                    tags: Array.from(row.querySelectorAll('.hashtag span')).map(t => t.innerText.trim()),
-                    stateText: stateText,
-                    stateClass: category, 
-                    dday: displayDday,
-                    link: titleEl.href
-                };
-            }).filter(item => item !== null);
-        });
-        cachedData = data;
-        lastUpdated = new Date().toLocaleString('ko-KR');
-        console.log(`[${lastUpdated}] 데이터 크롤링 성공!`);
+            if (!data.text || data.text.trim().length === 0) {
+                return res.status(422).json({ success: false, error: 'PDF에서 텍스트를 추출할 수 없습니다. 스캔본이라면 이미지로 업로드해주세요.' });
+            }
 
-    } catch (e) { 
-        console.error("크롤링 중 에러 발생:", e); 
-    } finally { 
-        if (browser) await browser.close(); 
+            return res.json({ success: true, text: data.text.trim(), source: 'pdf' });
+        }
+
+        return res.status(415).json({ success: false, error: '지원하지 않는 파일 형식입니다. (PDF, JPG, PNG, WEBP만 가능)' });
+
+    } catch (error) {
+        console.error('❌ 서버 내부 에러:', error.message);
+        res.status(500).json({ success: false, error: error.message });
     }
-}
+});
 
-// 서버 시작 시 최초 1회 크롤링 실행
-scrapeScholarships();
-
-app.get('/api/scholarships', (req, res) => res.json({ lastUpdated, data: cachedData }));
-app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+app.listen(3000, () => console.log('✅ PDF/OCR 서버: http://localhost:3000'));
