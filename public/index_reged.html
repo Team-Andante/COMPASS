@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>COMPASS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="./style/layout.css">
+    <link rel="stylesheet" href="./style/auth.css">
+    <link rel="stylesheet" href="./style/style.css">
+    <script type="module" src="./scripts/reged.js" defer></script>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo" onclick="location.href='./index.html'">
+            <img src="./images/logo.png" alt="COMPASS 로고" class= "logoimg">
+            COM<span>PASS</span>
+        </div>
+        <div class="nav-links">
+            <a href="./login.html">서비스 소개</a>
+            <a href="#">장학금 소식</a>
+            <button class="logout-btn">로그아웃</button>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <div class="user-status">
+            <div class="welcome-card">
+                <p class="welcome-label">My Dashboard</p>
+                <h1 class="welcome-name">안녕하세요, <em>사용자</em>님! 👋</h1>
+                <p class="welcome-sub">오늘도 당신을 위한 맞춤형 복지 혜택이 도착했어요.</p>
+            </div>
+
+            <div class="progress-card">
+                <div>
+                    <div class="progress-header">
+                        <span class="progress-label">AI 활동 완성도</span>
+                        <span class="badge">Lv.2 열공러</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" style="width: 65%;"></div>
+                    </div>
+                </div>
+                <p class="reward-text">🎁 <strong>80%</strong> 달성 시 새로운 장학금 정보를 오픈해요!</p>
+            </div>
+        </div>
+
+        <div class="section-title">
+            <h2>AI 분석 기반 추천 서비스</h2>
+            <div class="section-title-line"></div>
+        </div>
+
+        <div class="card-grid">
+            <a class="card mint" href="#">
+                <div class="card-icon">📊</div>
+                <h3>복지 서비스 확인</h3>
+                <p>거주지, 성적, 국가복지 조건을 AI가 분석하여 딱 맞는 혜택을 찾아드려요.</p>
+                <div class="card-footer">
+                    <span class=\"tag\">공공데이터 API 연계</span>
+                    <div class=\"card-arrow\">→</div>
+                </div>
+            </a>
+
+            <a class="card coral" href="https://notebooklm.google.com/notebook/2ec911a4-25bb-44fa-9ae7-73dcfee81bb5/preview">
+                <div class="card-icon">🎓</div>
+                <h3>장학금 한눈에 보기</h3>
+                <p>경제 여건과 지원 자격을 분석하여 내가 지금 바로 신청할 수 있는 장학금 정보를 모아드려요.</p>
+                <div class="card-footer">
+                    <span class="tag">실시간 데이터 연동</span>
+                    <div class="card-arrow">→</div>
+                </div>
+            </a>
+
+            <a class="card gray" href="./notice.html">
+                <div class="card-icon">📝</div>
+                <h3>스마트 공문 요약</h3>
+                <p>리로스쿨 등 복잡한 공문서를 한눈에 요약하고 제출 일정을 알려드려요.</p>
+                <div class="card-footer">
+                    <span class="tag">제출 알림</span>
+                    <div class="card-arrow">→</div>
+                </div>
+            </a>
+
+            <a class="card purple" href="#">
+                <div class="card-icon">🎥</div>
+                <h3>EBS 인강 &amp; 방과후</h3>
+                <p>나에게 필요한 EBS 강의와 방과후 프로그램을 즉시 신청하세요.</p>
+                <div class="card-footer">
+                    <span class="tag">API 연계 완료</span>
+                    <div class="card-arrow">→</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="highlight-banner">
+            <div class="highlight-icon">🔔</div>
+            <div class="highlight-text">
+                <h4>맞춤형 혜택 패키지를 AI가 직접 추천해 드려요!</h4>
+                <p>성적, 소득 분위, 관심사를 입력하면 나에게 딱 맞는 복지 패키지를 제안해 드립니다.</p>
+            </div>
+            <button class="highlight-btn" onclick="location.href='./pack_rec.html'">지금 추천받기 →</button>
+        </div>
+
+    </main>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <div id="custom-confirm-modal" class="confirm-modal">
+        <div class="confirm-content">
+            <p>로그아웃 하시겠습니까?</p>
+            <div class="confirm-buttons">
+                <button id="confirm-yes-btn" class="btn-yes">확인</button>
+                <button id="confirm-no-btn" class="btn-no">취소</button>
+            </div>
+        </div>
+    </div>
+    
+
+</body>
+</html>

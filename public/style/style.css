@@ -1,0 +1,187 @@
+:root {
+    --primary-mint: #48D1CC;
+    --point-coral: #FF7F50;
+    --bg-light: #F8F9FA;
+    --text-dark: #333;
+    --text-gray: #777;
+    --white: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Pretendard', 'Segoe UI', Tahoma, sans-serif;
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 네비게이션 공통 */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: var(--white);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.navbar .logoimg {
+    display: flex;
+    align-items: center; /* 이미지와 텍스트를 세로 중앙 정렬 */
+    gap: 8px;            /* 이미지와 글자 사이의 간격 조절 */
+    cursor: pointer;
+    height: 32px;        /* 내비게이션 바 높이에 맞춰 적절한 크기로 제한 (원하는 크기로 변경 가능) */
+    width: auto;         /* 비율 유지 */
+    object-fit: contain;
+}
+
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.logo span { color: var(--primary-mint); }
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-dark);
+    margin-right: 20px;
+    font-weight: 500;
+}
+
+.login-btn {
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    background: none;
+    cursor: pointer;
+}
+
+
+
+.confirm-modal {
+    position: fixed;
+    top: -100px; /* 화면 위쪽에 숨겨둠 */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    padding: 16px 24px;
+    z-index: 9999;
+    transition: top 0.4s cubic-bezier(0.175, 0.95, 0.32, 1.1); /* 애니메이션 효과 */
+    border: 1px solid #e0e0e0;
+}
+
+/* 알림창이 활성화되었을 때 상단에 표시될 위치 */
+.confirm-modal.show {
+    top: 20px;
+}
+
+.confirm-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.confirm-content p {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+}
+
+.confirm-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+/* 버튼 스타일 정의 */
+.confirm-buttons button {
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s;
+}
+
+.btn-yes {
+    background-color: #ff4d4f;
+    color: white;
+}
+.btn-yes:hover { background-color: #d9363e; }
+
+.btn-no {
+    background-color: #f0f0f0;
+    color: #333;
+}
+.btn-no:hover { background-color: #d9d9d9; }
+
+
+
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 토스트 개별 스타일 */
+.toast {
+    min-width: 280px;
+    padding: 16px 24px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    color: #333;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+    border-left: 5px solid #ccc;
+    
+    /* 애니메이션 설정 */
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* 토스트가 나타날 때 */
+.toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* 성공 타입 */
+.toast.success {
+    border-left-color: #22c55e; /* 초록색 */
+}
+
+/* 에러 타입 */
+.toast.error {
+    border-left-color: #ef4444; /* 빨간색 */
+}
+
+
+@media (max-width: 768px) {
+    .navbar { padding: 15px 20px; }
+}
