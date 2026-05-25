@@ -24,4 +24,5 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 getAnalytics(app);
 
+export default auth; 
 export { app, auth };
