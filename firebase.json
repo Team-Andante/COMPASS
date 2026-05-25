@@ -1,4 +1,8 @@
 {
+  "functions": {
+    "source": "functions",
+    "codebase": "default"
+  },
   "hosting": {
     "public": "public",
     "ignore": [
@@ -8,18 +12,8 @@
     ],
     "rewrites": [
       {
-        "source": "/api/**",
-        "function": "api"
-      }
-    ],
-    "headers": [
-      {
-        "source": "**/*.html",
-        "headers": [{ "key": "Cache-Control", "value": "max-age=0, no-cache" }]
-      },
-      {
-        "source": "**/*.@(js|css)",
-        "headers": [{ "key": "Cache-Control", "value": "max-age=0, no-cache, no-store, must-revalidate" }]
+        "source": "**",
+        "destination": "/index.html"
       }
     ]
   }
