@@ -3,6 +3,7 @@ import 'dotenv/config'; // dotenv를 import와 동시에 실행
 import cors from 'cors';
 import { GoogleGenAI } from '@google/genai';
 import 'dotenv/config'
+import { useEffect } from 'react';
 // @google/genai 패키지에서 GoogleGenAI 클래스 열기
 // const { GoogleGenAI } = require('@google/genai'); 
 // 환경 변수 process.env로 로드
@@ -62,7 +63,7 @@ app.post('/ask-ai', async (req, res) => {
 });
 
 // 서버 시작
-app.listen(3000, () => console.log('Gemini Backend server running on http://localhost:3000'));
+app.listen(3003, () => console.log('Gemini Backend server running on http://localhost:3003'));
 
 const gradeInput = document.getElementById('grade');
 const gradeValueDisplay = document.getElementById('gradeValue');
