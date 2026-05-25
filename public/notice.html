@@ -34,21 +34,17 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-functions.js";
 
-    // 1. Firebase 설정 (사용자님의 실제 설정값 유지)
+    // ⚠️ Firebase Console에서 복사한 실제 값으로 유지하세요
     const firebaseConfig = {
         apiKey: "YOUR_API_KEY",
-        authDomain: "compass-85721.web.app",
+        authDomain: "compass-85721.firebaseapp.com",
         projectId: "compass-85721",
         storageBucket: "compass-85721.appspot.com",
         appId: "YOUR_APP_ID"
     };
 
-    const app = initializeApp(firebaseConfig);
-    // 2. 리전(asia-northeast3)을 백엔드와 동일하게 설정
-    const functions = getFunctions(app, "asia-northeast3");
-    const analyzeNotice = httpsCallable(functions, 'analyzeNotice');
+    initializeApp(firebaseConfig);
 
     async function startSummary() {
         const fileInput = document.getElementById('pdfFile');
@@ -69,16 +65,31 @@
         reader.onload = async (e) => {
             try {
                 const base64File = e.target.result.split(',')[1];
-                
-                // 3. 함수 호출
-                const response = await analyzeNotice({
-                    fileBuffer: base64File,
-                    fileName: file.name,
-                    fileMime: file.type
+
+                // ✅ 이미지에서 확인된 실제 Cloud Run 트리거 URL 적용
+                const response = await fetch("https://analyzenotice-3t5atoefua-uc.a.run.app", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        data: { // 백엔드 index.js의 request.data 구조와 맞춤
+                            fileBuffer: base64File,
+                            fileName: file.name,
+                            fileMime: file.type
+                        }
+                    })
                 });
 
-                if (response.data.success) {
-                    textContent.innerHTML = marked.parse(response.data.summary);
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.data?.error || "서버 응답 에러");
+                }
+
+                const result = await response.json();
+
+                if (result.data && result.data.success) {
+                    textContent.innerHTML = marked.parse(result.data.summary);
                     resultBox.style.display = 'block';
                 }
             } catch (error) {
@@ -91,6 +102,8 @@
         };
         reader.readAsDataURL(file);
     }
+    
+    // 버튼 클릭 이벤트 연결
     window.startSummary = startSummary;
 </script>
 </body>
