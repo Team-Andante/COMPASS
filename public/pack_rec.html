@@ -15,7 +15,7 @@
         <div class="form-group">
             <label for="grade">내 성적 등급</label>
             <div class="slider-container">
-                <input type="range" id="grade" min="1" max="5" value="3" step="1">
+                <input type="range" id="grade" min="1" max="5" value="3" step="0.01">
                 <span id="gradeValue" class="grade-output">3등급</span>
             </div>
         </div>
@@ -124,8 +124,7 @@
         cardWrapper.innerHTML = '';
 
         try {
-            // /api/recommend → Cloud Function (기존 localhost:3003/ask-ai)
-            const response = await fetch('/api/recommend', {
+                const response = await fetch(`/api/recommend`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: promptMessage })

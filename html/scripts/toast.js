@@ -55,15 +55,21 @@ export const checkReservedToast = () => {
   }
 };
 
-// export const nextPage = (page) => {
-//     sessionStorage.setItem('nextPage', page);
-// };
+export const nextPage = (page) => {
+    sessionStorage.setItem('nextPage', page);
+};
 
-// export const checkNextPage = () => {
-//     const pendingMessage = sessionStorage.getItem('nextPage');
+export const checkNextPage = () => {
+    const pendingMessage = sessionStorage.getItem('nextPage');
 
-//     if (pendingMessage) {
-//         window.location.replace('./scholarship.html');
-//         sessionStorage.removeItem('nextPage');
-//     }
-// };
+    if (pendingMessage === "scholar") {
+      console.log('removing PAGE');
+      location.href = ('./scholarship.html');
+      sessionStorage.removeItem('nextPage');
+      console.table(sessionStorage);
+    }
+};
+
+console.table(sessionStorage);
+// export const chechStorage = () => {
+// }

@@ -78,7 +78,7 @@ body {
 /* ── 유저 상태 카드 ── */
 .user-status {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 24px;
     margin-bottom: 40px;
 }
