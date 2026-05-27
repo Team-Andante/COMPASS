@@ -94,3 +94,35 @@ exports.analyzeNotice = onRequest({
     }
   });
 });
+
+
+
+
+exports.recommend = onRequest({
+  secrets: [GEMINI_API_KEY],
+  region: "us-central1",
+}, (req, res) => {
+  // gemini.js에 있던 cors 미들웨어 적용
+  cors(req, res, async () => {
+    try {
+      if (req.method !== 'POST') return res.status(405).send({ error: "Method Not Allowed" });
+
+      const { message } = req.body; // gemini.js의 로직
+      if (!message) return res.status(400).json({ error: "메시지를 입력해주세요." });
+
+      const genAI = new GoogleGenerativeAI(GEMINI_API_KEY.value());
+      const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash" }); 
+
+      const result = await model.generateContent(message);
+      const response = await result.response;
+      const aiAnswer = response.text();
+
+      // pack_rec.html이 기대하는 형식으로 응답
+      return res.json({ answer: aiAnswer });
+
+    } catch (error) {
+      console.error("에러 발생:", error);
+      return res.status(500).json({ error: error.message });
+    }
+  });
+});
