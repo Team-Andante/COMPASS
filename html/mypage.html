@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지 - COMPASS</title>
+    <link rel="stylesheet" href="./style/style.css">
+    <link rel="stylesheet" href="./style/layout.css">
+    <link rel="stylesheet" href="./style/mypage.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo" onclick="location.href='/index.html'">
+            <img src="./images/logo.png" alt="COMPASS 로고" class="logoimg">
+            COM<span>PASS</span>
+        </div>
+        <div class="nav-links">
+            <a href="#">서비스 소개</a>
+            <button class="logout-btn" onclick="handleLogout()">로그아웃</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="section-title">
+            <h2>마이페이지</h2>
+            <div class="section-title-line"></div>
+        </header>
+
+        <div class="mypage-layout">
+            <aside class="mypage-sidebar">
+                <nav class="sidebar-nav">
+                    <a href="#profile" class="active">내 프로필</a>
+                    <a href="#benefits">신청 내역</a>
+                    <a href="#settings">계정 설정</a>
+                </nav>
+            </aside>
+
+            <section class="mypage-content">
+                
+                <article id="profile" class="content-card">
+                    <h3>내 프로필 정보</h3>
+                    <div class="profile-info">
+                        <div class="info-group">
+                            <label>이메일</label>
+                            <p id="user-email">user@example.com</p>
+                        </div>
+                        <div class="info-group">
+                            <label>성적 등급</label>
+                            <p id="user-grade">3.50 등급</p>
+                        </div>
+                        <div class="info-group">
+                            <label>관심사</label>
+                            <p id="user-interest">IT 개발, 창업</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article id="benefits" class="content-card">
+                    <h3>최근 확인한 맞춤 혜택</h3>
+                    <div class="benefit-list">
+                        <div class="benefit-item">
+                            <span>🎁 국가장학금 I유형</span>
+                            <a href="#" class="tag">상세보기</a>
+                        </div>
+                        <div class="benefit-item">
+                            <span>🚀 청년창업지원금</span>
+                            <a href="#" class="tag">상세보기</a>
+                        </div>
+                    </div>
+                </article>
+
+            </section>
+        </div>
+    </main>
+
+    <script src="./scripts/mypage.js"></script>
+</body>
+</html>

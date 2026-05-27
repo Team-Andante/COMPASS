@@ -4,11 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>맞춤형 학생 혜택 패키지 - COMPASS</title>
+    <link rel="stylesheet" href="./style/style.css">
     <link rel="stylesheet" href="./style/pack_rec.css">
 </head>
-<body>
 
-<div class="container">
+<body>
+    <nav class="navbar">
+        <div class="logo" onclick="location.href='/index.html'">
+            <img src="./images/logo.png" alt="COMPASS 로고" class="logoimg">
+            COM<span>PASS</span>
+        </div>
+        <div class="nav-links">
+            <a href="#">서비스 소개</a>
+            <a href="#">마이페이지</a>
+        </div>
+    </nav>
+    
+    <button type="button" class="back-btn" onclick="history.back();" aria-label="뒤로가기">←</button>
+
+    <div class="container">
     <h1>🎓 맞춤형 혜택 패키지 추천</h1>
 
     <form id="personaForm">
@@ -67,8 +81,9 @@
     const gradeValue = document.getElementById('gradeValue');
 
     gradeSlider.addEventListener('input', (e) => {
-        gradeValue.textContent = `${e.target.value}등급`;
-    });
+    const formattedValue = parseFloat(e.target.value).toFixed(2);
+    gradeValue.textContent = `${formattedValue}등급`;
+});
 
     document.getElementById('personaForm').addEventListener('submit', async (e) => {
         e.preventDefault();

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
     <style>
-        body { font-family: 'Pretendard', sans-serif; padding: 20px; background-color: #f8f9fa; }
+        body { font-family: 'Pretendard', sans-serif};
         .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .upload-section { margin: 20px 0; padding: 30px; border: 2px dashed #007bff; text-align: center; border-radius: 8px; background: #f0f7ff; }
         #btnProcess { background: #007bff; color: white; border: none; padding: 15px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; }
@@ -18,7 +18,19 @@
     </style>
 </head>
 <body>
-
+<body>
+    <nav class="navbar">
+        <div class="logo" onclick="location.href='/index.html'">
+            <img src="./images/logo.png" alt="COMPASS 로고" class="logoimg">
+            COM<span>PASS</span>
+        </div>
+        <div class="nav-links">
+            <a href="#">서비스 소개</a>
+            <a href="#">마이페이지</a>
+        </div>
+    </nav>
+    
+    <button type="button" class="back-btn" onclick="history.back();" aria-label="뒤로가기">←</button>
 <div class="container">
     <h2>📄 AI 공지사항 요약기</h2>
     <div class="upload-section">
