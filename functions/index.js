@@ -1,12 +1,17 @@
-const { onRequest } = require("firebase-functions/v2/https");
-const { defineSecret } = require("firebase-functions/params");
+import { onRequest } from "firebase-functions/v2/https";
+import { defineSecret } from "firebase-functions/params";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import corsLib from 'cors';
+
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
 const pdf = require("pdf-parse");
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-const cors = require('cors')({ origin: true });
+
+const cors = corsLib({ origin: true });
 
 const GEMINI_API_KEY = defineSecret("GEMINI_API_KEY");
 
-exports.analyzeNotice = onRequest({
+export const analyzeNotice = onRequest({
   memory: "1GiB",
   timeoutSeconds: 120,
   secrets: [GEMINI_API_KEY],
@@ -98,7 +103,7 @@ exports.analyzeNotice = onRequest({
 
 
 
-exports.recommend = onRequest({
+export const recommend = onRequest({
   secrets: [GEMINI_API_KEY],
   region: "us-central1",
 }, (req, res) => {
