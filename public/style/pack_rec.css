@@ -1,11 +1,7 @@
 /* 기본 레이아웃 */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f7f6;
     margin: 0;
-    padding: 40px 20px;
-    display: flex;
-    justify-content: center;
 }
 
 .container {
