@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지 - COMPASS</title>
+    <link rel="stylesheet" href="./style/style.css">
+    <link rel="stylesheet" href="./style/layout.css">
+    <link rel="stylesheet" href="./style/auth.css">
+    <link rel="stylesheet" href="./style/mypage.css">
+    <script type="module" src="./scripts/mypage.js" defer></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo" onclick="location.href='./index_reged.html'" style="cursor:pointer">
+            <img src="./images/logo.png" alt="COMPASS 로고" class="logoimg">
+            COM<span>PASS</span>
+        </div>
+        <div class="nav-links">
+            <a href="./index_reged.html">서비스 소개</a>
+            <button class="logout-btn">로그아웃</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="section-title">
+            <h2>마이페이지</h2>
+            <div class="section-title-line"></div>
+        </header>
+
+        <div class="mypage-layout">
+            <aside class="mypage-sidebar">
+                <nav class="sidebar-nav">
+                    <a href="#profile" class="active">내 프로필</a>
+                    <a href="#benefits">신청 내역</a>
+                    <a href="#settings">계정 설정</a>
+                </nav>
+            </aside>
+
+            <section class="mypage-content">
+                <article id="profile" class="content-card">
+                    <h3>내 프로필 정보</h3>
+                    <div class="profile-info">
+                        <div class="info-group">
+                            <label>이메일</label>
+                            <p id="user-email">데이터를 불러오는 중...</p>
+                        </div>
+                        <div class="info-group">
+                            <label>최근 입력 성적</label>
+                            <p id="user-grade">-</p>
+                        </div>
+                        <div class="info-group">
+                            <label>관심 분야</label>
+                            <p id="user-interest">-</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article id="benefits" class="content-card">
+                    <h3>최근 확인한 맞춤 혜택</h3>
+                    <div class="benefit-list" id="benefit-list"> <div class="benefit-item">
+                            <span>아직 저장된 혜택이 없습니다.</span>
+                            <a href="./pack_rec.html" class="tag">추천받기</a>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </div>
+    </main>
+
+    <div id="custom-confirm-modal" class="confirm-modal">
+        <div class="confirm-content">
+            <p>로그아웃 하시겠습니까?</p>
+            <div class="confirm-buttons">
+                <button id="confirm-yes-btn" class="confirm-btn yes">확인</button>
+                <button id="confirm-no-btn" class="confirm-btn no">취소</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./scripts/mypage.js"></script>
+</body>
+</html>

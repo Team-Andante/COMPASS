@@ -25,3 +25,17 @@ const onLogin = async (e) => {
 };
 
 document.getElementById("login-form")?.addEventListener("submit", onLogin);
+
+document.addEventListener('DOMContentLoaded', () => {
+    // 비밀번호 토글
+    const togglePassword = document.getElementById('toggle-password');
+    const passwordInput = document.getElementById('password');
+
+    if (togglePassword && passwordInput) {
+        togglePassword.addEventListener('click', () => {
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
+            togglePassword.textContent = isPassword ? '◉' : '⊘';
+        });
+    }
+});

@@ -85,3 +85,63 @@ if (signupForm) {
 }
 
 export default auth;
+
+const pwInput     = document.getElementById('password');
+const strengthBar = document.getElementById('pw-strength');
+const strengthHint = document.getElementById('pw-strength-hint');
+
+pwInput?.addEventListener('input', () => {
+    const v = pwInput.value;
+    strengthBar.className = 'pw-strength';
+    if (!v) { strengthHint.textContent = ''; return; }
+
+    const hasLetter = /[a-zA-Z]/.test(v);
+    const hasNumber = /[0-9]/.test(v);
+    const hasSpecial = /[^a-zA-Z0-9]/.test(v);
+    const score = (v.length >= 8 ? 1 : 0) + (hasLetter && hasNumber ? 1 : 0) + (hasSpecial ? 1 : 0);
+
+    if (v.length < 6) {
+        strengthBar.classList.add('weak');
+        strengthHint.textContent = '너무 짧습니다 (최소 6자)';
+        strengthHint.style.color = '#ef4444';
+    } else if (score <= 1) {
+        strengthBar.classList.add('weak');
+        strengthHint.textContent = '보통 이하 — 숫자/특수문자를 추가해보세요';
+        strengthHint.style.color = '#ef4444';
+    } else if (score === 2) {
+        strengthBar.classList.add('medium');
+        strengthHint.textContent = '보통 수준';
+        strengthHint.style.color = '#f59e0b';
+    } else {
+        strengthBar.classList.add('strong');
+        strengthHint.textContent = '안전한 비밀번호입니다 ✅';
+        strengthHint.style.color = '#22c55e';
+    }
+});
+
+// 비밀번호 토글 (main.js에도 있지만 확인란과 분리)
+document.addEventListener('DOMContentLoaded', () => {
+    // 비밀번호 토글
+    const togglePassword = document.getElementById('toggle-password');
+    const passwordInput = document.getElementById('password');
+
+    if (togglePassword && passwordInput) {
+        togglePassword.addEventListener('click', () => {
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
+            togglePassword.textContent = isPassword ? '◉' : '⊘';
+        });
+    }
+
+    // 비밀번호 확인 토글 (동일한 로직 추가)
+    const toggleConfirm = document.getElementById('toggle-password-confirm');
+    const confirmInput = document.getElementById('password-confirm');
+
+    if (confirmInput) {
+        toggleConfirm.addEventListener('click', () => {
+            const isPassword = confirmInput.type === 'password';
+            confirmInput.type = isPassword ? 'text' : 'password';
+            toggleConfirm.textContent = isPassword ? '◉' : '⊘';
+        });
+    }
+});
