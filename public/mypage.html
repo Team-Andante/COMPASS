@@ -5,14 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>마이페이지 - COMPASS</title>
     <link rel="stylesheet" href="./css/base/theme.css">
-    <link rel="stylesheet" href="./css/components/navbar.css">
     <link rel="stylesheet" href="./css/components/buttons.css">
-    <link rel="stylesheet" href="./css/pages/mypage.css">
+    <link rel="stylesheet" href="./css/components/navbar.css">
     <link rel="stylesheet" href="./css/components/toasts.css">
+    <link rel="stylesheet" href="./css/pages/mypage.css">
     <script type="module" src="./scripts/mypage.js" defer></script>
     <script type="module" src="./scripts/logout.js" defer></script>
-</head>
-<body>
+</head><body>
     <nav class="navbar">
         <div class="logo" onclick="location.href='/index.html'" style="cursor:pointer">
             <img src="./images/logo.png" alt="COMPASS 로고" class="logoimg">
@@ -68,8 +67,19 @@
                             <p id="view-region">-</p>
                         </div>
                         <div class="info-group">
-                            <label>성적 (평점/석차 등)</label>
-                            <p id="view-grade">-</p>
+                            <label>성적 (최근 업데이트)</label>
+                            <p id="view-grade">성적 데이터 없음</p>
+                            </div>
+                        <div class="form-group form-group--full">
+                            <label>성적 데이터 관리</label>
+                            <div style="display: flex; gap: 12px; align-items: center; background: #f8f9fb; padding: 1rem; border-radius: 8px; border: 1px dashed var(--border);">
+                                <p style="margin: 0; font-size: 0.88rem; color: #555;">
+                                    💡 성적은 분석 및 타 서비스 연동을 위해 학기별로 <strong>누적 관리</strong>됩니다.
+                                </p>
+                                <button type="button" class="btn-edit" onclick="location.href='./grade_manage.html'" style="margin-left: auto;">
+                                    성적 누적 기록 관리하기 →
+                                </button>
+                            </div>
                         </div>
                         <div class="info-group">
                             <label>관심 분야</label>

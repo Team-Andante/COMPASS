@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>성적 누적 관리 - COMPASS</title>
+    <link rel="stylesheet" href="./css/base/theme.css">
+    <link rel="stylesheet" href="./css/components/buttons.css">
+    <link rel="stylesheet" href="./css/components/navbar.css">
+    <link rel="stylesheet" href="./css/components/toasts.css">
+    <link rel="stylesheet" href="./css/pages/mypage.css">
+    
+    <style>
+        /* 성적 관리 테이블 및 레이아웃 전용 커스텀 스타일 */
+        .grade-layout {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        .grade-table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+        .grade-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.5rem;
+            font-size: 0.93rem;
+        }
+        .grade-table th, .grade-table td {
+            padding: 0.9rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border, #e8e8e8);
+        }
+        .grade-table th {
+            background-color: var(--bg-hover, #f5f7ff);
+            font-weight: 600;
+            color: var(--text-secondary, #555);
+        }
+        .grade-table tr:hover {
+            background-color: #fafbfe;
+        }
+        .btn-text-danger {
+            background: none;
+            border: none;
+            color: #d93025;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            transition: background 0.15s;
+        }
+        .btn-text-danger:hover {
+            background: rgba(217, 48, 37, 0.08);
+            text-decoration: underline;
+        }
+        .empty-message {
+            text-align: center;
+            padding: 4rem 0;
+            color: var(--text-muted, #aaa);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        @media (max-width: 768px) {
+            .grade-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script type="module" src="./scripts/grade_manage.js" defer></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo" onclick="location.href='/index.html'" style="cursor:pointer">
+            <img src="./images/logo.png" alt="COMPASS 로고" class="logoimg">
+            COM<span>PASS</span>
+        </div>
+        <div class="nav-links">
+            <a href="./login.html">서비스 소개</a>
+            <a href="./mypage.html">마이페이지</a>
+            <button class="logout-btn">로그아웃</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="section-title" style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+                <h2>성적 누적 관리</h2>
+                <div class="section-title-line"></div>
+            </div>
+            <button class="btn-cancel" onclick="location.href='./mypage.html'" style="font-size: 0.88rem; font-weight: 600;">
+                ← 마이페이지로 돌아가기
+            </button>
+        </header>
+
+        <div class="grade-layout">
+            <article class="content-card">
+                <h3>새 학기 성적 등록</h3>
+                <form id="grade-form" class="profile-form" style="margin-top: 1rem;">
+                    <div class="form-group" style="margin-bottom: 1.2rem;">
+                        <label for="input-semester">학기 선택</label>
+                        <select id="input-semester" required>
+                            <option value="">선택하세요</option>
+                            <option value="1학년 1학기">1학년 1학기</option>
+                            <option value="1학년 2학기">1학년 2학기</option>
+                            <option value="2학년 1학기">2학년 1학기</option>
+                            <option value="2학년 2학기">2학년 2학기</option>
+                            <option value="3학년 1학기">3학년 1학기</option>
+                            <option value="3학년 2학기">3학년 2학기</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1.2rem;">
+                        <label for="input-gpa">평균 석차 등급</label>
+                        <input type="number" id="input-gpa" min="1.0" max="9.0" step="0.01" placeholder="예) 1.50" required>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1.8rem;">
+                        <label for="input-percentile">백분위 또는 석차 <span class="hint">(선택)</span></label>
+                        <input type="text" id="input-percentile" placeholder="예) 상위 4% 또는 12등/200명">
+                    </div>
+                    <button type="submit" id="save-grade-btn" class="btn-save" style="width: 100%; padding: 0.7rem;">
+                        성적 추가하기
+                    </button>
+                </form>
+            </article>
+
+            <article class="content-card">
+                <h3>학기별 성적 히스토리</h3>
+                <div id="grade-table-container" class="grade-table-wrapper" style="margin-top: 1rem;">
+                    <div class="empty-message">성적 데이터를 불러오는 중입니다...</div>
+                </div>
+            </article>
+        </div>
+    </main>
+</body>
+</html>

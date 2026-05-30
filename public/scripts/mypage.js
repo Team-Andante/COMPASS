@@ -10,7 +10,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { showToast, checkReservedToast } from "./toast.js";
 
-const TEXT_FIELDS = ["birthdate", "school", "region", "grade"];
+const TEXT_FIELDS = ["birthdate", "school", "region"];
 
 document.addEventListener("DOMContentLoaded", () => {
     checkReservedToast();
@@ -51,17 +51,25 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // renderProfileView 함수 내 성적 처리 추가
     function renderProfileView(data) {
         TEXT_FIELDS.forEach(field => {
             const el = document.getElementById(`view-${field}`);
             if (el) el.textContent = data[field] || "-";
         });
-        const interestEl = document.getElementById("view-interest");
-        if (interestEl) {
-            interestEl.textContent =
-                Array.isArray(data.interest) && data.interest.length
-                    ? data.interest.join(", ") : "-";
+        
+        // 누적 성적 요약 표시
+        const gradeEl = document.getElementById("view-grade");
+        if (gradeEl) {
+            if (Array.isArray(data.grades) && data.grades.length > 0) {
+                // 예: 가장 최근 학기 성적을 보여주거나 평균을 계산
+                const latest = data.grades[data.grades.length - 1];
+                gradeEl.textContent = `${latest.semester} - 평균 ${latest.gpa}등급`;
+            } else {
+                gradeEl.textContent = "입력된 성적이 없습니다.";
+            }
         }
+        // ... 관심분야 렌더링 코드 유지
     }
 
     // ── 3. 혜택 불러오기 ─────────────────────────────────────
