@@ -41,53 +41,115 @@
             </aside>
 
             <section class="mypage-content">
+
+                <!-- ── 프로필 카드 ── -->
                 <article id="profile" class="content-card">
-                    <h3>내 프로필 정보</h3>
-                    <div class="profile-info">
+                    <div class="card-header">
+                        <h3>내 프로필 정보</h3>
+                        <button id="edit-btn" class="btn-edit">수정하기</button>
+                    </div>
+
+                    <!-- 읽기 모드 -->
+                    <div id="profile-view" class="profile-info">
                         <div class="info-group">
                             <label>이메일</label>
-                            <p id="user-email">데이터를 불러오는 중...</p>
+                            <p id="view-email">불러오는 중…</p>
                         </div>
                         <div class="info-group">
-                            <label>최근 입력 성적</label>
-                            <p id="user-grade">-</p>
+                            <label>생년월일</label>
+                            <p id="view-birthdate">-</p>
+                        </div>
+                        <div class="info-group">
+                            <label>학교명</label>
+                            <p id="view-school">-</p>
+                        </div>
+                        <div class="info-group">
+                            <label>거주지</label>
+                            <p id="view-region">-</p>
+                        </div>
+                        <div class="info-group">
+                            <label>성적 (평점/석차 등)</label>
+                            <p id="view-grade">-</p>
                         </div>
                         <div class="info-group">
                             <label>관심 분야</label>
-                            <p id="user-interest">-</p>
+                            <p id="view-interest">-</p>
                         </div>
                     </div>
+
+                    <!-- 편집 모드 (기본 hidden) -->
+                    <form id="profile-form" class="profile-form hidden" novalidate>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="input-birthdate">생년월일</label>
+                                <input type="date" id="input-birthdate" name="birthdate" placeholder="YYYY-MM-DD">
+                            </div>
+                            <div class="form-group">
+                                <label for="input-school">학교명</label>
+                                <input type="text" id="input-school" name="school" placeholder="예) 한국대학교">
+                            </div>
+                            <div class="form-group">
+                                <label for="input-region">거주지</label>
+                                <select id="input-region" name="region">
+                                    <option value="">선택하세요</option>
+                                    <option>서울</option><option>부산</option><option>대구</option>
+                                    <option>인천</option><option>광주</option><option>대전</option>
+                                    <option>울산</option><option>세종</option><option>경기</option>
+                                    <option>강원</option><option>충북</option><option>충남</option>
+                                    <option>전북</option><option>전남</option><option>경북</option>
+                                    <option>경남</option><option>제주</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="input-grade">성적</label>
+                                <input type="text" id="input-grade" name="grade" placeholder="예) 4.0 / 4.5, 상위 10%">
+                            </div>
+                            <div class="form-group form-group--full">
+                                <label>관심 분야 <span class="hint">(복수 선택 가능)</span></label>
+                                <div class="interest-chips" id="interest-chips">
+                                    <button type="button" class="chip" data-value="IT/개발">IT/개발</button>
+                                    <button type="button" class="chip" data-value="디자인">디자인</button>
+                                    <button type="button" class="chip" data-value="경영/경제">경영/경제</button>
+                                    <button type="button" class="chip" data-value="마케팅">마케팅</button>
+                                    <button type="button" class="chip" data-value="교육">교육</button>
+                                    <button type="button" class="chip" data-value="의료/보건">의료/보건</button>
+                                    <button type="button" class="chip" data-value="예술/문화">예술/문화</button>
+                                    <button type="button" class="chip" data-value="사회/복지">사회/복지</button>
+                                    <button type="button" class="chip" data-value="이공계">이공계</button>
+                                    <button type="button" class="chip" data-value="법학">법학</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" id="save-btn" class="btn-save">저장하기</button>
+                            <button type="button" id="cancel-btn" class="btn-cancel">취소</button>
+                        </div>
+                    </form>
                 </article>
 
+                <!-- ── 혜택 카드 ── -->
                 <article id="benefits" class="content-card">
                     <h3>최근 확인한 맞춤 혜택</h3>
-                    <div class="benefit-list" id="benefit-list"> <div class="benefit-item">
+                    <div class="benefit-list" id="benefit-list">
+                        <div class="benefit-item">
                             <span>아직 저장된 혜택이 없습니다.</span>
                             <a href="./pack_rec.html" class="tag">추천받기</a>
                         </div>
                     </div>
                 </article>
+
             </section>
         </div>
     </main>
 
+    <!-- 로그아웃 확인 모달 (1개만) -->
     <div id="custom-confirm-modal" class="confirm-modal">
         <div class="confirm-content">
             <p>로그아웃 하시겠습니까?</p>
             <div class="confirm-buttons">
                 <button id="confirm-yes-btn" class="confirm-btn yes">확인</button>
                 <button id="confirm-no-btn" class="confirm-btn no">취소</button>
-            </div>
-        </div>
-    </div>
-
-    
-        <div id="custom-confirm-modal" class="confirm-modal">
-        <div class="confirm-content">
-            <p>로그아웃 하시겠습니까?</p>
-            <div class="confirm-buttons">
-                <button id="confirm-yes-btn" class="btn-yes">확인</button>
-                <button id="confirm-no-btn" class="btn-no">취소</button>
             </div>
         </div>
     </div>
