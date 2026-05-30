@@ -1,6 +1,7 @@
 import { onRequest } from "firebase-functions/v2/https";
 import { defineSecret } from "firebase-functions/params";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { Pinecone } from "@pinecone-database/pinecone"; // 이 줄이 있는지 확인
 import corsLib from 'cors';
 
 import { createRequire } from "module";
@@ -10,6 +11,7 @@ const pdf = require("pdf-parse");
 const cors = corsLib({ origin: true });
 
 const GEMINI_API_KEY = defineSecret("GEMINI_API_KEY");
+const PINECONE_API_KEY = defineSecret("PINECONE_API_KEY");
 
 export const analyzeNotice = onRequest({
   memory: "1GiB",
@@ -100,8 +102,62 @@ export const analyzeNotice = onRequest({
   });
 });
 
+export const sc_recommend = onRequest({
+  memory: "512MiB",
+  timeoutSeconds: 60,
+  secrets: [GEMINI_API_KEY, PINECONE_API_KEY],
+  region: "us-central1",
+}, (req, res) => {
+  cors(req, res, async () => {
+    try {
+      // 1. 데이터 파싱
+      const requestData = req.body.data || req.body;
+      const message = requestData.message;
+      if (!message) return res.status(400).json({ error: "질문이 없습니다." });
 
+      // 2. 초기화
+      const genAI = new GoogleGenerativeAI(GEMINI_API_KEY.value());
+      const pc = new Pinecone({ apiKey: PINECONE_API_KEY.value() });
+      const index = pc.index("scholarship-gem");
 
+      // 3. 임베딩 생성 (확인하신 모델명 적용)
+      // 주의: 'models/' 접두사를 포함하거나 제외하여 시도할 수 있습니다. 
+      // SDK에 따라 'gemini-embedding-001'만 적기도 합니다.
+      const embedModel = genAI.getGenerativeModel({ model: "gemini-embedding-001" });
+      const result = await embedModel.embedContent(message);
+      const vector = result.embedding.values;
+
+      // 4. Pinecone 조회
+      const queryResponse = await index.query({
+        vector: vector,
+        topK: 3,
+        includeMetadata: true,
+      });
+
+      // 5. 컨텍스트 구성
+      const context = queryResponse.matches && queryResponse.matches.length > 0
+        ? queryResponse.matches.map(m => `[장학금: ${m.metadata.title}] ${m.metadata.content}`).join("\n")
+        : "관련 정보를 찾지 못했습니다.";
+
+      // 6. Gemini 답변 생성
+      const chatModel = genAI.getGenerativeModel({ model: "gemini-3.5-flash" });
+      const prompt = `사용자 질문: ${message}\n\n데이터:\n${context}\n\n위 정보를 바탕으로 추천 답변을 작성해줘.`;
+      
+      const chatResult = await chatModel.generateContent(prompt);
+      const aiAnswer = chatResult.response.text();
+
+      // 7. 응답 (두 가지 형식 모두 대응)
+      return res.status(200).json({ 
+        data: { answer: aiAnswer },
+        answer: aiAnswer 
+      });
+
+    } catch (error) {
+      console.error("Final Error:", error);
+      return res.status(500).json({ error: error.message });
+    }
+  });
+});
 
 export const recommend = onRequest({
   secrets: [GEMINI_API_KEY],
