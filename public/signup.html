@@ -4,63 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입 - COMPASS</title>
-    <link rel="stylesheet" href="./style/style.css">
-    <link rel="stylesheet" href="./style/auth.css">
-    <style>
-        .input-wrapper {
-            position: relative;
-        }
-        .input-wrapper input {
-            width: 100%;
-            padding-right: 44px;
-        }
-        .toggle-pw {
-            position: absolute;
-            right: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            padding: 0;
-            line-height: 1;
-        }
-        .input-hint {
-            font-size: 0.78rem;
-            margin-top: 5px;
-            min-height: 16px;
-            transition: color 0.2s;
-        }
-        .pw-strength {
-            display: flex;
-            gap: 4px;
-            margin-top: 6px;
-        }
-        .pw-strength span {
-            flex: 1;
-            height: 4px;
-            border-radius: 4px;
-            background: #eee;
-            transition: background 0.3s;
-        }
-        .pw-strength.weak   span:nth-child(1)                     { background: #ef4444; }
-        .pw-strength.medium span:nth-child(1),
-        .pw-strength.medium span:nth-child(2)                     { background: #f59e0b; }
-        .pw-strength.strong span                                  { background: #22c55e; }
-        .btn-spinner {
-            display: none;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255,255,255,0.4);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-            vertical-align: middle;
-            margin-right: 6px;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-    </style>
+    <link rel="stylesheet" href="./css/base/theme.css">
+    <link rel="stylesheet" href="./css/components/navbar.css">
+    <link rel="stylesheet" href="./css/components/buttons.css">
+    <link rel="stylesheet" href="./css/pages/auth.css">
     <script type="module" src="./scripts/main.js" defer></script>
 </head>
 <body>

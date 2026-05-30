@@ -1,0 +1,17 @@
+.btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 24px;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    text-decoration: none;
+}
+.btn-primary { background: var(--primary-mint); color: white; }
+.btn-primary:hover { background: var(--primary-mint-dark); transform: translateY(-2px); }
+.btn-point { background: var(--point-coral); color: white; }
+.btn-point:hover { background: var(--point-coral-dark); transform: scale(1.03); }
+
+
