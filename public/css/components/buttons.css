@@ -27,7 +27,7 @@
     transition: border-color 0.2s, color 0.2s;
 }
 
-.confirm-modal {
+.logout-modal {
     position: fixed;
     top: -100px; /* 화면 위쪽에 숨겨둠 */
     left: 50%;
@@ -42,31 +42,31 @@
 }
 
 /* 알림창이 활성화되었을 때 상단에 표시될 위치 */
-.confirm-modal.show {
+.logout-modal.show {
     top: 20px;
 }
 
-.confirm-content {
+.logout-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 12px;
 }
 
-.confirm-content p {
+.logout-content p {
     margin: 0;
     font-size: 15px;
     font-weight: 500;
     color: #333;
 }
 
-.confirm-buttons {
+.logout-buttons {
     display: flex;
     gap: 8px;
 }
 
 /* 버튼 스타일 정의 */
-.confirm-buttons button {
+.logout-buttons button {
     padding: 6px 16px;
     border-radius: 6px;
     font-size: 13px;
@@ -76,17 +76,17 @@
     transition: background 0.2s;
 }
 
-.btn-yes {
+.logout-btn.yes {
     background-color: #ff4d4f;
     color: white;
 }
-.btn-yes:hover { background-color: #d9363e; }
+.logout-btn.yes:hover { background-color: #d9363e; }
 
-.btn-no {
+.logout-btn.no {
     background-color: #f0f0f0;
     color: #333;
 }
-.btn-no:hover { background-color: #d9d9d9; }
+.logout-btn.no:hover { background-color: #d9d9d9; }
 
 .back-btn {
     position: fixed;

@@ -11,26 +11,17 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background-color: var(--bg-light);
-    color: var(--text-dark);
-    line-height: 1.6;
-    min-height: 100vh;
-}
-
 /* ── 메인 레이아웃 ── */
 .container {
-    max-width: 1080px;
-    padding: 0px 40px 24px 80px;
+    width: 60%;
+    padding: 0px 0px 0px 0px;
 }
 
 /* ── 유저 상태 카드 ── */
 .user-status {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 24px;
-    margin-bottom: 40px;
+    gap: 15px;
 }
 
 .welcome-card {
@@ -79,7 +70,7 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 .section-title h2 {
     font-size: 1.25rem;
@@ -92,84 +83,13 @@ body {
     background: #e5e7eb;
 }
 
-/* ── 카드 그리드 ── */
-.card-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-}
-
-.card {
-    background: var(--white);
-    padding: 28px 30px;
-    border-radius: 20px;
-    box-shadow: var(--card-shadow);
-    border-left: 5px solid transparent;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    text-decoration: none;
-    color: inherit;
-}
-.card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.11);
-}
-.card.mint  { border-color: var(--primary-mint); }
-.card.coral { border-color: var(--point-coral); }
-.card.gray  { border-color: #94a3b8; }
-.card.purple { border-color: #a78bfa; }
-
-.card-icon { font-size: 2rem; }
-
-.card h3 {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--text-dark);
-}
-.card p {
-    font-size: 0.88rem;
-    color: var(--text-gray);
-    line-height: 1.6;
-    flex: 1;
-}
-.card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 4px;
-}
-.tag {
-    display: inline-block;
-    font-size: 0.72rem;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 20px;
-    background: #f1f5f9;
-    color: var(--text-gray);
-}
-.card-arrow {
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    background: var(--bg-light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.9rem;
-    transition: background 0.2s;
-}
-.card:hover .card-arrow { background: var(--primary-mint); color: white; }
-.card.coral:hover .card-arrow { background: var(--point-coral); }
-
 /* ── 하이라이트 배너 ── */
 .highlight-banner {
-    margin-top: 28px;
+    margin-top: 15px;
     background: linear-gradient(135deg, #fff7f4, #fff1f0);
     border: 1.5px solid rgba(255,127,80,0.2);
     border-radius: 20px;
-    padding: 24px 30px;
+    padding: 20px 30px;
     display: flex;
     align-items: center;
     gap: 20px;
