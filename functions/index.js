@@ -10,6 +10,7 @@ const pdf = require("pdf-parse");
 const cors = corsLib({ origin: true });
 
 const GEMINI_API_KEY = defineSecret("GEMINI_API_KEY");
+const PINECONE_API_KEY = defineSecret("PINECONE_API_KEY");
 
 export const analyzeNotice = onRequest({
   memory: "1GiB",
@@ -100,8 +101,78 @@ export const analyzeNotice = onRequest({
   });
 });
 
+export const sc_recommend = onRequest({
+  memory: "512MiB",
+  timeoutSeconds: 60,
+  secrets: [GEMINI_API_KEY, PINECONE_API_KEY], // 두 키 모두 사용
+  region: "us-central1",
+}, (req, res) => {
+  cors(req, res, async () => {
+    try {
+      if (req.method !== 'POST') return res.status(405).send({ data: { error: "Method Not Allowed" } });
 
+      // 클라이언트에서 보낸 데이터 확인 (Firebase SDK는 데이터를 data 필드에 담아 보냄)
+      const requestData = req.body.data || {};
+      const { message } = requestData;
 
+      if (!message) return res.status(400).send({ data: { error: "메시지를 입력해주세요." } });
+
+      const genAI = new GoogleGenerativeAI(GEMINI_API_KEY.value());
+      const pc = new Pinecone({ apiKey: PINECONE_API_KEY.value() });
+      const index = pc.index("scholarship-index"); // 생성하신 인덱스 이름
+
+      // [STEP 1] 사용자 질문 임베딩 (업로드 시 사용한 모델과 일치해야 함)
+      // gemini-embedding-001 사용 시 768차원
+      const embedModel = genAI.getGenerativeModel({ model: "models/gemini-embedding-001" });
+      const embeddingResult = await embedModel.embedContent(message);
+      const vector = embeddingResult.embedding.values;
+
+      // [STEP 2] Pinecone에서 유사한 장학금 5개 검색
+      const queryResponse = await index.query({
+        vector: vector,
+        topK: 5,
+        includeMetadata: true
+      });
+
+      // 검색된 결과가 없을 경우
+      if (!queryResponse.matches || queryResponse.matches.length === 0) {
+        return res.status(200).send({ data: { answer: "죄송합니다. 조건에 맞는 장학금을 찾지 못했습니다." } });
+      }
+
+      // [STEP 3] 검색된 데이터를 컨텍스트로 결합
+      const context = queryResponse.matches.map(m => 
+        `[${m.metadata.title}]\n기관: ${m.metadata.provider}\n내용: ${m.metadata.content}\n링크: ${m.metadata.url}`
+      ).join("\n\n---\n\n");
+
+      // [STEP 4] Gemini를 통한 최종 맞춤 답변 생성
+      const chatModel = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const prompt = `
+        너는 한국장학재단 및 지자체 장학금 상담 전문가야. 
+        아래 제공된 [장학금 데이터]를 바탕으로 [사용자 상황]에 가장 적합한 장학금을 2~3개 추천해줘.
+        
+        답변 가이드:
+        1. 사용자의 상황(거주지, 학년 등)과 장학금 조건을 대조하여 왜 추천하는지 친절하게 설명해.
+        2. 신청 가능한 홈페이지 링크가 있다면 반드시 포함해줘.
+        3. 만약 데이터에 정확히 일치하는 게 없다면, 가장 유사한 것을 제안하거나 필요한 추가 정보를 알려줘.
+
+        [사용자 상황]: ${message}
+        
+        [장학금 데이터]:
+        ${context}
+      `;
+
+      const result = await chatModel.generateContent(prompt);
+      const answer = result.response.text();
+
+      // 결과 반환 (Firebase SDK 형식을 위해 { data: { ... } } 구조 사용)
+      res.status(200).send({ data: { answer: answer } });
+
+    } catch (error) {
+      console.error("Recommend Error:", error);
+      res.status(500).send({ data: { error: error.message } });
+    }
+  });
+});
 
 export const recommend = onRequest({
   secrets: [GEMINI_API_KEY],
