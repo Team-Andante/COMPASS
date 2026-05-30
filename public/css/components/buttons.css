@@ -89,10 +89,11 @@
 .btn-no:hover { background-color: #d9d9d9; }
 
 .back-btn {
-    position: fixed; /* 스크롤해도 고정 */
-    left: 5rem;
-    width: 4rem;
-    height: 4rem;
+    position: absolute;
+    top: calc(76px + 3rem);
+    left: 10rem;
+    width: 5rem;
+    height: 5rem;
     border-radius: 50%;
     background-color: var(--white);
     border: 1px solid #e5e7eb;
