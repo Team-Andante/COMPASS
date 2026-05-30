@@ -8,16 +8,19 @@
     <link rel="stylesheet" href="./css/components/navbar.css">
     <link rel="stylesheet" href="./css/components/buttons.css">
     <link rel="stylesheet" href="./css/pages/mypage.css">
+    <link rel="stylesheet" href="./css/components/toasts.css">
     <script type="module" src="./scripts/mypage.js" defer></script>
+    <script type="module" src="./scripts/logout.js" defer></script>
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo" onclick="location.href='./index_reged.html'" style="cursor:pointer">
+        <div class="logo" onclick="location.href='/index.html'" style="cursor:pointer">
             <img src="./images/logo.png" alt="COMPASS 로고" class="logoimg">
             COM<span>PASS</span>
         </div>
         <div class="nav-links">
-            <a href="./index_reged.html">서비스 소개</a>
+            <a href="./login.html">서비스 소개</a>
+            <a href="./mypage.html">마이페이지</a>
             <button class="logout-btn">로그아웃</button>
         </div>
     </nav>
@@ -78,6 +81,15 @@
         </div>
     </div>
 
-    <script type="module" src="./scripts/mypage.js"></script>
+    
+        <div id="custom-confirm-modal" class="confirm-modal">
+        <div class="confirm-content">
+            <p>로그아웃 하시겠습니까?</p>
+            <div class="confirm-buttons">
+                <button id="confirm-yes-btn" class="btn-yes">확인</button>
+                <button id="confirm-no-btn" class="btn-no">취소</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

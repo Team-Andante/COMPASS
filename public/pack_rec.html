@@ -8,8 +8,10 @@
     <link rel="stylesheet" href="./css/components/navbar.css">
     <link rel="stylesheet" href="./css/components/buttons.css">
     <link rel="stylesheet" href="./css/components/cards.css">
+    <link rel="stylesheet" href="./css/components/toasts.css">
     <link rel="stylesheet" href="./css/pages/pack_rec.css">
     <script type="module" src="./scripts/pack_rec.js " defer></script>
+    <script type="module" src="./scripts/logout.js" defer></script>
 </head>
 
 <body>
@@ -19,65 +21,76 @@
             COM<span>PASS</span>
         </div>
         <div class="nav-links">
-            <a href="#">서비스 소개</a>
-            <a href="#">마이페이지</a>
+            <a href="./login.html">서비스 소개</a>
+            <a href="./mypage.html">마이페이지</a>
+            <button class="logout-btn">로그아웃</button>
         </div>
     </nav>
     
     <button type="button" class="back-btn" onclick="history.back();" aria-label="뒤로가기">←</button>
 
     <div class="container">
-    <h1>🎓 맞춤형 혜택 패키지 추천</h1>
+        <h1>🎓 맞춤형 혜택 패키지 추천</h1>
 
-    <form id="personaForm">
-        <div class="form-group">
-            <label for="grade">내 성적 등급</label>
-            <div class="slider-container">
-                <input type="range" id="grade" min="1" max="5" value="3.00" step="0.01">
-                <span id="gradeValue" class="grade-output">3.00등급</span>
+        <form id="personaForm">
+            <div class="form-group">
+                <label for="grade">내 성적 등급</label>
+                <div class="slider-container">
+                    <input type="range" id="grade" min="1" max="5" value="3.00" step="0.01">
+                    <span id="gradeValue" class="grade-output">3.00등급</span>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label>경제적 여건 소득 분위</label>
-            <div class="radio-group">
-                <label class="radio-label">
-                    <input type="radio" name="economy" value="기초생활수급자 또는 차상위계층" checked>
-                    기초생활수급자 / 차상위계층
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="economy" value="소득분위 1~3구간 (저소득층)">
-                    소득분위 1~3구간 (저소득층)
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="economy" value="소득분위 4~8구간 (중위소득)">
-                    소득분위 4~8구간 (중위소득)
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="economy" value="소득분위 9~10구간 (고소득층)">
-                    소득분위 9~10구간 (일반/고소득층)
-                </label>
+            <div class="form-group">
+                <label>경제적 여건 소득 분위</label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="economy" value="기초생활수급자 또는 차상위계층" checked>
+                        기초생활수급자 / 차상위계층
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="economy" value="소득분위 1~3구간 (저소득층)">
+                        소득분위 1~3구간 (저소득층)
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="economy" value="소득분위 4~8구간 (중위소득)">
+                        소득분위 4~8구간 (중위소득)
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="economy" value="소득분위 9~10구간 (고소득층)">
+                        소득분위 9~10구간 (일반/고소득층)
+                    </label>
+                </div>
             </div>
+
+            <div class="form-group">
+                <label for="interest">현재 가장 큰 관심사 또는 활동</label>
+                <input type="text" id="interest" placeholder="예: 해외 연수, IT 개발 공부, 창업, 기숙사 입소 등" required>
+            </div>
+
+            <div class="submit-container">
+                <button type="submit" id="submitBtn">맞춤 혜택 제안받기</button>
+            </div>
+        </form>
+
+        <div id="loading" class="loading">AI가 가장 적합한 혜택 패키지를 분석 중입니다...</div>
+
+        <div id="errorBox" class="error-box"></div>
+
+        <div id="resultContainer" class="result-container">
+            <h2 class="result-title">✨ AI 추천 맞춤 혜택 패키지 ✨</h2>
+            <div id="cardWrapper" class="card-wrapper"></div>
         </div>
-
-        <div class="form-group">
-            <label for="interest">현재 가장 큰 관심사 또는 활동</label>
-            <input type="text" id="interest" placeholder="예: 해외 연수, IT 개발 공부, 창업, 기숙사 입소 등" required>
-        </div>
-
-        <div class="submit-container">
-            <button type="submit" id="submitBtn">맞춤 혜택 제안받기</button>
-        </div>
-    </form>
-
-    <div id="loading" class="loading">AI가 가장 적합한 혜택 패키지를 분석 중입니다...</div>
-
-    <div id="errorBox" class="error-box"></div>
-
-    <div id="resultContainer" class="result-container">
-        <h2 class="result-title">✨ AI 추천 맞춤 혜택 패키지 ✨</h2>
-        <div id="cardWrapper" class="card-wrapper"></div>
     </div>
-</div>
+
+    <div id="custom-confirm-modal" class="confirm-modal">
+        <div class="confirm-content">
+            <p>로그아웃 하시겠습니까?</p>
+            <div class="confirm-buttons">
+                <button id="confirm-yes-btn" class="btn-yes">확인</button>
+                <button id="confirm-no-btn" class="btn-no">취소</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

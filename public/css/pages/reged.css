@@ -19,20 +19,6 @@ body {
     min-height: 100vh;
 }
 
-.logout-btn {
-    padding: 8px 20px;
-    border-radius: 20px;
-    border: 1.5px solid #e5e7eb;
-    background: none;
-    color: var(--text-gray);
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: 'Noto Sans KR', sans-serif;
-    transition: border-color 0.2s, color 0.2s;
-}
-.logout-btn:hover { border-color: var(--point-coral); color: var(--point-coral); }
-
 /* ── 메인 레이아웃 ── */
 .container {
     max-width: 1080px;
@@ -88,61 +74,6 @@ body {
 }
 .welcome-name em { color: var(--primary-mint); font-style: normal; }
 .welcome-sub { font-size: 0.9rem; color: rgba(255,255,255,0.6); }
-
-.progress-card {
-    background: var(--white);
-    border-radius: 24px;
-    padding: 36px 40px;
-    box-shadow: var(--card-shadow);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-.progress-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-}
-.progress-label { font-size: 0.85rem; font-weight: 600; color: var(--text-gray); }
-.badge {
-    background: linear-gradient(135deg, var(--primary-mint), #36b8b3);
-    color: white;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 5px 14px;
-    border-radius: 20px;
-}
-.progress-bar-bg {
-    background: #f1f5f9;
-    border-radius: 99px;
-    height: 10px;
-    overflow: hidden;
-    margin-bottom: 12px;
-}
-.progress-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary-mint), #36b8b3);
-    border-radius: 99px;
-    position: relative;
-    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.progress-bar-fill::after {
-    content: '';
-    position: absolute;
-    right: 0; top: 50%;
-    transform: translateY(-50%);
-    width: 16px; height: 16px;
-    background: white;
-    border: 3px solid var(--primary-mint);
-    border-radius: 50%;
-    box-shadow: 0 2px 8px rgba(72,209,204,0.4);
-}
-.reward-text {
-    font-size: 0.82rem;
-    color: var(--text-gray);
-}
-.reward-text strong { color: var(--primary-mint); }
 
 /* ── 섹션 타이틀 ── */
 .section-title {

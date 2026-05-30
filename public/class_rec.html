@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EBSi 강좌 추천 - COMPASS</title>
-    <link rel="stylesheet" href="./css/base/theme.css">
-    <link rel="stylesheet" href="./css/components/navbar.css">
-    <link rel="stylesheet" href="./css/components/buttons.css">
-    <link rel="stylesheet" href="./css/components/cards.css">
-    <link rel="stylesheet" href="./css/pages/class_rec.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>EBSi 강좌 추천 - COMPASS</title>
+        <link rel="stylesheet" href="./css/base/theme.css">
+        <link rel="stylesheet" href="./css/components/navbar.css">
+        <link rel="stylesheet" href="./css/components/buttons.css">
+        <link rel="stylesheet" href="./css/components/cards.css">
+        <link rel="stylesheet" href="./css/components/toasts.css">
+        <link rel="stylesheet" href="./css/pages/class_rec.css">
+        <script type="module" src="./scripts/class_rec.js" defer></script>
+    <script type="module" src="./scripts/logout.js" defer></script>
+    </head>
 <body>
     <nav class="navbar">
         <div class="logo" onclick="location.href='/index.html'" style="cursor:pointer">
@@ -17,8 +20,9 @@
             COM<span>PASS</span>
         </div>
         <div class="nav-links">
-            <a href="#">서비스 소개</a>
-            <a href="#">마이페이지</a>
+            <a href="./login.html">서비스 소개</a>
+            <a href="./mypage.html">마이페이지</a>
+            <button class="logout-btn">로그아웃</button>
         </div>
     </nav>
 
@@ -76,6 +80,14 @@
             </div>
     </div>
 
-    <script src="./scripts/class_rec.js"></script>
+        <div id="custom-confirm-modal" class="confirm-modal">
+        <div class="confirm-content">
+            <p>로그아웃 하시겠습니까?</p>
+            <div class="confirm-buttons">
+                <button id="confirm-yes-btn" class="btn-yes">확인</button>
+                <button id="confirm-no-btn" class="btn-no">취소</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
