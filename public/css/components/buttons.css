@@ -17,9 +17,14 @@
 .login-btn {
     padding: 8px 20px;
     border-radius: 20px;
-    border: 1px solid #ddd;
+    border: 1.5px solid #e5e7eb;
     background: none;
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    font-weight: 600;
     cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: border-color 0.2s, color 0.2s;
 }
 
 .confirm-modal {
@@ -107,7 +112,16 @@
     transform: scale(1.1);
 }
 
-/* 네비게이션 바 위치 조정 (버튼과 겹치지 않게 하려면 좌측 여백 고려) */
-.navbar {
-    margin-bottom: 3rem;
+.logout-btn {
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: 1.5px solid #e5e7eb;
+    background: none;
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: border-color 0.2s, color 0.2s;
 }
+.logout-btn:hover { border-color: var(--point-coral); color: var(--point-coral); }

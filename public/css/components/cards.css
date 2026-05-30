@@ -12,4 +12,33 @@
     border-color: var(--primary-mint);
 }
 
+.card-grid {
+    display: flex;          /* 가로 정렬 시작 */
+    gap: 20px;             /* 카드 사이의 간격 */
+    justify-content: center; /* 카드들을 가운데로 모음 */
+    flex-wrap: wrap;       /* 화면이 좁아지면 자동으로 줄바꿈 (모바일 대응) */
+    margin-top: 40px;      /* 제목과의 간격 */
+}
 
+/* 2. 개별 카드 요소 */
+.card {
+    flex: 1;               /* 카드들이 똑같은 너비를 나눠 가짐 */
+    min-width: 280px;      /* 카드가 너무 좁아지지 않도록 최소 너비 설정 */
+    max-width: 320px;      /* 카드가 너무 넓어지지 않도록 최대 너비 설정 */
+
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+    border-bottom: 5px solid transparent;
+}
+
+.card:hover { transform: translateY(-5px); }
+.card.mint { border-color: var(--primary-mint); }
+.card.coral { border-color: var(--point-coral); }
+.card.gray { border-color: #ccc; }
+
+.card-icon { font-size: 2.5rem; margin-bottom: 15px; }

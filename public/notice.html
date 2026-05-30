@@ -7,19 +7,22 @@
     <link rel="stylesheet" href="./css/base/theme.css">
     <link rel="stylesheet" href="./css/components/navbar.css">
     <link rel="stylesheet" href="./css/components/buttons.css">
+    <link rel="stylesheet" href="./css/components/toasts.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
     <script type="module" src="./scripts/notice.js " defer></script>
+    <script type="module" src="./scripts/logout.js" defer></script>
 </head>
 <body>
 <body>
     <nav class="navbar">
-        <div class="logo" onclick="location.href='/index.html'">
+        <div class="logo" onclick="location.href='/index.html'" style="cursor:pointer">
             <img src="./images/logo.png" alt="COMPASS 로고" class="logoimg">
             COM<span>PASS</span>
         </div>
         <div class="nav-links">
-            <a href="#">서비스 소개</a>
-            <a href="#">마이페이지</a>
+            <a href="./login.html">서비스 소개</a>
+            <a href="./mypage.html">마이페이지</a>
+            <button class="logout-btn">로그아웃</button>
         </div>
     </nav>
     
@@ -35,7 +38,16 @@
         <h3>✨ 요약 결과</h3>
         <div id="textContent"></div>
     </div>
-</div>
 
+    </div>
+        <div id="custom-confirm-modal" class="confirm-modal">
+            <div class="confirm-content">
+                <p>로그아웃 하시겠습니까?</p>
+                <div class="confirm-buttons">
+                    <button id="confirm-yes-btn" class="btn-yes">확인</button>
+                    <button id="confirm-no-btn" class="btn-no">취소</button>
+                </div>
+            </div>
+        </div>
 </body>
 </html>
