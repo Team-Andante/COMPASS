@@ -1,0 +1,29 @@
+:root {
+    /* Brand Colors */
+    --primary-mint: #48D1CC;
+    --primary-mint-dark: #3cb3af;
+    --primary-mint-soft: rgba(72, 209, 204, 0.1);
+    --point-coral: #FF7F50;
+    --point-coral-dark: #e86e40;
+    
+    /* Neutral Colors */
+    --bg-light: #F8F9FA;
+    --white: #ffffff;
+    --text-dark: #1a1a2e;
+    --text-gray: #6b7280;
+    --border-light: #eeeeee;
+    
+    /* Shapes & Shadows */
+    --radius-lg: 24px;   /* 큰 카드용 */
+    --radius-md: 12px;   /* 버튼 및 입력창용 */
+    --card-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Pretendard', -apple-system, sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
