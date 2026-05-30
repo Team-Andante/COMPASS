@@ -2,35 +2,52 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 50px;
+    padding: 18px 48px;
     background: var(--white);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
-
-.navbar .logoimg {
-    display: flex;
-    align-items: center; /* 이미지와 텍스트를 세로 중앙 정렬 */
-    gap: 8px;            /* 이미지와 글자 사이의 간격 조절 */
-    cursor: pointer;
-    height: 32px;        /* 내비게이션 바 높이에 맞춰 적절한 크기로 제한 (원하는 크기로 변경 가능) */
-    width: auto;         /* 비율 유지 */
-    object-fit: contain;
-}
-
 
 .logo {
+    display: flex;        /* 내부 요소(이미지, 텍스트)를 가로로 배치 */
+    align-items: center;  /* 이미지와 텍스트의 세로 중앙 정렬 */
+    padding-left: 0.5rem;            /* 이미지와 텍스트 사이의 간격 */
     font-size: 1.5rem;
     font-weight: 800;
     cursor: pointer;
 }
 
-.logo span { color: var(--primary-mint); }
+.navbar .logoimg {
+    height: 40px;         /* 텍스트 크기에 맞춰 적절히 조절 */
+    width: auto;
+    object-fit: contain;
+    display: block;       /* 기본 여백 제거 */
+}
+
+.logo span {
+    color: var(--primary-mint);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 
 .nav-links a {
     text-decoration: none;
-    color: var(--text-dark);
-    margin-right: 20px;
+    color: var(--text-gray);
+    font-size: 0.9rem;
     font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: background 0.2s, color 0.2s;
+}
+.nav-links a:hover {
+    background: var(--bg-light);
+    color: var(--text-dark);
 }
 
 @media (max-width: 768px) {

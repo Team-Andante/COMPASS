@@ -27,3 +27,15 @@ body {
     color: var(--text-dark);
     line-height: 1.6;
 }
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.card.mint  { border-color: var(--primary-mint); }
+.card.coral { border-color: var(--point-coral); }
+.card.gray  { border-color: #94a3b8; }
+.card.purple { border-color: #a78bfa; }
+
+.card-icon { font-size: 2rem; }
