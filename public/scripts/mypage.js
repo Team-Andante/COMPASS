@@ -15,7 +15,6 @@ const TEXT_FIELDS = ["birthdate", "school", "region"];
 document.addEventListener("DOMContentLoaded", () => {
     checkReservedToast();
 
-    const logoutBtn     = document.querySelector(".logout-btn");
     const editBtn       = document.getElementById("edit-btn");
     const cancelBtn     = document.getElementById("cancel-btn");
     const profileView   = document.getElementById("profile-view");
@@ -247,9 +246,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ── 6. 계정 삭제 ──────────────────────────────────────────
     const deleteAccountBtn    = document.getElementById("delete-account-btn");
-    const deleteModal         = document.getElementById("delete-confirm-modal");
-    const deleteConfirmYesBtn = document.getElementById("delete-confirm-yes-btn");
-    const deleteConfirmNoBtn  = document.getElementById("delete-confirm-no-btn");
+    const deleteModal         = document.getElementById("delete-modal");
+    const deleteConfirmYesBtn = document.getElementById("delete-btn-yes");
+    const deleteConfirmNoBtn  = document.getElementById("delete-btn-no");
     const deletePwInput       = document.getElementById("delete-pw-input");
 
     deleteAccountBtn?.addEventListener("click", () => {
@@ -304,18 +303,6 @@ document.addEventListener("DOMContentLoaded", () => {
             document.querySelectorAll(".sidebar-nav a").forEach(l => l.classList.remove("active"));
             link.classList.add("active");
         });
-    });
-
-    // ── 8. 로그아웃 모달 ─────────────────────────────────────
-    logoutBtn?.addEventListener("click", () => {
-        const modal = document.getElementById("custom-confirm-modal");
-        modal
-            ? modal.classList.add("show")
-            : confirm("로그아웃 하시겠습니까?") && executeLogout();
-    });
-    document.getElementById("confirm-yes-btn")?.addEventListener("click", executeLogout);
-    document.getElementById("confirm-no-btn")?.addEventListener("click", () => {
-        document.getElementById("custom-confirm-modal")?.classList.remove("show");
     });
 });
 

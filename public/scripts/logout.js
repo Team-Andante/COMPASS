@@ -7,9 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 1. 필요한 DOM 요소들 가져오기
     const logoutBtn = document.querySelector(".logout-btn");
-    const confirmModal = document.getElementById("custom-confirm-modal");
-    const confirmYesBtn = document.getElementById("confirm-yes-btn");
-    const confirmNoBtn = document.getElementById("confirm-no-btn");
+    const confirmModal = document.getElementById("logout-modal");
+    const confirmYesBtn = document.getElementById("logout-btn-yes");
+    const confirmNoBtn = document.getElementById("logout-btn-no");
 
     // 2. 로그아웃 버튼 클릭 시 모달 표시
     logoutBtn?.addEventListener("click", () => {

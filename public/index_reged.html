@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="./css/base/theme.css">
     <link rel="stylesheet" href="./css/components/navbar.css">
     <link rel="stylesheet" href="./css/components/buttons.css">
+    <link rel="stylesheet" href="./css/components/cards.css">
     <link rel="stylesheet" href="./css/components/toasts.css">
     <link rel="stylesheet" href="./css/pages/reged.css">
     <script type="module" src="./scripts/toast.js" defer></script>
@@ -25,7 +26,7 @@
             COM<span>PASS</span>
         </div>
         <div class="nav-links">
-            <a href="./login.html">서비스 소개</a>
+            <a href="./index.html">서비스 소개</a>
             <a href="./mypage.html">마이페이지</a>
             <button class="logout-btn">로그아웃</button>
         </div>
@@ -40,67 +41,53 @@
                 <p class="welcome-sub">오늘도 당신을 위한 맞춤형 복지 혜택이 도착했어요.</p>
             </div>
 
-            <!-- <div class="progress-card">
-                <div>
-                    <div class="progress-header">
-                        <span class="progress-label">AI 활동 완성도</span>
-                        <span class="badge">Lv.2 열공러</span>
-                    </div>
-                    <div class="progress-bar-bg">
-                        <div class="progress-bar-fill" style="width: 65%;"></div>
-                    </div>
-                </div>
-                <p class="reward-text">🎁 <strong>80%</strong> 달성 시 새로운 장학금 정보를 오픈해요!</p>
-            </div>
-        </div> -->
-
         <div class="section-title">
             <h2>AI 분석 기반 추천 서비스</h2>
             <div class="section-title-line"></div>
         </div>
 
-        <div class="card-grid">
-            <a class="card mint" href="https://notebooklm.google.com/notebook/dc8a10f3-fd74-4510-a0ac-a4082202dcd3/preview">
-                <div class="card-icon">📊</div>
+        <div class="reged-card-grid">
+            <a class="reged-card mint" href="https://notebooklm.google.com/notebook/dc8a10f3-fd74-4510-a0ac-a4082202dcd3/preview">
+                <div class="reged-card-icon">📊</div>
                 <h3>복지 서비스 확인</h3>
                 <p>거주지, 성적, 국가복지 조건을 AI가 분석하여 딱 맞는 혜택을 찾아드려요.</p>
-                <div class="card-footer">
+                <div class="reged-card-footer">
                     <span class="tag">공공데이터 API 연계</span>
-                    <div class="card-arrow">→</div>
+                    <div class="reged-card-arrow">→</div>
                 </div>
             </a>
 
-            <a class="card coral" href="https://notebooklm.google.com/notebook/2ec911a4-25bb-44fa-9ae7-73dcfee81bb5/preview">
-                <div class="card-icon">🎓</div>
+            <a class="reged-card coral" href="https://notebooklm.google.com/notebook/2ec911a4-25bb-44fa-9ae7-73dcfee81bb5/preview">
+                <div class="reged-card-icon">🎓</div>
                 <h3>장학금 한눈에 보기</h3>
                 <p>경제 여건과 지원 자격을 분석하여 내가 지금 바로 신청할 수 있는 장학금 정보를 모아드려요.</p>
-                <div class="card-footer">
+                <div class="reged-card-footer">
                     <span class="tag">실시간 데이터 연동</span>
-                    <div class="card-arrow">→</div>
+                    <div class="reged-card-arrow">→</div>
                 </div>
             </a>
 
-            <a class="card gray" href="./notice.html">
-                <div class="card-icon">📝</div>
+            <a class="reged-card gray" href="./notice.html">
+                <div class="reged-card-icon">📝</div>
                 <h3>스마트 공문 요약</h3>
                 <p>리로스쿨 등 복잡한 공문서를 한눈에 요약하고 제출 일정을 알려드려요.</p>
-                <div class="card-footer">
+                <div class="reged-card-footer">
                     <span class="tag">제출 알림</span>
-                    <div class="card-arrow">→</div>
+                    <div class="reged-card-arrow">→</div>
                 </div>
             </a>
 
-            <a class="card purple" href="./class_rec.html">
-                <div class="card-icon">🎥</div>
+            <a class="reged-card purple" href="./class_rec.html">
+                <div class="reged-card-icon">🎥</div>
                 <h3>EBS 인강 &amp; 방과후</h3>
                 <p>나에게 필요한 EBS 강의와 방과후 프로그램을 즉시 신청하세요.</p>
-                <div class="card-footer">
+                <div class="reged-card-footer">
                     <span class="tag">API 연계 완료</span>
-                    <div class="card-arrow">→</div>
+                    <div class="reged-card-arrow">→</div>
                 </div>
             </a>
         </div>
-
+        
         <div class="highlight-banner">
             <div class="highlight-icon">🔔</div>
             <div class="highlight-text">
@@ -114,18 +101,14 @@
 
     <div id="toast-container" class="toast-container"></div>
 
-    <div id="custom-confirm-modal" class="confirm-modal">
-        <div class="confirm-content">
+    <div id="logout-modal" class="logout-modal">
+        <div class="logout-content">
             <p>로그아웃 하시겠습니까?</p>
-            <div class="confirm-buttons">
-                <button id="confirm-yes-btn" class="btn-yes">확인</button>
-                <button id="confirm-no-btn" class="btn-no">취소</button>
+            <div class="logout-buttons">
+                <button id="logout-btn-yes" class="logout-btn yes">확인</button>
+                <button id="logout-btn-no" class="logout-btn no">취소</button>
             </div>
         </div>
     </div>
-    
-    <footer>
-        <p>&copy; 2024 EduWelfare. All rights reserved.</p>
-    </footer>
 </body>
 </html>

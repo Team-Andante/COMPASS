@@ -13,7 +13,7 @@
     <script type="module" src="./scripts/logout.js" defer></script>
 </head><body>
     <nav class="navbar">
-        <div class="logo" onclick="location.href='/index.html'" style="cursor:pointer">
+        <div class="logo" onclick="location.href='/index_reged.html'" style="cursor:pointer">
             <img src="./images/logo.png" alt="COMPASS 로고" class="logoimg">
             COM<span>PASS</span>
         </div>
@@ -193,7 +193,7 @@
                                 <span class="settings-label settings-label--danger">계정 삭제</span>
                                 <span class="settings-desc">계정을 삭제하면 모든 데이터가 영구적으로 제거됩니다.</span>
                             </div>
-                            <button id="delete-account-btn" class="btn-danger">계정 삭제</button>
+                            <button id="delete-account-btn" class="btn-delete">계정 삭제</button>
                         </div>
                     </div>
                 </article>
@@ -203,25 +203,25 @@
     </main>
 
     <!-- 로그아웃 확인 모달 -->
-    <div id="custom-confirm-modal" class="confirm-modal">
-        <div class="confirm-content">
+    <div id="logout-modal" class="logout-modal">
+        <div class="logout-content">
             <p>로그아웃 하시겠습니까?</p>
-            <div class="confirm-buttons">
-                <button id="confirm-yes-btn" class="confirm-btn yes">확인</button>
-                <button id="confirm-no-btn" class="confirm-btn no">취소</button>
+            <div class="logout-buttons">
+                <button id="logout-btn-yes" class="logout-btn yes">확인</button>
+                <button id="logout-btn-no" class="logout-btn no">취소</button>
             </div>
         </div>
     </div>
 
     <!-- 계정 삭제 확인 모달 -->
-    <div id="delete-confirm-modal" class="confirm-modal">
-        <div class="confirm-content confirm-content--danger">
+    <div id="delete-modal" class="delete-modal">
+        <div class="delete-content">
             <p class="modal-title">정말 계정을 삭제하시겠습니까?</p>
             <p class="modal-desc">삭제된 계정과 데이터는 복구할 수 없습니다.<br>확인을 위해 현재 비밀번호를 입력해주세요.</p>
             <input type="password" id="delete-pw-input" class="modal-pw-input" placeholder="현재 비밀번호">
-            <div class="confirm-buttons">
-                <button id="delete-confirm-yes-btn" class="confirm-btn danger">삭제하기</button>
-                <button id="delete-confirm-no-btn" class="confirm-btn no">취소</button>
+            <div class="delete-buttons">
+                <button id="delete-btn-yes" class="delete-btn yes">삭제하기</button>
+                <button id="delete-btn-no" class="delete-btn no">취소</button>
             </div>
         </div>
     </div>
