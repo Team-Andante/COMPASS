@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="./css/components/navbar.css">
     <link rel="stylesheet" href="./css/components/buttons.css">
     <link rel="stylesheet" href="./css/components/toasts.css">
+    <link rel="stylesheet" href="./css/pages/notice.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
     <script type="module" src="./scripts/notice.js " defer></script>
     <script type="module" src="./scripts/logout.js" defer></script>
 </head>
-<body>
 <body>
     <nav class="navbar">
         <div class="logo" onclick="location.href='/index.html'" style="cursor:pointer">
@@ -25,29 +25,33 @@
             <button class="logout-btn">로그아웃</button>
         </div>
     </nav>
-    
+
     <button type="button" class="back-btn" onclick="history.back();" aria-label="뒤로가기">←</button>
-<div class="container">
-    <h2>📄 AI 공지사항 요약기</h2>
-    <div class="upload-section">
-        <input type="file" id="pdfFile" accept=".pdf,.jpg,.jpeg,.png,.webp">
-    </div>
-    <button id="btnProcess" onclick="startSummary()">분석 및 요약 시작</button>
-    <div id="loader" class="loading">⏳ AI가 파일을 분석하고 있습니다... (약 30초 소요)</div>
-    <div id="result-box">
-        <h3>✨ 요약 결과</h3>
-        <div id="textContent"></div>
+    
+    <div class="container">
+        <h2>📄 AI 공지사항 요약기</h2>
+        <div class="upload-section">
+            <input type="file" id="pdfFile" accept=".pdf,.jpg,.jpeg,.png,.webp">
+        </div>
+        <button id="btnProcess" onclick="startSummary()">분석 및 요약 시작</button>
+        <div id="loader" class="loading">⏳ AI가 파일을 분석하고 있습니다... (약 30초 소요)</div>
+        <div id="result-box">
+            <h3>✨ 요약 결과</h3>
+            <div id="textContent"></div>
+        </div>
     </div>
 
-    </div>
-        <div id="custom-confirm-modal" class="confirm-modal">
-            <div class="confirm-content">
-                <p>로그아웃 하시겠습니까?</p>
-                <div class="confirm-buttons">
-                    <button id="confirm-yes-btn" class="btn-yes">확인</button>
-                    <button id="confirm-no-btn" class="btn-no">취소</button>
-                </div>
+    <div id="custom-confirm-modal" class="confirm-modal">
+        <div class="confirm-content">
+            <p>로그아웃 하시겠습니까?</p>
+            <div class="confirm-buttons">
+                <button id="confirm-yes-btn" class="btn-yes">확인</button>
+                <button id="confirm-no-btn" class="btn-no">취소</button>
             </div>
         </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 EduWelfare. All rights reserved.</p>
+    </footer>
 </body>
 </html>

@@ -22,8 +22,7 @@ body {
 /* ── 메인 레이아웃 ── */
 .container {
     max-width: 1080px;
-    margin: 0 auto;
-    padding: 40px 24px 80px;
+    padding: 0px 40px 24px 80px;
 }
 
 /* ── 유저 상태 카드 ── */
