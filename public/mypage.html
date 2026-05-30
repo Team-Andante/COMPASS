@@ -77,12 +77,12 @@
                         </div>
                     </div>
 
-                    <!-- 편집 모드 (기본 hidden) -->
+                    <!-- 편집 모드 -->
                     <form id="profile-form" class="profile-form hidden" novalidate>
                         <div class="form-grid">
                             <div class="form-group">
                                 <label for="input-birthdate">생년월일</label>
-                                <input type="date" id="input-birthdate" name="birthdate" placeholder="YYYY-MM-DD">
+                                <input type="date" id="input-birthdate" name="birthdate">
                             </div>
                             <div class="form-group">
                                 <label for="input-school">학교명</label>
@@ -120,7 +120,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="form-actions">
                             <button type="submit" id="save-btn" class="btn-save">저장하기</button>
                             <button type="button" id="cancel-btn" class="btn-cancel">취소</button>
@@ -139,17 +138,80 @@
                     </div>
                 </article>
 
+                <!-- ── 계정 설정 카드 ── -->
+                <article id="settings" class="content-card">
+                    <h3>계정 설정</h3>
+
+                    <!-- 비밀번호 변경 -->
+                    <div class="settings-section">
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <span class="settings-label">비밀번호 변경</span>
+                                <span class="settings-desc">현재 비밀번호 확인 후 새 비밀번호로 변경합니다.</span>
+                            </div>
+                            <button id="pw-toggle-btn" class="btn-edit">변경하기</button>
+                        </div>
+
+                        <form id="pw-form" class="pw-form hidden" novalidate>
+                            <div class="form-grid">
+                                <div class="form-group form-group--full">
+                                    <label for="input-current-pw">현재 비밀번호</label>
+                                    <input type="password" id="input-current-pw" placeholder="현재 비밀번호 입력" autocomplete="current-password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-new-pw">새 비밀번호</label>
+                                    <input type="password" id="input-new-pw" placeholder="8자 이상 입력" autocomplete="new-password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-new-pw-confirm">새 비밀번호 확인</label>
+                                    <input type="password" id="input-new-pw-confirm" placeholder="새 비밀번호 재입력" autocomplete="new-password">
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" id="pw-save-btn" class="btn-save">변경 완료</button>
+                                <button type="button" id="pw-cancel-btn" class="btn-cancel">취소</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="settings-divider"></div>
+
+                    <!-- 계정 삭제 -->
+                    <div class="settings-section">
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <span class="settings-label settings-label--danger">계정 삭제</span>
+                                <span class="settings-desc">계정을 삭제하면 모든 데이터가 영구적으로 제거됩니다.</span>
+                            </div>
+                            <button id="delete-account-btn" class="btn-danger">계정 삭제</button>
+                        </div>
+                    </div>
+                </article>
+
             </section>
         </div>
     </main>
 
-    <!-- 로그아웃 확인 모달 (1개만) -->
+    <!-- 로그아웃 확인 모달 -->
     <div id="custom-confirm-modal" class="confirm-modal">
         <div class="confirm-content">
             <p>로그아웃 하시겠습니까?</p>
             <div class="confirm-buttons">
                 <button id="confirm-yes-btn" class="confirm-btn yes">확인</button>
                 <button id="confirm-no-btn" class="confirm-btn no">취소</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 계정 삭제 확인 모달 -->
+    <div id="delete-confirm-modal" class="confirm-modal">
+        <div class="confirm-content confirm-content--danger">
+            <p class="modal-title">정말 계정을 삭제하시겠습니까?</p>
+            <p class="modal-desc">삭제된 계정과 데이터는 복구할 수 없습니다.<br>확인을 위해 현재 비밀번호를 입력해주세요.</p>
+            <input type="password" id="delete-pw-input" class="modal-pw-input" placeholder="현재 비밀번호">
+            <div class="confirm-buttons">
+                <button id="delete-confirm-yes-btn" class="confirm-btn danger">삭제하기</button>
+                <button id="delete-confirm-no-btn" class="confirm-btn no">취소</button>
             </div>
         </div>
     </div>
