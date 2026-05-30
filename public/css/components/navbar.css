@@ -9,7 +9,47 @@
     top: 0;
     z-index: 100;
 }
-.logo { font-size: 1.5rem; font-weight: 800; cursor: pointer; }
-.logo span { color: var(--primary-mint); }
 
+.logo {
+    display: flex;        /* 내부 요소(이미지, 텍스트)를 가로로 배치 */
+    align-items: center;  /* 이미지와 텍스트의 세로 중앙 정렬 */
+    padding-left: 0.5rem;            /* 이미지와 텍스트 사이의 간격 */
+    font-size: 1.5rem;
+    font-weight: 800;
+    cursor: pointer;
+}
 
+.navbar .logoimg {
+    height: 40px;         /* 텍스트 크기에 맞춰 적절히 조절 */
+    width: auto;
+    object-fit: contain;
+    display: block;       /* 기본 여백 제거 */
+}
+
+.logo span {
+    color: var(--primary-mint);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: background 0.2s, color 0.2s;
+}
+.nav-links a:hover {
+    background: var(--bg-light);
+    color: var(--text-dark);
+}
+
+@media (max-width: 768px) {
+    .navbar { padding: 15px 20px; }
+}

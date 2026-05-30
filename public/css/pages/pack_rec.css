@@ -1,8 +1,3 @@
-/* 기본 레이아웃 */
-body {
-    margin: 0;
-}
-
 .container {
     max-width: 1000px;
     width: 100%;
@@ -37,7 +32,7 @@ label {
 .slider-container {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 0px;
 }
 
 input[type="range"] {

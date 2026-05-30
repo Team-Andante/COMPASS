@@ -3,19 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 공지사항 요약 시스템</title>
-    <link rel="stylesheet" href="style/style.css">
+    <title>AI 가정통신문 요약 - COMPASS</title>
+    <link rel="stylesheet" href="./css/base/theme.css">
+    <link rel="stylesheet" href="./css/components/navbar.css">
+    <link rel="stylesheet" href="./css/components/buttons.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
-    <style>
-        body { font-family: 'Pretendard', sans-serif};
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .upload-section { margin: 20px 0; padding: 30px; border: 2px dashed #007bff; text-align: center; border-radius: 8px; background: #f0f7ff; }
-        #btnProcess { background: #007bff; color: white; border: none; padding: 15px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; }
-        #btnProcess:disabled { background: #ccc; }
-        #result-box { margin-top: 30px; display: none; }
-        #textContent { background: #fff; padding: 20px; border: 1px solid #ddd; border-radius: 8px; line-height: 1.8; }
-        .loading { display: none; text-align: center; color: #007bff; font-weight: bold; margin: 15px 0; }
-    </style>
+    <script type="module" src="./scripts/notice.js " defer></script>
 </head>
 <body>
 <body>
@@ -44,79 +37,5 @@
     </div>
 </div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-
-    // ⚠️ Firebase Console에서 복사한 실제 값으로 유지하세요
-    const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "compass-85721.firebaseapp.com",
-        projectId: "compass-85721",
-        storageBucket: "compass-85721.appspot.com",
-        appId: "YOUR_APP_ID"
-    };
-
-    initializeApp(firebaseConfig);
-
-    async function startSummary() {
-        const fileInput = document.getElementById('pdfFile');
-        const btn = document.getElementById('btnProcess');
-        const loader = document.getElementById('loader');
-        const resultBox = document.getElementById('result-box');
-        const textContent = document.getElementById('textContent');
-
-        if (!fileInput.files[0]) return alert("파일을 선택해주세요.");
-
-        btn.disabled = true;
-        loader.style.display = 'block';
-        resultBox.style.display = 'none';
-
-        const file = fileInput.files[0];
-        const reader = new FileReader();
-
-        reader.onload = async (e) => {
-            try {
-                const base64File = e.target.result.split(',')[1];
-
-                // ✅ 이미지에서 확인된 실제 Cloud Run 트리거 URL 적용
-                const response = await fetch("https://analyzenotice-3t5atoefua-uc.a.run.app", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        data: { // 백엔드 index.js의 request.data 구조와 맞춤
-                            fileBuffer: base64File,
-                            fileName: file.name,
-                            fileMime: file.type
-                        }
-                    })
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.data?.error || "서버 응답 에러");
-                }
-
-                const result = await response.json();
-
-                if (result.data && result.data.success) {
-                    textContent.innerHTML = marked.parse(result.data.summary);
-                    resultBox.style.display = 'block';
-                }
-            } catch (error) {
-                console.error("에러 발생:", error);
-                alert("분석 실패: " + error.message);
-            } finally {
-                btn.disabled = false;
-                loader.style.display = 'none';
-            }
-        };
-        reader.readAsDataURL(file);
-    }
-    
-    // 버튼 클릭 이벤트 연결
-    window.startSummary = startSummary;
-</script>
 </body>
 </html>

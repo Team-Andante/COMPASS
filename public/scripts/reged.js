@@ -7,6 +7,35 @@ import { showToast, checkReservedToast } from "./toast.js";
 document.addEventListener("DOMContentLoaded", () => {
     checkReservedToast();
 
+    // 1. 필요한 DOM 요소들 가져오기
+    const logoutBtn = document.querySelector(".logout-btn");
+    const confirmModal = document.getElementById("custom-confirm-modal");
+    const confirmYesBtn = document.getElementById("confirm-yes-btn");
+    const confirmNoBtn = document.getElementById("confirm-no-btn");
+
+    // 2. 로그아웃 버튼 클릭 시 모달 표시
+    logoutBtn?.addEventListener("click", () => {
+        confirmModal?.classList.add("show"); // style.css에 정의된 show 클래스 추가
+    });
+
+    // 3. 모달에서 '취소' 클릭 시 모달 닫기
+    confirmNoBtn?.addEventListener("click", () => {
+        confirmModal?.classList.remove("show");
+    });
+
+    // 4. 모달에서 '확인' 클릭 시 실제 로그아웃 수행
+    confirmYesBtn?.addEventListener("click", async () => {
+        try {
+            sessionStorage.setItem("isLogouting", "true"); //
+            await signOut(auth); //
+            sessionStorage.clear(); //
+            window.location.replace("/index.html"); //
+        } catch (error) {
+            console.error("로그아웃 에러:", error);
+            confirmModal?.classList.remove("show");
+        }
+    });
+
     // Firebase 인증 상태 관찰
     onAuthStateChanged(auth, async (user) => {
         const nameEl = document.querySelector(".welcome-name em");
@@ -26,16 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!sessionStorage.getItem("isLogouting")) {
                 window.location.replace("/login.html");
             }
-        }
-    });
-
-    // 로그아웃 버튼 연결
-    document.querySelector(".logout-btn")?.addEventListener("click", async () => {
-        if (confirm("로그아웃 하시겠습니까?")) {
-            sessionStorage.setItem("isLogouting", "true");
-            await signOut(auth);
-            sessionStorage.clear();
-            window.location.replace("/index.html");
         }
     });
 });
