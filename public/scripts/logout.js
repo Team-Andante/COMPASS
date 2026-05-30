@@ -1,5 +1,3 @@
-console.log("%c🚀 새 버전의 reged.js가 로드되었습니다! (v1.0.1)", "color: yellow; background: black; font-size: 20px;");
-
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { auth } from "./firebase/firebase.js";
 import { showToast, checkReservedToast } from "./toast.js";
