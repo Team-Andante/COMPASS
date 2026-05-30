@@ -145,7 +145,6 @@ body {
     gap: 10px;
 }
 
-/* 토스트 개별 스타일 */
 .toast {
     min-width: 280px;
     padding: 16px 24px;
