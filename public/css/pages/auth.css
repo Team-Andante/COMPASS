@@ -15,6 +15,8 @@
     text-align: center;
 }
 
+.auth-card p {font-size: 1rem; margin: 0.5rem;}
+
 .auth-header h2 { font-size: 1.8rem; margin-bottom: 8px; }
 
 .input-group { margin-bottom: 20px; text-align: left; }

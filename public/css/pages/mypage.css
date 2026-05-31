@@ -17,12 +17,12 @@
     font-size: 1.6rem;
     font-weight: 700;
     margin: 0 0 0.5rem;
-    color: var(--text-primary, #111);
+    color: var(--text-primary-mint, #111);
 }
 .section-title-line {
     width: 40px;
     height: 3px;
-    background: var(--primary, #4f7cff);
+    background: var(--primary-mint, #4f7cff);
     border-radius: 2px;
 }
 
@@ -61,12 +61,12 @@
 }
 .sidebar-nav a:hover {
     background: var(--bg-hover, #f5f7ff);
-    color: var(--primary, #4f7cff);
+    color: var(--primary-mint, #4f7cff);
 }
 .sidebar-nav a.active {
-    color: var(--primary, #4f7cff);
+    color: var(--primary-mint, #4f7cff);
     background: var(--bg-hover, #f0f4ff);
-    border-left-color: var(--primary, #4f7cff);
+    border-left-color: var(--primary-mint, #4f7cff);
     font-weight: 600;
 }
 
@@ -88,7 +88,7 @@
 .content-card > h3 {
     font-size: 1.05rem;
     font-weight: 700;
-    color: var(--text-primary, #111);
+    color: var(--text-primary-mint, #111);
     margin: 0 0 1.5rem;
 }
 
@@ -102,7 +102,7 @@
 .card-header h3 {
     font-size: 1.05rem;
     font-weight: 700;
-    color: var(--text-primary, #111);
+    color: var(--text-primary-mint, #111);
     margin: 0;
 }
 
@@ -133,7 +133,7 @@
 .info-group p {
     margin: 0;
     font-size: 0.95rem;
-    color: var(--text-primary, #222);
+    color: var(--text-primary-mint, #222);
     font-weight: 500;
 }
 
@@ -149,9 +149,9 @@
 .btn-edit {
     padding: 0.5rem 1rem;
     font-size: 0.82rem;
-    border: 1.5px solid var(--primary, #4f7cff);
+    border: 1.5px solid var(--primary-mint, #4f7cff);
     background: transparent;
-    color: var(--primary, #4f7cff);
+    color: var(--primary-mint, #4f7cff);
     border-radius: 6px;
     cursor: pointer;
     white-space: nowrap;
@@ -160,7 +160,7 @@
 }
 
 .btn-edit:hover {
-    background: var(--primary, #4f7cff);
+    background: var(--primary-mint, #4f7cff);
     color: #fff;
 }
 .btn-edit.hidden { display: none; }
@@ -201,13 +201,13 @@
     border-radius: 8px;
     font-size: 0.93rem;
     background: var(--input-bg, #fafafa);
-    color: var(--text-primary, #222);
+    color: var(--text-primary-mint, #222);
     transition: border-color 0.18s, box-shadow 0.18s;
     outline: none;
 }
 .form-group input:focus,
 .form-group select:focus {
-    border-color: var(--primary, #4f7cff);
+    border-color: var(--primary-mint, #4f7cff);
     box-shadow: 0 0 0 3px rgba(79, 124, 255, 0.12);
     background: #fff;
 }
@@ -230,12 +230,12 @@
     transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 .chip:hover {
-    border-color: var(--primary, #4f7cff);
-    color: var(--primary, #4f7cff);
+    border-color: var(--primary-mint, #4f7cff);
+    color: var(--primary-mint, #4f7cff);
 }
 .chip.active {
-    background: var(--primary, #4f7cff);
-    border-color: var(--primary, #4f7cff);
+    background: var(--primary-mint, #4f7cff);
+    border-color: var(--primary-mint, #4f7cff);
     color: #fff;
 }
 
@@ -248,7 +248,7 @@
 }
 .btn-save {
     padding: 0.55rem 1.6rem;
-    background: var(--primary, #4f7cff);
+    background: var(--primary-mint, #4f7cff);
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -286,12 +286,12 @@
     background: var(--bg-subtle, #f8f9fb);
     border-radius: 8px;
     font-size: 0.92rem;
-    color: var(--text-primary, #333);
+    color: var(--text-primary-mint, #333);
     gap: 1rem;
 }
 .benefit-item .tag {
     padding: 0.28rem 0.8rem;
-    background: var(--primary, #4f7cff);
+    background: var(--primary-mint, #4f7cff);
     color: #fff;
     border-radius: 999px;
     font-size: 0.78rem;
@@ -320,7 +320,7 @@
 .settings-label {
     font-size: 0.95rem;
     font-weight: 600;
-    color: var(--text-primary, #222);
+    color: var(--text-primary-mint, #222);
 }
 .settings-label--danger { color: #d93025; }
 .settings-desc {
@@ -383,14 +383,14 @@
 .delete-content p {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--text-primary, #222);
+    color: var(--text-primary-mint, #222);
     margin: 0 0 1.4rem;
 }
 
 .delete-content .modal-title {
     font-size: 2rem;
     font-weight: 700;
-    color: var(--text-primary, #222);
+    color: var(--text-primary-mint, #222);
     margin: 0 0 0.5rem;
 }
 .delete-conten .modal-desc {
@@ -460,7 +460,7 @@
     }
     .sidebar-nav a.active {
         border-left-color: transparent;
-        border-bottom-color: var(--primary, #4f7cff);
+        border-bottom-color: var(--primary-mint, #4f7cff);
     }
     .profile-info {
         grid-template-columns: 1fr;

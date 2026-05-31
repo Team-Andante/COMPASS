@@ -1,5 +1,5 @@
 import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { auth } from "./firebase/firebase.js"; // [점검] 이 경로에 파일이 실제로 있는지 확인하세요.
+import { auth } from "./firebase/firebase.js";
 import { showToast, reserveToast } from "./toast.js";
 
 const onLogin = async (e) => {
