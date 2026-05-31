@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
 :root {
     /* Brand Colors */
     --primary-mint: #48D1CC;
     --primary-mint-dark: #3cb3af;
+    --primary-mint-light: #79e3df;
     --primary-mint-soft: rgba(72, 209, 204, 0.1);
     --point-coral: #FF7F50;
     --point-coral-dark: #e86e40;
@@ -60,4 +63,23 @@ footer {
     max-width: 1700px;
     margin: 0 auto;
     padding: 20px;
+    width: 80%;
+}
+
+.section-title {
+    margin: 0 0 1.5rem;
+}
+
+.section-title h2 {
+    font-family: 'Pretendard';
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+.section-title-line {
+    width: 40px;
+    height: 3px;
+    background: var(--primary-mint);
+    border-radius: 2px;
 }

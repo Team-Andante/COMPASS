@@ -24,19 +24,33 @@
             <button class="logout-btn">로그아웃</button>
         </div>
     </nav>
-
-    <button type="button" class="back-btn" onclick="history.back();" aria-label="뒤로가기">←</button>
     
     <div class="container">
-        <h2>📄 AI 공지사항 요약기</h2>
-        <div class="upload-section">
-            <input type="file" id="pdfFile" accept=".pdf,.jpg,.jpeg,.png,.webp">
+        <button type="button" class="back-btn" onclick="history.back();" aria-label="뒤로가기">← 이전 페이지로 돌아가기</button> 
+        <div class="section-title">
+            <h2>요약할 문서 업로드</h2>
+            <div class="section-title-line"></div>
         </div>
-        <button id="btnProcess" onclick="startSummary()">분석 및 요약 시작</button>
-        <div id="loader" class="loading">⏳ AI가 파일을 분석하고 있습니다... (약 30초 소요)</div>
+        <div class="upload-box">
+            <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 8px;">AI 스마트 문서 요약</h3>
+            <p style="color: var(--text-gray); font-size: 0.9rem; margin-bottom: 20px;">업로드한 문서를 요약하여, 자동으로 요약하고 상세 일정과 신청 및 참여 방법, 관련 링크들을 정리하여 보여줍니다.</p>
+            <div class="upload-section">
+                <input type="file" id="pdfFile" accept=".pdf,.jpg,.jpeg,.png,.webp">
+            </div>
+            <button id="btnProcess" onclick="startSummary()">분석 및 요약 시작</button>
+            <div class="loading-spinner-wrapper" id="loader">
+                <div class="spinner"></div>
+                <span>Gemini 엔진이 파일을 분석하고 있습니다... (약 30초 소요)</span>
+            </div>
+        </div>
         <div id="result-box">
-            <h3>✨ 요약 결과</h3>
-            <div id="textContent"></div>
+            <div class="section-title">
+                <h2>문서 요약 결과</h2>
+                <div class="section-title-line"></div>
+            </div>
+            <div class="upload-box">
+                <div id="textContent"></div>
+            </div>
         </div>
     </div>
 

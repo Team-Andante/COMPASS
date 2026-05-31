@@ -1,21 +1,25 @@
-body {
-    margin-bottom: 5rem;
-}
-
-.container {
-    width: 60%;
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-}
-
 h1 {
     font-size: 24px;
     color: #333;
     margin-bottom: 25px;
     text-align: center;
 }
+
+.upload-box {
+    background: var(--white);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 2rem 3rem 2rem 3rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin-bottom: 2.5rem;
+}
+
+.upload-box:hover {
+    box-shadow: var(--card-shadow);
+    border-color: var(--primary-mint);
+}
+
 
 /* 폼 요소 */
 .form-group {
@@ -45,7 +49,7 @@ input[type="range"] {
 
 .grade-output {
     font-weight: bold;
-    color: #007bff;
+    color: var(--primary-mint);
     width: 70px;
 }
 
@@ -79,34 +83,29 @@ input[type="text"] {
     margin: 0 auto;
 }
 
-#submitBtn {
-    width: 100%;
-    padding: 12px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-#submitBtn:hover {
-    background-color: #0056b3;
-}
-
-#submitBtn:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-.loading {
-    text-align: center;
+.loading-spinner-wrapper {
     display: none;
-    color: #666;
-    font-style: italic;
-    margin-top: 15px;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px 0;
+    color: var(--text-gray);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(72, 209, 204, 0.2);
+    border-top: 3px solid var(--primary-mint);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .error-box {
@@ -131,17 +130,15 @@ input[type="text"] {
 
 .card-wrapper {
     display: flex;
-    gap: 20px;
+    gap: 30px;
     justify-content: center;
     flex-wrap: wrap;
 }
 
 .benefit-card {
     flex: 1;
-    min-width: 280px;
-    max-width: 320px;
     background: #f8f9fa;
-    border-top: 5px solid #007bff;
+    border-top: 5px solid var(--primary-mint);
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
@@ -152,7 +149,7 @@ input[type="text"] {
 
 .card-content h3 {
     margin-top: 0;
-    color: #007bff;
+    color: var(--primary-mint);
     font-size: 18px;
     margin-bottom: 15px;
 }
@@ -171,7 +168,7 @@ input[type="text"] {
 .link-btn {
     display: block;
     text-align: center;
-    background-color: #28a745;
+    background-color: var(--primary-mint);
     color: white;
     text-decoration: none;
     padding: 10px;
@@ -183,5 +180,5 @@ input[type="text"] {
 }
 
 .link-btn:hover {
-    background-color: #218838;
+    background-color: var(--primary-mint-light);
 }
