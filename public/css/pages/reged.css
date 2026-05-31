@@ -85,7 +85,7 @@
 
 /* ── 하이라이트 배너 ── */
 .highlight-banner {
-    margin-top: 15px;
+    margin: 1.5rem;
     background: linear-gradient(135deg, #fff7f4, #fff1f0);
     border: 1.5px solid rgba(255,127,80,0.2);
     border-radius: 20px;

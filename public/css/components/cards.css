@@ -6,7 +6,7 @@
 
 .reged-card {
     background: var(--white);
-    padding: 20px 30px;
+    padding: 10px 30px;
     min-height: 200px;
     border-radius: 20px;
     box-shadow: var(--card-shadow);
@@ -35,7 +35,6 @@
 .reged-card p {
     font-size: 0.88rem;
     color: var(--text-gray);
-    line-height: 1.6;
     flex: 1;
 }
 .reged-card-footer {
