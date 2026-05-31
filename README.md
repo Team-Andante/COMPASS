@@ -10,6 +10,13 @@
 | 이승민 | [@dltmdals0623](https://github.com/dltmdals0623) | 기획, FE, BE, QA |
 | 최성모 | None | PR, PT |
 
+## 사용한 공공데이터 목록 
+경상남도교육청_행사정보  
+울산광역시교육청_행사일정정보상세  
+한국과학창의재단_전국과학행사정보  
+한국장학재단_학자금지원정보(고등학생)  
+한국장학재단_학자금지원정보(대학생)  
+
 ## Required Node.js libraries and packages
 ```
 npm install \
