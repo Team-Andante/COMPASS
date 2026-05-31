@@ -89,28 +89,22 @@
 .logout-btn.no:hover { background-color: #d9d9d9; }
 
 .back-btn {
-    position: fixed;
-    top: calc(76px + 3rem);
-    left: 7.5em;
-    width: 5rem;
-    height: 5rem;
-    border-radius: 50%;
-    background-color: var(--white);
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 0.5rem 1rem;
+    font-size: 0.82rem;
+    border: 1.5px solid var(--primary-mint, #4f7cff);
+    background: transparent;
+    color: var(--primary-mint, #4f7cff);
+    border-radius: 6px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    color: var(--text-dark);
-    z-index: 101; /* 네비게이션바(100)보다 높게 설정 */
-    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background 0.18s, color 0.18s;
+    margin-bottom: 2.5rem;
 }
 
 .back-btn:hover {
-    background-color: var(--bg-light);
-    transform: scale(1.1);
+    background: var(--primary-mint, #4f7cff);
+    color: #fff;
 }
 
 .logout-btn {
@@ -126,3 +120,29 @@
     transition: border-color 0.2s, color 0.2s;
 }
 .logout-btn:hover { border-color: var(--point-coral); color: var(--point-coral); }
+
+#btnProcess {
+    background: var(--primary-mint);
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.95rem;
+}
+
+#btnProcess:hover {
+    background: var(--primary-mint-light);
+    transform: translateY(-2px);
+}
+
+#btnProcess:disabled {
+    background: #ccc;
+}

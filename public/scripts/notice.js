@@ -21,7 +21,7 @@ async function startSummary() {
     if (!fileInput.files[0]) return alert("파일을 선택해주세요.");
 
     btn.disabled = true;
-    loader.style.display = 'block';
+    loader.style.display = 'flex';
     resultBox.style.display = 'none';
 
     const file = fileInput.files[0];

@@ -12,7 +12,7 @@ gradeValue.textContent = `${formattedValue}등급`;
 document.getElementById('personaForm').addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const submitBtn = document.getElementById('submitBtn');
+    const submitBtn = document.getElementById('btnProcess');
     const loadingDiv = document.getElementById('loading');
     const resultContainer = document.getElementById('resultContainer');
     const cardWrapper = document.getElementById('cardWrapper');
@@ -56,7 +56,7 @@ document.getElementById('personaForm').addEventListener('submit', async (e) => {
     ]`.trim();
 
     submitBtn.disabled = true;
-    loadingDiv.style.display = 'block';
+    loadingDiv.style.display = 'flex';
     resultContainer.style.display = 'none';
     errorBox.style.display = 'none';
     cardWrapper.innerHTML = '';
@@ -95,7 +95,7 @@ document.getElementById('personaForm').addEventListener('submit', async (e) => {
                         <p><strong>🤔 선정 이유:</strong> ${item.reason}</p>
                         <p><strong>📝 지원 내용:</strong> ${item.content}</p>
                     </div>
-                    <a href="${item.url}" target="_blank" class="link-btn">🚀 신청하러 가기</a>
+                    <a href="${item.url}" target="_blank" class="link-btn">신청하러 가기</a>
                 `;
                 cardWrapper.appendChild(card);
             });

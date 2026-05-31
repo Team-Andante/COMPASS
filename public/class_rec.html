@@ -25,54 +25,60 @@
         </div>
     </nav>
 
-    <button type="button" class="back-btn" onclick="history.back();" aria-label="뒤로가기">←</button>
-
     <div class="container">
-        <h1>🎓 EBSi 맞춤 강좌 큐레이션</h1>
-        <p class="subtitle">나의 학년과 목표에 딱 맞는 강의를 추천해 드려요.</p>
+        <button type="button" class="back-btn" onclick="history.back();" aria-label="뒤로가기">← 이전 페이지로 돌아가기</button> 
 
-        <div class="filter-card">
-            <div class="filter-group">
-                <label>내 학년</label>
-                <select id="grade">
-                    <option value="high_1.csv">고등학교 1학년</option>
-                    <option value="high_2.csv">고등학교 2학년</option>
-                    <option value="high_3.csv">고등학교 3학년</option>
-                </select>
+        <div class="section-title">
+            <h2>조건 입력</h2>
+            <div class="section-title-line"></div>
+        </div>
+
+        <div class="upload-box">
+            <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 8px;">EBSi 강좌 수강 정보 입력</h3>
+            <p style="color: var(--text-gray); font-size: 0.9rem; margin-bottom: 20px;">입력한 조건을 바탕으로 나의 학년과 목표에 맞는 강의를 추천합니다.</p>
+            <div class="filter-card">
+                <div class="filter-group">
+                    <label>내 학년</label>
+                    <select id="grade">
+                        <option value="high_1.csv">고등학교 1학년</option>
+                        <option value="high_2.csv">고등학교 2학년</option>
+                        <option value="high_3.csv">고등학교 3학년</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>학습 과목</label>
+                    <select id="subject">
+                        <option value="국어">국어</option>
+                        <option value="수학">수학</option>
+                        <option value="영어">영어</option>
+                        <option value="한국사">한국사</option>
+                        <option value="사회">사회</option>
+                        <option value="과학">과학</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>학습 목적</label>
+                    <select id="category">
+                        <option value="개념완성">기본 개념 완성</option>
+                        <option value="입문">기초 입문</option>
+                        <option value="문제풀이">실전 문제 풀이</option>
+                        <option value="학교시험대비">내신/시험 대비</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>난이도</label>
+                    <select id="level">
+                        <option value="기초">기초 (쉽게 설명)</option>
+                        <option value="기본">기본 (표준 난이도)</option>
+                        <option value="발전">발전 (심화 학습)</option>
+                    </select>
+                </div>
+
             </div>
-
-            <div class="filter-group">
-                <label>학습 과목</label>
-                <select id="subject">
-                    <option value="국어">국어</option>
-                    <option value="수학">수학</option>
-                    <option value="영어">영어</option>
-                    <option value="한국사">한국사</option>
-                    <option value="사회">사회</option>
-                    <option value="과학">과학</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label>학습 목적</label>
-                <select id="category">
-                    <option value="개념완성">기본 개념 완성</option>
-                    <option value="입문">기초 입문</option>
-                    <option value="문제풀이">실전 문제 풀이</option>
-                    <option value="학교시험대비">내신/시험 대비</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label>난이도</label>
-                <select id="level">
-                    <option value="기초">기초 (쉽게 설명)</option>
-                    <option value="기본">기본 (표준 난이도)</option>
-                    <option value="발전">발전 (심화 학습)</option>
-                </select>
-            </div>
-
-            <button id="recommendBtn">강좌 추천받기</button>
+            <button id="btnProcess">강좌 추천받기</button>
         </div>
 
         <div id="results" class="results-grid">

@@ -25,12 +25,15 @@
             <button class="logout-btn">로그아웃</button>
         </div>
     </nav>
-    
-    <button type="button" class="back-btn" onclick="history.back();" aria-label="뒤로가기">←</button>
 
     <div class="container">
-        <h1>🎓 맞춤형 혜택 패키지 추천</h1>
+        <button type="button" class="back-btn" onclick="history.back();" aria-label="뒤로가기">← 이전 페이지로 돌아가기</button>
 
+        <div class="section-title">
+            <h2>추천 배경 입력</h2>
+            <div class="section-title-line"></div>
+        </div>
+        <div class="upload-box">
         <form id="personaForm">
             <div class="form-group">
                 <label for="grade">내 성적 등급</label>
@@ -68,16 +71,22 @@
             </div>
 
             <div class="submit-container">
-                <button type="submit" id="submitBtn">맞춤 혜택 제안받기</button>
+                <button type="submit" id="btnProcess">맞춤 혜택 제안받기</button>
             </div>
         </form>
-
-        <div id="loading" class="loading">AI가 가장 적합한 혜택 패키지를 분석 중입니다...</div>
+        <div class="loading-spinner-wrapper" id="loading">
+            <div class="spinner"></div>
+            <span>Gemini 가장 적합한 혜택 패키지를 찾고 있습니다...</span>
+        </div>
 
         <div id="errorBox" class="error-box"></div>
+        </div>
 
-        <div id="resultContainer" class="result-container">
-            <h2 class="result-title">✨ AI 추천 맞춤 혜택 패키지 ✨</h2>
+        <div class="result-container" id="resultContainer">
+            <div class="section-title" id="result-title">
+                <h2>AI 추천 맞춤 혜택</h2>
+                <div class="section-title-line"></div>
+            </div>
             <div id="cardWrapper" class="card-wrapper"></div>
         </div>
     </div>

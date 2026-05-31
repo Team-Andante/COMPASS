@@ -1,4 +1,4 @@
-document.getElementById('recommendBtn').addEventListener('click', getRecommendation);
+document.getElementById('btnProcess').addEventListener('click', getRecommendation);
 
 async function getRecommendation() {
     const fileName = document.getElementById('grade').value;

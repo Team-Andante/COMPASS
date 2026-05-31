@@ -1,29 +1,3 @@
-/* ── ppt_gen.css (정리본) ── */
-
-/* 1. 레이아웃 및 컨테이너 */
-.container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 2.5rem 1.5rem 4rem;
-}
-
-/* 2. 섹션 타이틀 (일관성 유지) */
-.section-title {
-    margin: 2.5rem 0 1.5rem;
-}
-.section-title h2 {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--text-dark);
-    margin-bottom: 0.5rem;
-}
-.section-title-line {
-    width: 40px;
-    height: 3px;
-    background: var(--primary-mint);
-    border-radius: 2px;
-}
-
 /* 3. 카드 및 그리드 시스템 */
 .card-grid {
     display: grid;
@@ -52,61 +26,135 @@
     background-color: rgba(72, 209, 204, 0.03);
 }
 
-/* 4. 프로필 배지 및 프롬프트 영역 */
 .profile-badges {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 25px;
+    margin: 15px 0;
 }
 
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    text-decoration: none;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.95rem;
+}
+.btn-primary { background: var(--primary-mint); color: white; }
+.btn-primary:hover { background: var(--primary-mint-dark); transform: translateY(-2px); }
+.btn-point { background: var(--point-coral); color: white; }
+.btn-point:hover { background: var(--point-coral-dark); transform: scale(1.03); }
+
+
 .profile-badge {
-    background-color: var(--bg-light); /* theme.css 변수 활용 */
+    background-color: var(--white);
     border: 1px solid var(--border-light);
     padding: 8px 16px;
-    border-radius: 50px;
+    border-radius: 20px;
     font-size: 0.85rem;
     color: var(--text-dark);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
 }
 
 .profile-badge em {
     font-style: normal;
     font-weight: 700;
-    color: var(--primary-mint);
+    color: var(--primary-mint-dark);
 }
 
-/* 5. 로딩 및 피드백 요소 */
-.loading-spinner-wrapper {
+.prompt-preview-container {
+    margin-top: 25px;
+    background: #fafbfc;
+    border: 1.5px dashed var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 20px;
     display: none;
     flex-direction: column;
+    gap: 12px;
+    animation: fadeUp 0.4s ease both;
+}
+
+.prompt-textarea {
+    width: 100%;
+    min-height: 140px;
+    padding: 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius-md);
+    background: white;
+    color: var(--text-dark);
+    font-family: inherit;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    resize: vertical;
+}
+
+.prompt-textarea:focus {
+    outline: none;
+    border-color: var(--primary-mint);
+    box-shadow: 0 0 0 3px rgba(72, 209, 204, 0.15);
+}
+
+.action-button-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 5px;
+}
+
+.loading-spinner-wrapper {
+    display: none;
     align-items: center;
-    padding: 2rem;
-    gap: 15px;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px 0;
+    color: var(--text-gray);
+    font-weight: 600;
+    font-size: 0.95rem;
 }
 
 .spinner {
-    width: 30px;
-    height: 30px;
-    border: 3px solid var(--border-light);
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(72, 209, 204, 0.2);
     border-top: 3px solid var(--primary-mint);
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
 
-/* 6. 반응형 최적화 */
-@media (max-width: 768px) {
-    .container {
-        padding: 1.5rem 1rem;
-    }
-    .card-grid {
-        grid-template-columns: 1fr;
-    }
-    .section-title h2 {
-        font-size: 1.3rem;
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1024px) {
+    .back-btn {
+        position: static;
+        margin: 10px 0 0 20px;
+        width: auto;
+        height: auto;
+        border-radius: 10px;
+        padding: 10px 15px;
+        font-size: 0.9rem;
     }
 }
 
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+@media (max-width: 768px) {
+    .navbar { padding: 15px 20px; }
+    .card-grid { grid-template-columns: 1fr; }
+    .action-button-group { flex-direction: column; }
 }
