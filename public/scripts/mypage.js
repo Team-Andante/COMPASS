@@ -68,7 +68,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 gradeEl.textContent = "입력된 성적이 없습니다.";
             }
         }
-        // ... 관심분야 렌더링 코드 유지
+        
+        const interestEl = document.getElementById("view-interest");
+        if (interestEl) {
+            interestEl.textContent =
+                Array.isArray(data.interest) && data.interest.length
+                ? data.interest.join(", ") : "-";
+        }
+   
     }
 
     // ── 3. 혜택 불러오기 ─────────────────────────────────────

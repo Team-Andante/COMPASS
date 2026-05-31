@@ -1,18 +1,24 @@
 import { onRequest } from "firebase-functions/v2/https";
 import { defineSecret } from "firebase-functions/params";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { Pinecone } from "@pinecone-database/pinecone"; // 이 줄이 있는지 확인
+import { Pinecone } from "@pinecone-database/pinecone";
 import corsLib from 'cors';
 
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const pdf = require("pdf-parse");
+// 동적 require 대신 ES Module 환경에 어울리도록 createRequire를 통해 tesseract.js도 사전에 로드 가능하게 준비합니다.
+const Tesseract = require("tesseract.js");
 
 const cors = corsLib({ origin: true });
 
+// Cloud Functions용 Secret Manager 변수 설정
 const GEMINI_API_KEY = defineSecret("GEMINI_API_KEY");
 const PINECONE_API_KEY = defineSecret("PINECONE_API_KEY");
 
+/**
+ * 1. 학교 가정통신문 및 공지사항 분석 API (analyzeNotice)
+ */
 export const analyzeNotice = onRequest({
   memory: "1GiB",
   timeoutSeconds: 120,
@@ -21,33 +27,36 @@ export const analyzeNotice = onRequest({
 }, (req, res) => {
   cors(req, res, async () => {
     try {
-      if (req.method !== 'POST') return res.status(405).send({ data: { error: "Method Not Allowed" } });
+      if (req.method !== 'POST') {
+        return res.status(405).send({ data: { error: "Method Not Allowed" } });
+      }
 
       const requestData = req.body.data || {};
       const { fileBuffer, fileName, fileMime } = requestData;
 
-      if (!fileBuffer) return res.status(400).send({ data: { error: "파일 데이터가 없습니다." } });
+      if (!fileBuffer) {
+        return res.status(400).send({ data: { error: "파일 데이터가 없습니다." } });
+      }
 
-      // 1. 텍스트 추출 로직
+      // Base64 디코딩하여 바이너리 버퍼 생성
       const buffer = Buffer.from(fileBuffer, 'base64');
       let extractedText = "";
 
-      if (fileMime === "application/pdf" || fileName.toLowerCase().endsWith(".pdf")) {
+      // PDF 또는 이미지 여부에 따른 텍스트 추출 가공
+      if (fileMime === "application/pdf" || (fileName && fileName.toLowerCase().endsWith(".pdf"))) {
         const data = await pdf(buffer);
         extractedText = data.text;
-      } else if (fileMime.startsWith("image/")) {
-        const Tesseract = require("tesseract.js");
+      } else if (fileMime && fileMime.startsWith("image/")) {
         const { data: { text } } = await Tesseract.recognize(buffer, "kor+eng");
         extractedText = text;
       }
 
       if (!extractedText || extractedText.trim().length === 0) {
-        return res.status(422).send({ data: { error: "텍스트를 추출할 수 없습니다." } });
+        return res.status(422).send({ data: { error: "텍스트를 추출할 수 없습니다. 파일 형식을 확인해주세요." } });
       }
 
-      // 2. Gemini 설정 (모델명 확인 필수)
+      // Gemini 초기화 (안정적인 최신 모델명으로 수정)
       const genAI = new GoogleGenerativeAI(GEMINI_API_KEY.value());
-      // 모델명을 'gemini-1.5-flash'로 유지하되 최신 버전인지 확인
       const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash" });
 
       const prompt = `
@@ -86,18 +95,18 @@ export const analyzeNotice = onRequest({
         ---
 
         # Input Text:
-        ${extractedText};`
+        ${extractedText}
+      `;
 
       const result = await model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
 
-      res.status(200).send({ data: { success: true, summary: text } });
+      return res.status(200).send({ data: { success: true, summary: text } });
 
     } catch (error) {
-      console.error("Gemini API Error:", error);
-      // 클라이언트에 구체적인 에러 메시지 전달
-      res.status(500).send({ data: { error: error.message } });
+      console.error("Gemini API Error (analyzeNotice):", error);
+      return res.status(500).send({ data: { error: error.message } });
     }
   });
 });
@@ -110,79 +119,123 @@ export const sc_recommend = onRequest({
 }, (req, res) => {
   cors(req, res, async () => {
     try {
-      // 1. 데이터 파싱
       const requestData = req.body.data || req.body;
       const message = requestData.message;
-      if (!message) return res.status(400).json({ error: "질문이 없습니다." });
+      // 카테고리 구분 변수 추가 (기본값은 'scholarship'으로 설정)
+      const category = requestData.category || "scholarship"; 
+      
+      if (!message) {
+        return res.status(400).json({ error: "질문이 없습니다." });
+      }
 
-      // 2. 초기화
+      // API 키 연결 및 서비스 인스턴스 초기화
       const genAI = new GoogleGenerativeAI(GEMINI_API_KEY.value());
       const pc = new Pinecone({ apiKey: PINECONE_API_KEY.value() });
       const index = pc.index("scholarship-gem");
 
-      // 3. 임베딩 생성 (확인하신 모델명 적용)
-      // 주의: 'models/' 접두사를 포함하거나 제외하여 시도할 수 있습니다. 
-      // SDK에 따라 'gemini-embedding-001'만 적기도 합니다.
+      // 임베딩 생성 모델 지정
       const embedModel = genAI.getGenerativeModel({ model: "gemini-embedding-001" });
       const result = await embedModel.embedContent(message);
       const vector = result.embedding.values;
 
-      // 4. Pinecone 조회
+      // Pinecone 검색 쿼리 실행
       const queryResponse = await index.query({
         vector: vector,
         topK: 3,
         includeMetadata: true,
       });
 
-      // 5. 컨텍스트 구성
+      // 결과 리스트 기반 컨텍스트 결합
       const context = queryResponse.matches && queryResponse.matches.length > 0
-        ? queryResponse.matches.map(m => `[장학금: ${m.metadata.title}] ${m.metadata.content}`).join("\n")
-        : "관련 정보를 찾지 못했습니다.";
+        ? queryResponse.matches.map(m => `[지원 항목: ${m.metadata.title}] ${m.metadata.content}`).join("\n")
+        : "관련 정보를 데이터베이스에서 찾지 못했습니다.";
 
-      // 6. Gemini 답변 생성
+      // 추천 챗봇 모델 실행
       const chatModel = genAI.getGenerativeModel({ model: "gemini-3.5-flash" });
-      const prompt = `사용자 질문: ${message}\n\n데이터:\n${context}\n\n위 정보를 바탕으로 추천 답변을 작성해줘.`;
+      
+      // 카테고리에 따른 역할과 프롬프트 동적 분할 정의
+      let systemPrompt = "";
+      if (category === "welfare") {
+        systemPrompt = `
+          역할: 청소년 및 청년을 위한 '정부 복지 및 사회공헌 서비스 코치'
+          분야: 복지 서비스 확인 (공공데이터 및 지자체 지원 연계)
+          
+          참고 데이터:
+          ${context}
+
+          위 데이터를 토대로, 질문자에게 가장 알맞은 복지 혜택과 정부/공공기관의 생계, 주거, 교육 서비스 자격 요건을 친절하고 상세하게 안내해 줘. 
+          답변은 따뜻하고 안전한 청소년 친화적인 톤앤매너로 작성해야 해.
+        `;
+      } else {
+        systemPrompt = `
+          역할: 학생들의 꿈을 응원하는 '장학 복지 매칭 플래너'
+          분야: 장학금 한눈에 보기 (소득분위, 성적 평가, 재단 기준 연동)
+          
+          참고 데이터:
+          ${context}
+
+          위 데이터를 토대로, 질문자의 성적 조건이나 경제 여건(소득구간 등)에 꼭 맞는 장학금의 지원 한도, 신청 마감 기한 및 필수 제출 서류 목록을 깔끔하게 요약해 줘.
+          안전하고 유익한 학습 성장을 돕는 정중한 교사조의 말투를 일관되게 적용해 줘.
+        `;
+      }
+
+      const prompt = `
+        ${systemPrompt}
+
+        사용자 질문: ${message}
+      `;
       
       const chatResult = await chatModel.generateContent(prompt);
       const aiAnswer = chatResult.response.text();
 
-      // 7. 응답 (두 가지 형식 모두 대응)
       return res.status(200).json({ 
         data: { answer: aiAnswer },
         answer: aiAnswer 
       });
 
     } catch (error) {
-      console.error("Final Error:", error);
+      console.error("Error (sc_recommend):", error);
       return res.status(500).json({ error: error.message });
     }
   });
 });
 
+/**
+ * 3. 일반 일대일 추천/대화 API (recommend)
+ */
 export const recommend = onRequest({
   secrets: [GEMINI_API_KEY],
   region: "us-central1",
 }, (req, res) => {
-  // gemini.js에 있던 cors 미들웨어 적용
   cors(req, res, async () => {
     try {
-      if (req.method !== 'POST') return res.status(405).send({ error: "Method Not Allowed" });
+      if (req.method !== 'POST') {
+        return res.status(405).send({ error: "Method Not Allowed" });
+      }
 
-      const { message } = req.body; // gemini.js의 로직
-      if (!message) return res.status(400).json({ error: "메시지를 입력해주세요." });
+      // JSON 및 x-www-form-urlencoded의 바디 구조에 맞춰 파싱 유연성 확보
+      const requestData = req.body.data || req.body;
+      const message = requestData.message;
+
+      if (!message) {
+        return res.status(400).json({ error: "메시지를 입력해주세요." });
+      }
 
       const genAI = new GoogleGenerativeAI(GEMINI_API_KEY.value());
+      // 올바른 최신 모델명으로 변경
       const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash" }); 
 
       const result = await model.generateContent(message);
       const response = await result.response;
       const aiAnswer = response.text();
 
-      // pack_rec.html이 기대하는 형식으로 응답
-      return res.json({ answer: aiAnswer });
+      return res.json({ 
+        data: { answer: aiAnswer },
+        answer: aiAnswer 
+      });
 
     } catch (error) {
-      console.error("에러 발생:", error);
+      console.error("Error (recommend):", error);
       return res.status(500).json({ error: error.message });
     }
   });
