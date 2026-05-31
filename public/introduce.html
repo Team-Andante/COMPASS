@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>서비스 소개 - COMPASS</title>
+        
+        <link rel="stylesheet" href="./css/base/theme.css">
+        <link rel="stylesheet" href="./css/components/navbar.css">
+        <link rel="stylesheet" href="./css/components/buttons.css">
+        <link rel="stylesheet" href="./css/components/cards.css">
+        <link rel="stylesheet" href="./css/pages/introduce.css">
+        <script type="module" src="./scripts/introcude.js" defer></script>
+    </head>
+    <body>
+
+        <nav class="navbar">
+            <div class="logo" onclick="location.href='./index.html'" style="cursor:pointer">
+                <img src="./images/logo.png" alt="COMPASS 로고" class="logoimg">
+                COM<span>PASS</span>
+            </div>
+            <div class="nav-links" id="nav-links">
+                <a href="./intro.html" style="color: var(--primary-mint);">서비스 소개</a>
+                
+                <a href="./login.html" class="guest-only">로그인</a>
+                <button class="btn btn-primary guest-only" onclick="location.href='./signup.html'" style="border-radius: 50px; padding: 8px 24px;">시작하기</button>
+                
+                <a href="./mypage.html" class="user-only" style="display: none;">마이페이지</a>
+                <button class="logout-btn user-only" style="display: none; border-radius: 50px; padding: 8px 24px; background: none; border: 1.5px solid #e5e7eb; cursor: pointer;">로그아웃</button>
+            </div>
+        </nav>
+
+        <main>
+            <section class="hero-section">
+                <div class="container">
+                    <span class="hero-tag">📍 나를 위한 맞춤형 교육 복지</span>
+                    <h1>몰라서 못 받는 혜택은 이제 그만,<br>당신의 교육 여정을 <span>COMPASS</span>가 안내합니다.</h1>
+                    <p>전국 초/중/고 공공데이터를 기반으로 실시간 복지 정보부터<br>AI 페르소나 분석을 통한 맞춤형 패키지까지 한눈에 확인하세요.</p>
+                    <div class="hero-btns">
+                        <a href="./signup.html" class="btn btn-point" style="padding: 18px 36px; font-size: 1.1rem; border-radius: 50px;">무료로 시작하기 🚀</a>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <div class="container">
+                    <div class="section-header">
+                        <h2>스마트한 교육 큐레이션, 핵심 기능</h2>
+                        <p>학생과 학부모 모두가 편리한 COMPASS만의 솔루션</p>
+                    </div>
+
+                    <div class="intro-grid">
+                        <article class="intro-card">
+                            <span class="icon">🗺️</span>
+                            <h3>위치 기반 맞춤 추천</h3>
+                            <p>내 학교와 거주지 근처에서 바로 이용 가능한 장학금, 멘토링, 방과 후 프로그램을 지도 위에서 바로 찾아보세요.</p>
+                        </article>
+
+                        <article class="intro-card">
+                            <span class="icon">🤖</span>
+                            <h3>AI 페르소나 분석</h3>
+                            <p>성적, 경제적 상황, 관심사만 입력하세요. AI가 수천 개의 공공데이터를 분석해 가장 적합한 혜택 3가지를 패키지로 제안합니다.</p>
+                        </article>
+
+                        <article class="intro-card">
+                            <span class="icon">📝</span>
+                            <h3>신청 대행/안내 가이드</h3>
+                            <p>복잡한 공고문을 AI가 3줄 요약해 드립니다. 필요한 서류 목록과 신청 마감일 알림까지 꼼꼼하게 챙겨드려요.</p>
+                        </article>
+
+                        <article class="intro-card">
+                            <span class="icon">🎥</span>
+                            <h3>EBS & 외부 연계</h3>
+                            <p>나의 학습 수준에 딱 맞는 EBS 강좌 추천은 물론, 민간 기업의 외부 장학금 정보까지 실시간 API로 연동합니다.</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section class="step-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>30초면 충분합니다</h2>
+                        <p>간단한 가입만으로 복지 혜택을 놓치지 마세요.</p>
+                    </div>
+
+                    <div class="step-wrapper">
+                        <div class="step-item">
+                            <div class="step-num">1</div>
+                            <h3>프로필 등록</h3>
+                            <p>거주지, 학교, 관심 분야 등 기본 정보를 입력합니다.</p>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-num">2</div>
+                            <h3>AI 데이터 분석</h3>
+                            <p>공공데이터 API를 통해 실시간 맞춤 혜택을 매칭합니다.</p>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-num">3</div>
+                            <h3>혜택 신청 및 관리</h3>
+                            <p>추천받은 패키지를 확인하고 온라인으로 즉시 연결합니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="cta-section">
+                <div class="container">
+                    <h2>당신의 성장을 응원하는 가장 스마트한 방법</h2>
+                    <p>지금 COMPASS와 함께 당신이 누려야 할 교육 복지를 모두 챙기세요.</p>
+                    <a href="./signup.html" class="btn-white">지금 바로 시작하기 ✨</a>
+                </div>
+            </section>
+        </main>
+
+    </body>
+</html>
