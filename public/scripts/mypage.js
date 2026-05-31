@@ -15,6 +15,14 @@ const TEXT_FIELDS = ["birthdate", "school", "region"];
 document.addEventListener("DOMContentLoaded", () => {
     checkReservedToast();
 
+    // ── 미래 날짜 선택 제한 설정 ──────────────────────────────────
+    const dateInput = document.getElementById("input-birthdate");
+    if (dateInput) {
+        // 오늘 날짜를 YYYY-MM-DD 형식으로 설정
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.max = today;
+    }
+
     const editBtn       = document.getElementById("edit-btn");
     const cancelBtn     = document.getElementById("cancel-btn");
     const profileView   = document.getElementById("profile-view");
@@ -50,18 +58,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // renderProfileView 함수 내 성적 처리 추가
     function renderProfileView(data) {
         TEXT_FIELDS.forEach(field => {
             const el = document.getElementById(`view-${field}`);
             if (el) el.textContent = data[field] || "-";
         });
         
-        // 누적 성적 요약 표시
         const gradeEl = document.getElementById("view-grade");
         if (gradeEl) {
             if (Array.isArray(data.grades) && data.grades.length > 0) {
-                // 예: 가장 최근 학기 성적을 보여주거나 평균을 계산
                 const latest = data.grades[data.grades.length - 1];
                 gradeEl.textContent = `${latest.semester} - 평균 ${latest.gpa}등급`;
             } else {
@@ -75,7 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 Array.isArray(data.interest) && data.interest.length
                 ? data.interest.join(", ") : "-";
         }
-   
     }
 
     // ── 3. 혜택 불러오기 ─────────────────────────────────────
@@ -107,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // ── 4. 프로필 편집 ────────────────────────────────────────
+    // ── 4. 프로필 편집 및 저장 ────────────────────────────────────
     editBtn?.addEventListener("click", async () => {
         if (!currentUser) return;
         try {
@@ -156,14 +160,24 @@ document.addEventListener("DOMContentLoaded", () => {
         const birthdate = document.getElementById("input-birthdate").value.trim();
         const school    = document.getElementById("input-school").value.trim();
         const region    = document.getElementById("input-region").value;
-        const grade     = document.getElementById("input-grade").value.trim();
 
-        if (!birthdate || !school || !region || !grade) {
+        // 필수 항목 검사
+        if (!birthdate || !school || !region ) {
             showToast("모든 항목을 입력해주세요.", "error");
             return;
         }
 
-        const payload = { birthdate, school, region, grade,
+        // 미래 날짜 검증 로직 추가
+        const selectedDate = new Date(birthdate);
+        const today = new Date();
+        today.setHours(23, 59, 59, 999); // 오늘 날짜의 마지막 시각으로 설정하여 오늘 생일은 허용
+
+        if (selectedDate > today) {
+            showToast("생년월일은 미래 날짜일 수 없습니다.", "error");
+            return;
+        }
+
+        const payload = { birthdate, school, region,
                           interest: selectedInterests, updatedAt: serverTimestamp() };
 
         saveBtn.disabled = true;
@@ -192,7 +206,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     pwToggleBtn?.addEventListener("click", () => {
         pwForm.classList.toggle("hidden");
-        // 폼 열릴 때 입력값 초기화
         if (!pwForm.classList.contains("hidden")) {
             pwForm.reset();
         }
@@ -211,7 +224,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const newPw      = document.getElementById("input-new-pw").value;
         const newPwCheck = document.getElementById("input-new-pw-confirm").value;
 
-        // 유효성 검사
         if (!currentPw || !newPw || !newPwCheck) {
             showToast("모든 항목을 입력해주세요.", "error"); return;
         }
@@ -228,7 +240,6 @@ document.addEventListener("DOMContentLoaded", () => {
         pwSaveBtn.disabled = true;
         pwSaveBtn.textContent = "변경 중…";
         try {
-            // 재인증 (Firebase 보안 정책상 민감 작업 전 필요)
             const credential = EmailAuthProvider.credential(currentUser.email, currentPw);
             await reauthenticateWithCredential(currentUser, credential);
             await updatePassword(currentUser, newPw);
@@ -278,14 +289,9 @@ document.addEventListener("DOMContentLoaded", () => {
         deleteConfirmYesBtn.disabled = true;
         deleteConfirmYesBtn.textContent = "처리 중…";
         try {
-            // 재인증
             const credential = EmailAuthProvider.credential(currentUser.email, pw);
             await reauthenticateWithCredential(currentUser, credential);
-
-            // Firestore 유저 문서 삭제
             await deleteDoc(doc(db, "users", currentUser.uid));
-
-            // Firebase Auth 계정 삭제
             await deleteUser(currentUser);
 
             sessionStorage.clear();
@@ -312,15 +318,3 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
-
-async function executeLogout() {
-    try {
-        sessionStorage.setItem("isLogouting", "true");
-        await signOut(auth);
-        sessionStorage.clear();
-        window.location.replace("/index.html");
-    } catch (error) {
-        console.error("로그아웃 에러:", error);
-        showToast("로그아웃 중 오류가 발생했습니다.", "error");
-    }
-}

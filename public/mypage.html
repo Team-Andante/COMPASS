@@ -40,15 +40,12 @@
             </aside>
 
             <section class="mypage-content">
-
-                <!-- ── 프로필 카드 ── -->
                 <article id="profile" class="content-card">
                     <div class="card-header">
                         <h3>내 프로필 정보</h3>
                         <button id="edit-btn" class="btn-edit">수정하기</button>
                     </div>
 
-                    <!-- 읽기 모드 -->
                     <div id="profile-view" class="profile-info">
                         <div class="info-group">
                             <label>이메일</label>
@@ -69,7 +66,7 @@
                         <div class="info-group">
                             <label>성적 (최근 업데이트)</label>
                             <p id="view-grade">성적 데이터 없음</p>
-                            </div>
+                        </div>
                         <div class="form-group form-group--full">
                             <label>성적 데이터 관리</label>
                             <div style="display: flex; gap: 12px; align-items: center; background: #f8f9fb; padding: 1rem; border-radius: 8px; border: 1px dashed var(--border);">
@@ -87,7 +84,6 @@
                         </div>
                     </div>
 
-                    <!-- 편집 모드 -->
                     <form id="profile-form" class="profile-form hidden" novalidate>
                         <div class="form-grid">
                             <div class="form-group">
@@ -109,10 +105,6 @@
                                     <option>전북</option><option>전남</option><option>경북</option>
                                     <option>경남</option><option>제주</option>
                                 </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="input-grade">성적</label>
-                                <input type="text" id="input-grade" name="grade" placeholder="예) 4.0 / 4.5, 상위 10%">
                             </div>
                             <div class="form-group form-group--full">
                                 <label>관심 분야 <span class="hint">(복수 선택 가능)</span></label>
@@ -137,7 +129,6 @@
                     </form>
                 </article>
 
-                <!-- ── 혜택 카드 ── -->
                 <article id="benefits" class="content-card">
                     <h3>최근 확인한 맞춤 혜택</h3>
                     <div class="benefit-list" id="benefit-list">
@@ -148,11 +139,8 @@
                     </div>
                 </article>
 
-                <!-- ── 계정 설정 카드 ── -->
                 <article id="settings" class="content-card">
                     <h3>계정 설정</h3>
-
-                    <!-- 비밀번호 변경 -->
                     <div class="settings-section">
                         <div class="settings-row">
                             <div class="settings-info">
@@ -161,7 +149,6 @@
                             </div>
                             <button id="pw-toggle-btn" class="btn-edit">변경하기</button>
                         </div>
-
                         <form id="pw-form" class="pw-form hidden" novalidate>
                             <div class="form-grid">
                                 <div class="form-group form-group--full">
@@ -183,10 +170,7 @@
                             </div>
                         </form>
                     </div>
-
                     <div class="settings-divider"></div>
-
-                    <!-- 계정 삭제 -->
                     <div class="settings-section">
                         <div class="settings-row">
                             <div class="settings-info">
@@ -197,23 +181,10 @@
                         </div>
                     </div>
                 </article>
-
             </section>
         </div>
     </main>
 
-    <!-- 로그아웃 확인 모달 -->
-    <div id="logout-modal" class="logout-modal">
-        <div class="logout-content">
-            <p>로그아웃 하시겠습니까?</p>
-            <div class="logout-buttons">
-                <button id="logout-btn-yes" class="logout-btn yes">확인</button>
-                <button id="logout-btn-no" class="logout-btn no">취소</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 계정 삭제 확인 모달 -->
     <div id="delete-modal" class="delete-modal">
         <div class="delete-content">
             <p class="modal-title">정말 계정을 삭제하시겠습니까?</p>
